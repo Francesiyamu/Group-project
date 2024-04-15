@@ -5,7 +5,7 @@ const loginLink = document.querySelector('.login-link')
 
 const registerLink = document.querySelector('.register-link');
 
-/*const btnPopUp = document.querySelector('.headerbtnLogin-popup');*/
+const btnPopUp = document.querySelector('.headerbtnLogin-popup')
 
 
 
@@ -18,7 +18,7 @@ loginLink.addEventListener('click', ()=> {
   wrapper.classList.remove('active');
 })
 
-/*
+
 btnPopUp.addEventListener('click', ()=> {
-  wrapper.classList.remove('active-popup');
-})*/
+  wrapper.classList.add('active-popup');
+})
