@@ -1,0 +1,7 @@
+darkblue : #161538
+purple : #85508b
+orange : #ff9992
+gray : #838287
+pink : #e37995
+gray-blue : #5a6984
+
