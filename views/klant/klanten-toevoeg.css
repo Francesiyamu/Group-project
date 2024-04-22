@@ -1,7 +1,14 @@
 body{
   margin: 0;
   padding: 0;
-  background-color: wheat;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('../../assests/images/abstract-2d.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+
 }
 
 
@@ -25,6 +32,7 @@ h1{
   width: 40%;
   vertical-align: top;
   margin-top: 20px;
+  color: #ffffff;
 }
 
 .input-tab {
