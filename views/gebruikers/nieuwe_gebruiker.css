@@ -1,0 +1,148 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../../assests/images/backgroud.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+/* ------------- HEADER ------------- */
+
+/* ------------- NAVBAR -------------*/
+nav {
+    background-color: #161538;
+    padding: 1rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav li {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+nav a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    color:#cbcaca; /* c7c7ca */
+    position: relative;
+}
+
+nav a.menu::after {
+    /*Je maakt hier een leeg grijs gekleurd blokje dat 2px hoog is en 0% breed.
+    Je plaatst het blokje op een bepaalde positie (5px onder a en in het midden van a) en geeft aan dat de transitie toegepast moet worden op breedte van blokje*/
+    content: ''; 
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0%;
+    height: 1px;
+    background-color: #c7c7ca;
+    transition: width 0.5s ease;
+    transform: translateX(-50%);    
+}
+
+nav a.menu:hover::after {
+    /* Hover zorgt ervoor dat blokje (dus eigenlijk lijn) 100% breed wordt*/
+    width: 100%;
+}
+
+#logout {
+    font-size:24px;
+}
+
+/* ------------- FORM -------------*/
+
+form {
+    width: 70%;
+    height: 100%;
+    margin: 1.5rem auto;
+    color: #161538;
+    background-color: #e9e6e6;
+    border-style: solid;
+    border-color: #838287;
+    border-radius: 5px;
+}
+
+form h1 {
+    color: #ff9992;
+    padding: 2rem 0rem 1rem 0rem;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+form label {
+    padding: 1rem;
+    margin-right: 1rem;
+    display: inline-block;
+    width: 200px;
+    text-align: right;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.form_group {
+    display: flex;
+    align-items: center;
+}
+
+.form_group input {
+    padding: 0.5rem;
+    width: 300px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #161538;
+    border-radius: 3px;
+}
+
+/* ------------- FORM BUTTONS -------------*/
+
+.btns input, .btns a {
+    width:fit-content;
+    background-color: #161538;
+    border-style: solid;
+    border-color: #838287;
+    border-width: 1.5px;
+    border-radius: 4em;
+    padding: 1rem 2.5rem;
+    color: #c7c7ca;
+    font-weight: 400;
+    margin: 0.5rem;
+    text-decoration: none;
+}
+
+.btns {
+    margin: 1rem 2rem 1rem auto;
+}
+
+.btn_bottom {
+    transition: transform 0.7s;
+}
+
+#cancelbtn {
+    display: inline-block; /* a: default display: inline --> doesn't respond to width or height changes --> change such that transform has an effect. Not block only to keep buttons on same line */
+}
+
+.btn_bottom:hover {
+    transform: scale(1.1);
+    color: #ff9992;
+    border-color: #ff9992;
+    border-width: 2.3px;
+    font-weight: bold;
+}

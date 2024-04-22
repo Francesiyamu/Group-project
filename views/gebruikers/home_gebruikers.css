@@ -1,0 +1,129 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../../assests/images/abstract-2d.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+/* ------------- HEADER ------------- */
+
+/* ------------- NAVBAR -------------*/
+nav {
+    background-color: #161538;
+    padding: 1rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav li {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+nav a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    color:#cbcaca; /* c7c7ca */
+    position: relative;
+}
+
+nav a.menu::after {
+    /*Je maakt hier een leeg grijs gekleurd blokje dat 2px hoog is en 0% breed.
+    Je plaatst het blokje op een bepaalde positie (5px onder a en in het midden van a) en geeft aan dat de transitie toegepast moet worden op breedte van blokje*/
+    content: ''; 
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0%;
+    height: 1px;
+    background-color: #c7c7ca;
+    transition: width 0.5s ease;
+    transform: translateX(-50%);    
+}
+
+nav a.menu:hover::after {
+    /* Hover zorgt ervoor dat blokje (dus eigenlijk lijn) 100% breed wordt*/
+    width: 100%;
+}
+
+#logout {
+    font-size:24px;
+}
+
+/* ------------- h1 -------------*/
+body h1 {
+    color: #ff9992;
+    padding: 2rem 0rem 1rem 0rem;
+    text-align: center;
+    text-transform: uppercase;    
+}
+
+.content {
+    height: 60vh; /* Aanpassen indien nodig + kijken hoe knoppen beneden krijgen*/
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+}
+
+.btn_bottom {
+    background-color: #161538;
+    border-style: solid;
+    border-color: #c7c7ca;
+    border-width: 1px;
+    border-radius: 4em;
+    padding: 1rem;
+    color: #c7c7ca;
+    font-weight: 400;
+    margin: 1rem;
+    margin-top: auto;
+    text-decoration: none;
+}
+
+#btn_new {
+    margin-left: 3rem;
+    margin-right: auto;
+}
+
+.modify_remove {
+    margin-right: 1rem;
+    margin-bottom: 0;
+} 
+
+#btn_new, #btn_modify {
+    display: inline-block;
+}
+
+.btn_bottom {
+    transition: transform 0.7s;
+}
+
+.btn_bottom:hover {
+    transform: scale(1.1);
+    color: #ff9992;
+    border-color: #ff9992;
+    border-width: 2.3px;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
