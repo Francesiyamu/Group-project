@@ -14,7 +14,7 @@
 
     <nav id="top">
         <ul id="navBox">
-            <li><a class="navbar-brand" href="#"><img src="../../assests/images/logo_billysm.png" alt="Billy Application Logo"></a></li>
+            <li id="navbar_logo"><a href="#"><img src="../../assests/images/logo_transparant.png" alt="Billy Application Logo" width="100" height="60"></a></li>
             <li><a href="../home/alt.html" class="menu">Home</a></li>
             <li><a href="../klant/klanten-toevoeg.html" class="menu">Klanten</a></li> <!--Moet aangepast worden naar home klanten pagina -- nog niet aangemaakt? -->
             <li><a href="#top" class="menu">Leveranciers</a></li>
@@ -22,7 +22,7 @@
             <li><a href="../klant/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
             <li><a href="../facturen/HTML/home_facturen.html" class="menu">Facturen Klanten</a></li> <!--Nog niet aangemaakt-->
             <li><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
-            <li><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a></li>
+            <li id="navbar_logout"><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out" class="menu"><i id="logout" class="fa fa-sign-out"></i></a></li>
             
         </ul>
     </nav>
@@ -33,12 +33,16 @@
     
     <div class="project_container">
         <h3>Hier komt het project overzicht</h3>
-           
-        
     </div>
 
     
-
+    <div class="buttons">
+        <a href="nieuw_project.html" id="btn_new" class="btn_bottom">Nieuw project toevoegen</a>
+        <div class="modify_remove">
+            <a href="aanpassen_project.html" id="btn_modify" class="btn_bottom">Project aanpassen</a>
+            <button id="btn_remove" class="btn_bottom">Project verwijderen</button>
+        </div>
+    </div>
     
 
 
