@@ -8,12 +8,12 @@ body {
     background-image: url(../../assests/images/backgroud.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: #161538;
+    background-color: #161538 !important;
     display: grid;
     grid-template-rows: 120px 70vh 100px;
     grid-template-areas: 
     "header"
-    "body"
+    "body_home"
     "footer";
 
 }
@@ -81,7 +81,7 @@ nav a.menu:hover::after {
 /* ------------- CONTENT -------------*/
 
 .content {
-    grid-area: body;
+    grid-area: body_home;
     width: 75%;
     height: 100%;
     margin: 1.5rem auto;
