@@ -5,10 +5,17 @@
 body {
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url(../../assests/images/abstract-2d.jpg);
+    background-image: url(../../assests/images/backgroud.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100%;
+    background-color: #161538;
+    display: grid;
+    grid-template-rows: 120px 70vh 100px;
+    grid-template-areas: 
+    "header"
+    "body"
+    "footer";
+
 }
 
 /* ------------- HEADER ------------- */
@@ -17,6 +24,7 @@ body {
 nav {
     background-color: #161538;
     padding: 1rem;
+    grid-area: header;
 }
 
 nav ul {
@@ -29,9 +37,10 @@ nav ul {
 }
 
 nav li {
-    padding: 2rem 1rem;
+    padding: 1.3rem 1rem;
     text-align: center;
 }
+
 nav a {
     text-decoration: none;
     text-transform: uppercase;
@@ -48,7 +57,7 @@ nav a.menu::after {
     bottom: -5px;
     left: 50%;
     width: 0%;
-    height: 1px;
+    height: 2px;
     background-color: #c7c7ca;
     transition: width 0.5s ease;
     transform: translateX(-50%);    
@@ -59,26 +68,44 @@ nav a.menu:hover::after {
     width: 100%;
 }
 
+#logo {
+    display: block;
+    width: 60px;
+}
+
 #logout {
     font-size:24px;
 }
 
-/* ------------- h1 -------------*/
-body h1 {
+
+/* ------------- CONTENT -------------*/
+
+.content {
+    grid-area: body;
+    width: 75%;
+    height: 100%;
+    margin: 1.5rem auto;
+    color: #161538;
+    background-color: #e9e6e6;
+    border-style: solid;
+    border-color: #838287;
+    border-radius: 5px;
+}
+
+.content h1 {
     color: #ff9992;
-    padding: 2rem 0rem 1rem 0rem;
+    padding: 1rem 0rem;
     text-align: center;
     text-transform: uppercase;    
 }
 
-.content {
-    height: 60vh; /* Aanpassen indien nodig + kijken hoe knoppen beneden krijgen*/
-}
 
-/* BUTTONS */
+/* ------------- BUTTONS -------------*/
 
 .buttons {
+    grid-area: footer;
     display: flex;
+    align-items: flex-end;
 }
 
 .btn_bottom {
@@ -90,24 +117,17 @@ body h1 {
     padding: 1rem;
     color: #c7c7ca;
     font-weight: 400;
-    margin: 1rem;
-    margin-top: auto;
+    margin: 1rem 1rem 0rem 1rem;
     text-decoration: none;
 }
 
 #btn_new {
-    margin-left: 3rem;
-    /*position: absolute;
-    bottom: 0;
-    left: 0;*/
+    margin-left: 2rem;
     margin-right: auto;
 }
 
-.modify_remove {
-    margin-right: 1rem;
-    /*position: absolute;
-    bottom: 0;
-    right: 0;*/
+.modify_remove_btns {
+    margin-right: 1.1rem;
     margin-bottom: 0;
 } 
 
@@ -126,10 +146,3 @@ body h1 {
     border-width: 2.3px;
     font-weight: bold;
 }
-
-
-
-
-
-
-
