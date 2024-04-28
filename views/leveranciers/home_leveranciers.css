@@ -23,7 +23,7 @@ body {
 /* ------------- NAVBAR -------------*/
 nav {
     background-color: #161538;
-    padding: 1rem;
+    padding: 0.8rem 1rem;
     grid-area: header;
 }
 
