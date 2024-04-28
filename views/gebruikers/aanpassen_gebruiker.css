@@ -8,66 +8,14 @@ body {
     background-image: url(../../assests/images/backgroud.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100%;
-}
-
-/* ------------- HEADER ------------- */
-
-/* ------------- NAVBAR -------------*/
-nav {
-    background-color: #161538;
-    padding: 1rem;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-nav li {
-    padding: 2rem 1rem;
-    text-align: center;
-}
-nav a {
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 700;
-    color:#cbcaca; /* c7c7ca */
-    position: relative;
-}
-
-nav a.menu::after {
-    /*Je maakt hier een leeg grijs gekleurd blokje dat 2px hoog is en 0% breed.
-    Je plaatst het blokje op een bepaalde positie (5px onder a en in het midden van a) en geeft aan dat de transitie toegepast moet worden op breedte van blokje*/
-    content: ''; 
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    width: 0%;
-    height: 1px;
-    background-color: #c7c7ca;
-    transition: width 0.5s ease;
-    transform: translateX(-50%);    
-}
-
-nav a.menu:hover::after {
-    /* Hover zorgt ervoor dat blokje (dus eigenlijk lijn) 100% breed wordt*/
-    width: 100%;
-}
-
-#logout {
-    font-size:24px;
+    background-color: #161538 !important;
 }
 
 /* ------------- FORM -------------*/
 
 form {
     width: 70%;
-    height: 100%;
+    height: 845px;
     margin: 1.5rem auto;
     color: #161538;
     background-color: #e9e6e6;
@@ -113,8 +61,8 @@ form label {
 
 /* ------------- FORM BUTTONS -------------*/
 
-.btns input, .btns a, .btns button {
-    width:fit-content;
+.btns input, .btns a {
+    width: 170px;
     background-color: #161538;
     border-style: solid;
     border-color: #838287;
@@ -125,12 +73,13 @@ form label {
     font-weight: 400;
     margin: 0.5rem;
     text-decoration: none;
+    text-align: center;
 }
 
 .btns {
     display: flex;
     margin-top: 1.5rem;
-    margin-right: 2rem;
+    margin-right: 1.5rem;
     margin-bottom: 1rem;
 }
 
