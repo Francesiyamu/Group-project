@@ -13,45 +13,32 @@
   <form action="">
     <h1>Factuur Leverancier aanpassen</h1>
 
-    <div class="labels">
+    <div class="inputs">
+      
+    <div class="form_group">
       <label for="">Factuur nummer:</label>
-    </div>
-
-    <div class="input-tab">
-      <input class="input-field" type="number" name="nummer" id="nummer" placeholder="Factuur nummer">
+      <input class="input-field" type="number" name="nummer" id="nummer">
     </div>
     
-    <div class="labels">
+    <div class="form_group">
       <label for="voornaam">Factuur datum:</label>
-    </div>
-
-    <div class="input-tab">
       <input class="input-field" type="date" name="fact-dat" id="fact-dat" >
     </div>
   
-    <div class="labels">
+    <div class="form_group">
       <label for="btw"> BTW %:</label>
-    </div>
-
-    <div class="input-tab">
-      <input class="input-field" type="number" name="btw" id="btw" placeholder="BTW-invoeren">
+      <input class="input-field" type="number" name="btw" id="btw">
     </div>
 
 
    <div class="labels">
     <label for="btw-bedrag">Btw bedrag:</label>
-   </div>
-   
-    <div class="input-tab">
-      <input class="input-field" type="number" name="btw-bedrag" id="btw-bedrag" placeholder="0">
+      <input class="input-field" type="number" name="btw-bedrag" id="btw-bedrag">
     </div>
 
 
-    <div class="labels">
+    <div class="form_group">
       <label for="status">Status betaling:</label>
-    </div>
-    
-    <div class="input-tab">
       <select id="dropdown" name="status" id="status">
         <option value="Open">Open</option>
         <option value="betaald">Betaald</option>
@@ -59,88 +46,57 @@
       </select>
     </div>
     
-    <div class="labels">
+    <div class="form_group">
       <label for="Pc">Datum betaling:</label>
-    </div>
-
-    <div class="input-tab">
       <input class="input-field" type="date" name="datum" id="datum">
     </div>
 
-    <div class="labels">
+    <div class="form_group">
       <label for="voorschot">Voorgeschoten:</label>
-    </div>
-    
-    <div class="input-tab">
-      <input class="input-field" type="number" name="voorschot" id="voorschot" placeholder="0">
+      <input class="input-field" type="number" name="voorschot" id="voorschot" >
     </div>
 
-    <div class="labels">
+    <div class="form_group">
         <label for="datum voorschot">Datum voorschot:</label>
+      <input class="input-field" type="date" name="datum" id="datum">
     </div>
 
-    <div class="input-tab">
-      
-    <input class="input-field" type="date" name="datum" id="datum">
-    </div>
-
-    <div class="labels">
+    <div class="form_group">
       
     <label for="status">Terugbetaald?</label>
-    </div>
-
-    <div class="input-tab">
       <input class="radio" type="radio" name="radio-button" value="ja">Ja<br>
       <input class="radio" type="radio" name="radio-button" value="nee">Nee<br>
     </div>
 
 
-<div class="labels">
+<div class="form_group">
   <label for="datum terugbetaling">Datum terugbetaling:</label>
-</div>
-<div class="input-tab">
   <input class="input-field" type="date" name="datum" id="datum">
 </div>
 
-  <div class="labels">
+  <div class="form_group">
     <label for="status">Vestuurd boekhouder?</label>
-  </div>
-    
-    <div class="input-tab">
       <input type="radio" name="radio-button" value="ja">Ja<br>
       <input type="radio" name="radio-button" value="nee">Nee<br>
     </div>
-
     
-    <div class="button">
-    <button class="btn" type="button" class="btn">Invoegen</button>
-    <button class="btn"  type="button" class="btn">Annuleren</button>
-    <button class="btn"  type="button" class="btn">Verwijderen</button>
-    <button id="uploaden" class="btn"  type="button" class="btn">Bestanden uploaden</button>
+
+   <div class="btns">
+                <input type="submit" id="submitbtn" value="Invoegen" class="btn_bottom">
+                <a href="" id="cancelbtn" class="btn_bottom">Annuleren</a>
+                <a href="" id="cancelbtn" class="btn_bottom">Verwijderen</a>
+                <input type="submit" id="submitbtn" value="Bestanden uploaden" class="btn_bottom">
+            </div>
+
 
     </div>
+
+
+
 
     
 
   </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </body>
