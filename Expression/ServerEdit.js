@@ -21,18 +21,18 @@ connection.connect(err => {
 
 
 // Home route to fetch and display all data
-app.get('/', (req, res) => {
-    connection.query('SELECT * FROM FACTUREN', (error, results, fields) => {
+app.get('/Facturenklanten', (req, res) => {
+    connection.query('SELECT FACTUREN.factuurid, factuurnr, statusBetaling FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid', (error, results, fields) => {
       if (error) throw error;
   
-      let html = '<h1>Table Data</h1><table border="1"><tr>';
+      let html = '<h1>Facturen aan klanten</h1><table border="1"><tr>';
       for (let field of fields) {
         html += `<th>${field.name}</th>`;
       }
       html += '</tr>';
   
       for (let row of results) {
-        html += `<tr onclick="window.location='/details?id=${row.gebruikersnaam}'" style="cursor:pointer;">`;
+        html += `<tr onclick="window.location='/details?id=${row.factuurid}'" style="cursor:pointer;">`;
         for (let field of fields) {
           html += `<td>${row[field.name]}</td>`;
         }
@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
   // Details route to fetch and display detailed information about a row
   app.get('/details', (req, res) => {
     const id = req.query.id;
-    connection.query('SELECT * FROM GEBRUIKERS WHERE gebruikersnaam = ?', [id], (error, results) => {
+    connection.query('SELECT * FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid WHERE FACTUREN.factuurid = ?', [id], (error, results) => {
       if (error) throw error;
   
       let html = '<h1>Detail Page</h1><table border="1">';
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
           html += `<tr><th>${key}</th><td>${row[key]}</td></tr>`;
         }
       }
-      html += '</table><a href="/">Back to list</a>';
+      html += '</table><a href="/Facturenklanten">Back to list</a>';
   
       res.send(html);
     });
