@@ -51,7 +51,7 @@ app.get('/Facturenklanten', (req, res) => {
       html += '</tr>';
   
       for (let row of results) {
-        html += `<tr onclick="window.location='/details?id=${row.factuurid}'">`;
+        html += `<tr onclick="window.location='/details?id=${row.factuurid}'" cursor: pointer;>`;
         for (let field of fields) {
           html += `<td>${row[field.name]}</td>`;
         }
@@ -87,7 +87,7 @@ app.get('/Facturenklanten', (req, res) => {
         }
         html += '</tr>';
         for (let row of results) {
-           html += `<tr onclick="window.location='/${row.linkURL}'">`;
+           html += `<tr onclick="window.location='/${row.linkURL}'" cursor: pointer;>`;
            for (let field of fields) {
             html += `<td>${row[field.name]}</td>`;
           }
