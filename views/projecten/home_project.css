@@ -139,7 +139,6 @@ body h1 {
 }
 
 
-
 .bg-custom.navbar {
     background-color: #161538;
     color:white;
@@ -149,11 +148,8 @@ body h1 {
     background-color: #ff9992;
 }
 
-/* ------------- Projectenoverzicht ------------- */
 
-.project_overview{
-    text-align: left;  
-} 
+/* ------------- Projectenoverzicht ------------- */
 
 .project_container{
     background-color: lightgray;
@@ -212,7 +208,7 @@ body h1 {
         /* margin-left: 0.5rem;
         margin-right: auto; */
         padding: 0 0.5rem 0 0.5rem;
-        gap: 0.5rem 1.25rem;
+        gap: 0.5rem 1.10rem;
     }
 
     ul li{
