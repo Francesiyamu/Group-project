@@ -1,3 +1,19 @@
 {
-  "liveServer.settings.port": 5501
+  "liveServer.settings.port": 5501,
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "10.0.1.50",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "mysql_database",
+      "database": "Datafact",
+      "username": "Developer",
+      "password": "RADEPIREMENT"
+    }
+  ]
 }
