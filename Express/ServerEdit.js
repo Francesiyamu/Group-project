@@ -101,7 +101,7 @@ app.get('/Facturenklanten', (req, res) => {
   });
   
 
-// Route to display HTML form
+// Route to display insert form
 app.get('/edit', (req, res) => {
   res.sendFile(__dirname + '/Server/edit.html');
 });
