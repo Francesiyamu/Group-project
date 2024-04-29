@@ -1,10 +1,29 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const path = require('path');
 
 
 const app = express();
 const port = 3000;
+
+// Set up storage for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  }
+
+
+});
+
+const upload = multer({ storage: storage });
+
+
+
 app.use(express.urlencoded({ extended: true }));
 // Set up MySQL connection
 const connection = mysql.createConnection({
@@ -32,7 +51,7 @@ app.get('/Facturenklanten', (req, res) => {
       html += '</tr>';
   
       for (let row of results) {
-        html += `<tr onclick="window.location='/details?id=${row.factuurid}'" style="cursor:pointer;">`;
+        html += `<tr onclick="window.location='/details?id=${row.factuurid}'">`;
         for (let field of fields) {
           html += `<td>${row[field.name]}</td>`;
         }
@@ -47,21 +66,36 @@ app.get('/Facturenklanten', (req, res) => {
   
   // Details route to fetch and display detailed information about a row
   app.get('/details', (req, res) => {
+    let html = '<h1>Detail Page</h1><table border="1">';
     const id = req.query.id;
     connection.query('SELECT * FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid WHERE FACTUREN.factuurid = ?', [id], (error, results) => {
       if (error) throw error;
-  
-      let html = '<h1>Detail Page</h1><table border="1">';
       if (results.length > 0) {
         let row = results[0];
         for (let key in row) {
           html += `<tr><th>${key}</th><td>${row[key]}</td></tr>`;
         }
       }
-      html += '</table><a href="/Facturenklanten">Back to list</a>';
-  
-      res.send(html);
+      html += '</table>';
     });
+      const id2 = req.query.id;
+      connection.query('SELECT * FROM FACTUUR_LINKS WHERE FACTUUR_LINKS.factuurid = ?', [id], (error, results,fields) => {
+        if (error) throw error;
+        html += '<h1>Bestanden</h1><table border="1"><tr>';
+        for (let field of fields) {
+          html += `<th>${field.name}</th>`;
+        }
+        html += '</tr>';
+        for (let row of results) {
+           html += `<tr onclick="window.location='/${row.linkURL}'">`;
+           for (let field of fields) {
+            html += `<td>${row[field.name]}</td>`;
+          }
+          }
+          html += '</tr>';
+        html += '</table><a href="/Facturenklanten">Back to list</a>';
+      res.send(html);
+    })
   });
   
 
@@ -81,6 +115,26 @@ app.post('/submit', (req, res) => {
   });
 });
 
+// Route to serve upload page
+app.get('/fileupload/', (req, res) => {
+  res.sendFile(__dirname + '/server/fileupload.html');
+});
+
+
+// Route to handle upload submission
+app.post('/upload', upload.single('pdfFile'), (req, res) => {
+  if (!req.file) {
+      return res.send('Please upload a file');
+  }
+  const sql = 'INSERT INTO FACTUUR_LINKS (factuurid,linkURL) VALUES (?,?)';
+  connection.query(sql, [4,req.file.filename], (err, result) => {
+      if (err) throw err;
+  })
+
+  res.send('File uploaded successfully and added to Database');
+});
+
+app.use(express.static('uploads'));
 
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
