@@ -10,77 +10,63 @@
 </head> 
 <body>
 
-    <nav id="top">
-        <ul>
-            <li><a href="../home/alt.html" class="menu">Home</a></li>
-            <li><a href="../klant/klanten-toevoeg.html" class="menu">Klanten</a></li> <!--Moet aangepast worden naar home klanten pagina -- nog niet aangemaakt? -->
-            <li><a href="home_leveranciers.html" class="menu">Leveranciers</a></li>
-            <li><a href="../projecten/home_project.html" class="menu">Projecten</a></li>
-            <li><a href="../klant/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
-            <li><a href="#" class="menu">Facturen Klanten</a></li> <!--Nog niet aangemaakt-->
-            <li><a href="#" class="menu">Gebruikers</a></li>
-            <li><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i>
-            </a></li>
-        </ul>
-    </nav>
-
     <form id="form">
         <h1>Nieuwe leverancier toevoegen</h1>
 
         <div class="inputs">
             <div class="form_group">
                 <label for="levnr">Leveranciersnummer</label>
-                <input type="text" id="levnr"> <br>
+                <input type="text" id="levnr" placeholder="123456"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levnaam">Naam</label>
-                <input type="text" id="levnaam"> <br>
+                <input type="text" id="levnaam" placeholder="Leverancier XYZ"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levstraat">Straat</label>
-                <input type="text" id="levstraat"> <br>
+                <input type="text" id="levstraat" placeholder="Main Street"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levhuisnr">Huisnummer</label>
-                <input type="number" id="levhuisnr"> <br>
+                <input type="text" id="levhuisnr" placeholder="12B"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levpostcode">Postcode</label>
-                <input type="text" id="levpostcode"> <br>
+                <input type="text" id="levpostcode" placeholder="1000"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levgemeente">Gemeente</label>
-                <input type="text" id="levgemeente"> <br>
+                <input type="text" id="levgemeente" placeholder="Brussel"> <br>
             </div>
 
             <div class="form_group">
                 <label for="levland">Land</label>
-                <input type="text" id="levland"> <br>
+                <input type="text" id="levland" placeholder="België"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levtelefoon">Telefoonnummer</label>
-                <input type="tel" id="levtelefoon"> <br>
+                <input type="tel" id="levtelefoon" placeholder="+32345678903"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levmail">E-mail adres</label>
-                <input type="email" id="levmail"> <br>
+                <input type="email" id="levmail" placeholder="johndoe@example.com"> <br>
             </div>
     
             <div class="form_group">
                 <label for="levBTWnr">BTW nummer</label>
-                <input type="text" id="levBTWnr">
+                <input type="text" id="levBTWnr" placeholder="BE0123456789">
             </div>
 
             <div class="btns">
-                <input type="submit" id="submitbtn" value="Toevoegen" class="btn_bottom">
                 <a href="home_leveranciers.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
+                <input type="submit" id="submitbtn" value="Toevoegen" class="btn_bottom">
             </div>
 
             <div id="map"></div>

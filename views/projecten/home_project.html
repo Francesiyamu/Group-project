@@ -10,22 +10,34 @@
 
 </head>
 <body>
-    
+  
 
-    <nav id="top">
-        <ul id="navBox">
-            <li><a class="navbar-brand" href="#"><img src="../../assests/images/logo_billysm.png" alt="Billy Application Logo"></a></li>
-            <li><a href="../home/alt.html" class="menu">Home</a></li>
-            <li><a href="../klant/klanten-toevoeg.html" class="menu">Klanten</a></li> <!--Moet aangepast worden naar home klanten pagina -- nog niet aangemaakt? -->
-            <li><a href="#top" class="menu">Leveranciers</a></li>
-            <li><a href="../projecten/home_project.html" class="menu">Projecten</a></li>
-            <li><a href="../klant/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
-            <li><a href="../facturen/HTML/home_facturen.html" class="menu">Facturen Klanten</a></li> <!--Nog niet aangemaakt-->
-            <li><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
-            <li><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a></li>
-            
-        </ul>
-    </nav>
+    <div id="split-container">
+        <nav id="top" class="navbar navbar-expand-md bg-custom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation" >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarToggler">
+                    <ul id="navBox" class="navbar-nav me-auto mb-2 mb-md-0">
+                        
+                            <li id="navbar_logo"><a href="#"><img src="../../assests/images/logo_transparant.png" alt="Billy Application Logo" width="60" height="50"></a></li>
+                            <li><a href="../home/alt.html" class="menu">Home</a></li>
+                            <li><a href="../klant/klanten-toevoeg.html" class="menu">Klanten</a></li> <!--Moet aangepast worden naar home klanten pagina -- nog niet aangemaakt? -->
+                            <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
+                            <li><a href="#top" class="menu">Projecten</a></li>
+                            <li><a href="../facturen/HTML/home_levFacturen.html" class="menu">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
+                       
+                            <li><a href="../facturen/HTML/home_klantFacturen.html" class="menu">Facturen Klanten</a></li> 
+                            <li><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
+                            <li id="navbar_logout"><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out" class="menu"><i id="logout" class="fa fa-sign-out"></i></a></li>
+                         
+                    </ul>
+               </div>
+            </div>
+        </nav>
+    </div>
 
     <div >
         <h1 class="titel_box">Projecten</h1>
@@ -33,12 +45,16 @@
     
     <div class="project_container">
         <h3>Hier komt het project overzicht</h3>
-           
-        
     </div>
 
     
-
+    <div class="buttons">
+        <a href="nieuw_project.html" id="btn_new" class="btn_bottom">Nieuw project toevoegen</a>
+      
+        <a href="aanpassen_project.html" id="btn_modify" class="btn_bottom">Project aanpassen</a>
+        <button id="btn_remove" class="btn_bottom">Project verwijderen</button>
+        
+    </div>
     
 
 
