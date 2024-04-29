@@ -9,8 +9,9 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-color: #161538 !important;
+    width: auto;
     display: grid;
-    grid-template-rows: 120px 70vh 100px;
+    grid-template-rows: 120px calc(100vh - 220px) 100px;
     grid-template-areas: 
     "header"
     "body_home"
@@ -35,11 +36,11 @@ nav ul {
     align-items: center;
 }
 
-nav li {
+.large_screen_nav li {
     padding: 1.3rem 1rem;
     text-align: center;
 }
-nav a {
+a.menu, nav a, a.menu:hover {
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 700;
@@ -47,7 +48,7 @@ nav a {
     position: relative;
 }
 
-nav a.menu::after {
+a.menu::after {
     /*Je maakt hier een leeg grijs gekleurd blokje dat 2px hoog is en 0% breed.
     Je plaatst het blokje op een bepaalde positie (5px onder a en in het midden van a) en geeft aan dat de transitie toegepast moet worden op breedte van blokje*/
     content: ''; 
@@ -61,7 +62,11 @@ nav a.menu::after {
     transform: translateX(-50%);    
 }
 
-nav a.menu:hover::after {
+a.menu.nav-link::after {
+    bottom: 5px;
+}
+
+a.menu:hover::after {
     /* Hover zorgt ervoor dat blokje (dus eigenlijk lijn) 100% breed wordt*/
     width: 100%;
 }
@@ -75,9 +80,15 @@ nav a.menu:hover::after {
     font-size:24px;
 }
 
-/* ------------- CONTENT -------------*/
+.medium_screen_nav {
+    display: none;
+}
 
-/* ------------- h1 -------------*/
+#small_screen_nav {
+    display: none;
+}
+
+/* ------------- CONTENT -------------*/
 
 .content {
     grid-area: body_home;
@@ -90,6 +101,8 @@ nav a.menu:hover::after {
     border-color: #838287;
     border-radius: 5px;
 }
+
+/* ------------- h1 -------------*/
 
 body h1 {
     color: #ff9992;
@@ -104,6 +117,7 @@ body h1 {
     grid-area: footer;
     display: flex;
     align-items: flex-end;
+    margin-bottom: 5px;
 }
 
 .btn_bottom {
@@ -145,6 +159,185 @@ body h1 {
     font-weight: bold;
 }
 
+
+/* ------------- RESPONSIVE WEB DESIGN -------------*/
+
+/* min-width: vanaf zoveel pixels, doe dit en dat */
+/* max-width: tot zoveel pixels, doe dit en dat */
+
+@media screen and (max-width:1000px) {
+    .large_screen_nav {
+        display: none;
+    }
+
+    .medium_screen_nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    .part_nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .part_nav li {
+        margin: 0.5rem 1rem;
+        text-align: center;
+    }
+
+    #logout {
+        display: block;
+        margin-left: 1.5rem;
+    }
+
+    #li_logout, #li_logo { /*Testen gewoon list weg te doen en enkel a laten staan (zonder li) */
+        list-style: none;
+    }
+
+    #logo {
+        width: 70px;
+        margin-right: 0.5rem;
+    }
+
+}
+
+@media screen and (max-width:845px) {
+
+/* ------------- NAVBAR -------------*/
+
+    #nav_lower li {
+        margin: 0.5rem 0.5rem;
+    }
+
+    #logo {
+        width: 60px;
+        margin-right: 0.3rem;
+    }
+
+    .bg-custom.navbar {
+        background-color: #161538;
+    }
+
+/* ------------- BUTTONS -------------*/
+
+    #btn_new, #btn_modify, #btn_remove {
+        margin: 0;
+    }
+
+    #btn_new, #btn_modify {
+        margin-right: 1rem;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .btn_bottom {
+        text-align: center;
+        width:220px
+    }
+
+    .modify_remove_btns {
+        display: flex;
+    }
+    .btn_bottom:hover {
+        transform: scale(1.05);
+    }
+}
+
+@media screen and (max-width:767px) { /* Waarde volgens bootstrap */
+
+/* ------------- NAVBAR -------------*/
+
+    .medium_screen_nav {
+        display: none;
+    }
+
+    #small_screen_nav {
+        display: flex; /* Heeft zelfde effect als block */
+    }
+
+    #toggle {
+        color: #ff9992;
+    }
+
+    button.navbar-toggler {
+        outline: none;
+        border-width: 0;
+    }
+
+    button.navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    button.navbar-toggler:hover {
+        border-width: 1px;
+        border-color: #ffffff;    
+    }
+
+    div.container-fluid {
+        background-color: #161538;
+    }
+
+    #logo {
+        margin-left: 1rem;
+    }
+
+    .nav-item {
+        margin: 0.2rem 0;
+        font-size: small;
+    }
+
+    #li_logout a{
+        display: flex;
+        margin: 0.5rem 0;
+        align-items: center;
+        font-size: small;
+    }
+
+    #li_logout i {
+        margin-left: 0;
+        margin-right: 0.5rem;
+        font-size: 15px;
+        
+    }
+
+    /* ------------- BODY -------------*/
+
+    body {
+        grid-template-rows: 100px 100vh 230px;
+    }
+
+    /* ------------- BUTTONS -------------*/
+
+    .buttons {
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 2px;
+    }
+    
+
+    .modify_remove_btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .modify_remove_btns {
+        margin: 0;
+    }
+
+    #btn_new, #btn_modify, #btn_remove {
+        margin: 0;
+        margin-bottom: 7px;
+    }
+}
 
 
 
