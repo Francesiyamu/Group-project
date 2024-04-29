@@ -10,7 +10,7 @@
 </head> 
 <body>
 
-    <nav id="top">
+    <nav class="large_screen_nav" id="top">
         <ul>
             <li><img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo"></li>
             <li><a href="../home/alt.html" class="menu">Home</a></li>
@@ -20,9 +20,47 @@
             <li><a href="../klant/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
             <li><a href="#" class="menu">Facturen Klanten</a></li> <!--Nog niet aangemaakt-->
             <li><a href="#top" class="menu">Gebruikers</a></li>
-            <li><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i>
-            </a></li>
+            <li><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a></li>
         </ul>
+    </nav>
+
+    <nav class="medium_screen_nav">
+        <li id="li_logo"><img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo"></li>
+        <ul>
+            <div class="part_nav" id="nav_upper">
+                <li><a href="../home/alt.html" class="menu">Home</a></li>
+                <li><a href="../klant/klanten-toevoeg.html" class="menu">Klanten</a></li> <!--Moet aangepast worden naar home klanten pagina -- nog niet aangemaakt? -->
+                <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
+            </div>
+            <div class="part_nav" id="nav_lower">
+                <li><a href="../projecten/home_project.html" class="menu">Projecten</a></li>
+                <li><a href="../klant/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
+                <li><a href="#" class="menu">Facturen Klanten</a></li> <!--Nog niet aangemaakt-->
+                <li><a href="#top" class="menu">Gebruikers</a></li>
+            </div>
+        </ul>
+        <li id="li_logout"><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a></li>
+    </nav>
+
+    <nav id="small_screen_nav" class="navbar navbar-expand-md bg-custom">
+        <div class="container-fluid">
+            <img class="navbar-brand" id="logo" src="../../assests/images/logo_transparant.png" alt="Logo">
+            <button class="navbar-toggler ml-auto custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <i id="toggle"class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a href="../home/alt.html" class="menu nav-link">Home</a></li>
+                    <li class="nav-item"><a href="../klant/klanten-toevoeg.html" class="menu nav-link">Klanten</a></li> <!--Moet aangepast worden naar home klanten pagina -- nog niet aangemaakt? -->
+                    <li class="nav-item"><a href="../leveranciers/home_leveranciers.html" class="menu nav-link">Leveranciers</a></li>
+                    <li class="nav-item"><a href="../projecten/home_project.html" class="menu nav-link">Projecten</a></li>
+                    <li class="nav-item"><a href="../klant/factuur-lev.html" class="menu nav-link">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
+                    <li class="nav-item"><a href="#" class="menu nav-link">Facturen Klanten</a></li> <!--Nog niet aangemaakt-->
+                    <li class="nav-item"><a href="#top" class="menu nav-link">Gebruikers</a></li>
+                    <li id="li_logout"><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i>Log out</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
     <div class="content">
@@ -33,12 +71,12 @@
 
     
     <div class="buttons">
-        <a href="nieuwe_gebruiker.html" id="btn_new" class="btn_bottom">Nieuwe gebruiker toevoegen</a>
+        <a href="nieuwe_gebruiker.html" id="btn_new" class="btn_bottom">Gebruiker toevoegen</a>
         <div class="modify_remove_btns">
             <a href="aanpassen_gebruiker.html" id="btn_modify" class="btn_bottom">Gebruiker aanpassen</a>
             <button id="btn_remove" class="btn_bottom">Gebruiker verwijderen</button>
         </div>
     </div>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
