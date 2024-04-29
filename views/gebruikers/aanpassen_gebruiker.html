@@ -9,28 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head> 
 <body>
-
-    <nav id="top">
-        <ul>
-            <li><a href="../home/alt.html" class="menu">Home</a></li>
-            <li><a href="../klant/klanten-toevoeg.html" class="menu">Klanten</a></li> <!--Moet aangepast worden naar home klanten pagina -- nog niet aangemaakt? -->
-            <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
-            <li><a href="../projecten/home_project.html" class="menu">Projecten</a></li>
-            <li><a href="../klant/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> <!--More appropiate foldernaam hiervoor -- niet bij klant laten staan, ook hier home page -->
-            <li><a href="#" class="menu">Facturen Klanten</a></li> <!--Nog niet aangemaakt-->
-            <li><a href="home_gebruikers.html" class="menu">Gebruikers</a></li>
-            <li><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i>
-            </a></li>
-        </ul>
-    </nav>
-
     <form id="form">
         <h1>Gebruiker aanpassen</h1>
 
         <div class="inputs">
             <div class="form_group">
                 <label for="idnr">ID-nummer</label>
-                <input type="text" id="levnr"> <br>
+                <input type="text" id="levnr" placeholder="123456"> <br>
             </div>
 
             <div class="form_group">
@@ -40,52 +25,51 @@
     
             <div class="form_group">
                 <label for="voornaam">Voornaam</label>
-                <input type="text" id="voornaam"> <br>
+                <input type="text" id="voornaam" placeholder="Jane"> <br>
             </div>
 
             <div class="form_group">
                 <label for="achternaam">Achternaam</label>
-                <input type="text" id="achternaam"> <br>
+                <input type="text" id="achternaam" placeholder="Doe"> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrstraat">Straat</label>
-                <input type="text" id="gebrstraat"> <br>
+                <input type="text" id="gebrstraat" placeholder="Main Street"> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrhuisnr">Huisnummer</label>
-                <input type="number" id="gebrhuisnr"> <br>
+                <input type="number" id="gebrhuisnr" placeholder="12B"> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrpostcode">Postcode</label>
-                <input type="text" id="gebrpostcode"> <br>
+                <input type="text" id="gebrpostcode" placeholder="1000"> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrgemeente">Gemeente</label>
-                <input type="text" id="gebrgemeente"> <br>
+                <input type="text" id="gebrgemeente" placeholder="Brussel"> <br>
             </div>
 
             <div class="form_group">
                 <label for="gebrland">Land</label>
-                <input type="text" id="gebrland"> <br>
+                <input type="text" id="gebrland" placeholder="België"> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrtelefoon">Telefoonnummer</label>
-                <input type="tel" id="gebrtelefoon"> <br>
+                <input type="tel" id="gebrtelefoon" placeholder="+32345678903"> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrmail">E-mail adres</label>
-                <input type="email" id="gebrmail"> <br>
+                <input type="email" id="gebrmail" placeholder="janedoe@example.com"> <br>
             </div>
 
             <div class="btns">
                 <a href="home_gebruikers.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
-                <button id="erasebtn" class="btn_bottom">Verwijderen</button>
                 <input type="submit" id="submitbtn" value="Save" class="btn_bottom">
             </div>
         </div>
