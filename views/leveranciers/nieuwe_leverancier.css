@@ -18,7 +18,7 @@ body {
 
 form {
     width: 70%;
-    height: 845px; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
+    height: 790px; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
     margin: 1.5rem auto;
     color: #161538;
     background-color: #e9e6e6;
@@ -33,6 +33,7 @@ form h1 {
     text-align: center;
     text-transform: uppercase;
     margin: 0 1rem 1rem 1rem;
+    
 }
 
 form label {
@@ -106,7 +107,6 @@ form label {
     border-width: 2.3px;
     font-weight: bold;
 }
-
 
 /* ------------- RESPONSIVE WEB DESIGN -------------*/
 

@@ -5,10 +5,17 @@
 body {
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url(../../assests/images/abstract-2d.jpg);
+    background-image: url(../../assests/images/backgroud.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100%;
+    background-color: #161538 !important;
+    width: auto;
+    display: grid;
+    grid-template-rows: 120px calc(100vh - 220px) 100px;
+    grid-template-areas: 
+    "header"
+    "body_home"
+    "footer";
 }
 
 /* ------------- HEADER ------------- */
@@ -16,7 +23,8 @@ body {
 /* ------------- NAVBAR -------------*/
 nav {
     background-color: #161538;
-    padding: 1rem;
+    padding: 0.8rem 1rem;
+    grid-area: header;
 }
 
 nav ul {
@@ -28,11 +36,11 @@ nav ul {
     align-items: center;
 }
 
-nav li {
-    padding: 2rem 1rem;
+.large_screen_nav li {
+    padding: 1.3rem 1rem;
     text-align: center;
 }
-nav a {
+a.menu, nav a, a.menu:hover {
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 700;
@@ -40,7 +48,7 @@ nav a {
     position: relative;
 }
 
-nav a.menu::after {
+a.menu::after {
     /*Je maakt hier een leeg grijs gekleurd blokje dat 2px hoog is en 0% breed.
     Je plaatst het blokje op een bepaalde positie (5px onder a en in het midden van a) en geeft aan dat de transitie toegepast moet worden op breedte van blokje*/
     content: ''; 
@@ -48,37 +56,68 @@ nav a.menu::after {
     bottom: -5px;
     left: 50%;
     width: 0%;
-    height: 1px;
+    height: 2px;
     background-color: #c7c7ca;
     transition: width 0.5s ease;
     transform: translateX(-50%);    
 }
 
-nav a.menu:hover::after {
+a.menu.nav-link::after {
+    bottom: 5px;
+}
+
+a.menu:hover::after {
     /* Hover zorgt ervoor dat blokje (dus eigenlijk lijn) 100% breed wordt*/
     width: 100%;
+}
+
+#logo {
+    display: block;
+    width: 60px;
 }
 
 #logout {
     font-size:24px;
 }
 
+.medium_screen_nav {
+    display: none;
+}
+
+#small_screen_nav {
+    display: none;
+}
+
+/* ------------- CONTENT -------------*/
+
+.content {
+    grid-area: body_home;
+    width: 75%;
+    height: 100%;
+    margin: 1.5rem auto;
+    color: #161538;
+    background-color: #e9e6e6;
+    border-style: solid;
+    border-color: #838287;
+    border-radius: 5px;
+}
+
 /* ------------- h1 -------------*/
+
 body h1 {
     color: #ff9992;
-    padding: 2rem 0rem 1rem 0rem;
+    padding: 1rem 0rem;
     text-align: center;
     text-transform: uppercase;    
 }
 
-.content {
-    height: 60vh; /* Aanpassen indien nodig + kijken hoe knoppen beneden krijgen*/
-}
-
-/* BUTTONS */
+/* ------------- BUTTONS -------------*/
 
 .buttons {
+    grid-area: footer;
     display: flex;
+    align-items: flex-end;
+    margin-bottom: 5px;
 }
 
 .btn_bottom {
@@ -90,18 +129,17 @@ body h1 {
     padding: 1rem;
     color: #c7c7ca;
     font-weight: 400;
-    margin: 1rem;
-    margin-top: auto;
+    margin: 1rem 1rem 0rem 1rem;
     text-decoration: none;
 }
 
 #btn_new {
-    margin-left: 3rem;
+    margin-left: 2rem;
     margin-right: auto;
 }
 
-.modify_remove {
-    margin-right: 1rem;
+.modify_remove_btns {
+    margin-right: 1.1rem;
     margin-bottom: 0;
 } 
 
@@ -121,6 +159,185 @@ body h1 {
     font-weight: bold;
 }
 
+
+/* ------------- RESPONSIVE WEB DESIGN -------------*/
+
+/* min-width: vanaf zoveel pixels, doe dit en dat */
+/* max-width: tot zoveel pixels, doe dit en dat */
+
+@media screen and (max-width:1000px) {
+    .large_screen_nav {
+        display: none;
+    }
+
+    .medium_screen_nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    .part_nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .part_nav li {
+        margin: 0.5rem 1rem;
+        text-align: center;
+    }
+
+    #logout {
+        display: block;
+        margin-left: 1.5rem;
+    }
+
+    #li_logout, #li_logo { /*Testen gewoon list weg te doen en enkel a laten staan (zonder li) */
+        list-style: none;
+    }
+
+    #logo {
+        width: 70px;
+        margin-right: 0.5rem;
+    }
+
+}
+
+@media screen and (max-width:845px) {
+
+/* ------------- NAVBAR -------------*/
+
+    #nav_lower li {
+        margin: 0.5rem 0.5rem;
+    }
+
+    #logo {
+        width: 60px;
+        margin-right: 0.3rem;
+    }
+
+    .bg-custom.navbar {
+        background-color: #161538;
+    }
+
+/* ------------- BUTTONS -------------*/
+
+    #btn_new, #btn_modify, #btn_remove {
+        margin: 0;
+    }
+
+    #btn_new, #btn_modify {
+        margin-right: 1rem;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .btn_bottom {
+        text-align: center;
+        width:220px
+    }
+
+    .modify_remove_btns {
+        display: flex;
+    }
+    .btn_bottom:hover {
+        transform: scale(1.05);
+    }
+}
+
+@media screen and (max-width:767px) { /* Waarde volgens bootstrap */
+
+/* ------------- NAVBAR -------------*/
+
+    .medium_screen_nav {
+        display: none;
+    }
+
+    #small_screen_nav {
+        display: flex; /* Heeft zelfde effect als block */
+    }
+
+    #toggle {
+        color: #ff9992;
+    }
+
+    button.navbar-toggler {
+        outline: none;
+        border-width: 0;
+    }
+
+    button.navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    button.navbar-toggler:hover {
+        border-width: 1px;
+        border-color: #ffffff;    
+    }
+
+    div.container-fluid {
+        background-color: #161538;
+    }
+
+    #logo {
+        margin-left: 1rem;
+    }
+
+    .nav-item {
+        margin: 0.2rem 0;
+        font-size: small;
+    }
+
+    #li_logout a{
+        display: flex;
+        margin: 0.5rem 0;
+        align-items: center;
+        font-size: small;
+    }
+
+    #li_logout i {
+        margin-left: 0;
+        margin-right: 0.5rem;
+        font-size: 15px;
+        
+    }
+
+    /* ------------- BODY -------------*/
+
+    body {
+        grid-template-rows: 100px 100vh 230px;
+    }
+
+    /* ------------- BUTTONS -------------*/
+
+    .buttons {
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 2px;
+    }
+    
+
+    .modify_remove_btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .modify_remove_btns {
+        margin: 0;
+    }
+
+    #btn_new, #btn_modify, #btn_remove {
+        margin: 0;
+        margin-bottom: 7px;
+    }
+}
 
 
 
