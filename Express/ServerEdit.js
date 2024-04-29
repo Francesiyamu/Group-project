@@ -51,7 +51,7 @@ app.get('/Facturenklanten', (req, res) => {
       html += '</tr>';
   
       for (let row of results) {
-        html += `<tr onclick="window.location='/details?id=${row.factuurid}'" cursor: pointer;>`;
+        html += `<tr onclick="window.location='/details?id=${row.factuurid}'">`;
         for (let field of fields) {
           html += `<td>${row[field.name]}</td>`;
         }
@@ -87,7 +87,7 @@ app.get('/Facturenklanten', (req, res) => {
         }
         html += '</tr>';
         for (let row of results) {
-           html += `<tr onclick="window.location='/${row.linkURL}'" cursor: pointer;>`;
+           html += `<tr onclick="window.location='/${row.linkURL}'";>`;
            for (let field of fields) {
             html += `<td>${row[field.name]}</td>`;
           }
@@ -101,7 +101,7 @@ app.get('/Facturenklanten', (req, res) => {
 
 // Route to display HTML form
 app.get('/edit', (req, res) => {
-  res.sendFile(__dirname + '/Server/index.html');
+  res.sendFile(__dirname + '/Server/edit.html');
 });
 
 // Route to handle form submission
