@@ -1,4 +1,16 @@
 <!DOCTYPE html>
+<script>
+  window.onload = function() {
+    var form = document.getElementById('form');
+    var currentUrl = window.location.href;
+    var url = new URL(currentUrl);
+    var searchParams = new URLSearchParams(url.search);
+  
+    // Modify this URL as needed or keep it dynamic
+    form.action = '/upload?' + searchParams.toString();
+  };
+  </script>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,9 +19,10 @@
 </head>
 <body>
 <h1>Upload PDF File</h1>
-<form action="/upload" method="post" enctype="multipart/form-data">
+<form id="form" action="/upload" method="post" enctype="multipart/form-data">
   <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf"><br><br>
   <input type="submit" value="Upload PDF">
 </form>
 </body>
 </html>
+

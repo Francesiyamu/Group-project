@@ -78,7 +78,6 @@ app.get('/Facturenklanten', (req, res) => {
       }
       html += '</table>';
     });
-      const id2 = req.query.id;
       connection.query('SELECT * FROM FACTUUR_LINKS WHERE FACTUUR_LINKS.factuurid = ?', [id], (error, results,fields) => {
         if (error) throw error;
         html += '<h1>Bestanden</h1><table border="1"><tr>';
@@ -93,8 +92,11 @@ app.get('/Facturenklanten', (req, res) => {
           }
           }
           html += '</tr>';
-        html += '</table><a href="/Facturenklanten">Back to list</a>';
-      res.send(html);
+        html += '</table><a href="/fileupload?id=' + id + '">Upload extra file</a> ';
+        html += '<a href="/Facturenklanten">Back to list</a>';
+      
+      
+        res.send(html);
     })
   });
   
@@ -123,15 +125,18 @@ app.get('/fileupload/', (req, res) => {
 
 // Route to handle upload submission
 app.post('/upload', upload.single('pdfFile'), (req, res) => {
+  const id = req.query.id;
   if (!req.file) {
       return res.send('Please upload a file');
   }
   const sql = 'INSERT INTO FACTUUR_LINKS (factuurid,linkURL) VALUES (?,?)';
-  connection.query(sql, [4,req.file.filename], (err, result) => {
+  connection.query(sql, [id,req.file.filename], (err, result) => {
       if (err) throw err;
   })
+let html = 'File uploaded successfully and added to Database';
+html += '<a href="/details?id='+id+'">Back to detail weergace</a>'
 
-  res.send('File uploaded successfully and added to Database');
+  res.send(html);
 });
 
 app.use(express.static('uploads'));
