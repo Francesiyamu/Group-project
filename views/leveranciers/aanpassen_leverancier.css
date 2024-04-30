@@ -8,17 +8,66 @@ body {
     background-image: url(../../assests/images/backgroud.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: #161538 !important;
-    min-height: 100vh;
+    height: 100%;
+}
+
+/* ------------- HEADER ------------- */
+
+/* ------------- NAVBAR -------------*/
+nav {
+    background-color: #161538;
+    padding: 1rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
     display: flex;
+    justify-content: space-around;
     align-items: center;
+}
+
+nav li {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+nav a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    color:#cbcaca; /* c7c7ca */
+    position: relative;
+}
+
+nav a.menu::after {
+    /*Je maakt hier een leeg grijs gekleurd blokje dat 2px hoog is en 0% breed.
+    Je plaatst het blokje op een bepaalde positie (5px onder a en in het midden van a) en geeft aan dat de transitie toegepast moet worden op breedte van blokje*/
+    content: ''; 
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0%;
+    height: 1px;
+    background-color: #c7c7ca;
+    transition: width 0.5s ease;
+    transform: translateX(-50%);    
+}
+
+nav a.menu:hover::after {
+    /* Hover zorgt ervoor dat blokje (dus eigenlijk lijn) 100% breed wordt*/
+    width: 100%;
+}
+
+#logout {
+    font-size:24px;
 }
 
 /* ------------- FORM -------------*/
 
 form {
     width: 70%;
-    height: 790px; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
+    height: 100%;
     margin: 1.5rem auto;
     color: #161538;
     background-color: #e9e6e6;
@@ -32,7 +81,7 @@ form h1 {
     padding: 2rem 0rem 1rem 0rem;
     text-align: center;
     text-transform: uppercase;
-    margin: 0 1rem 1rem 1rem;
+    margin-bottom: 1rem;
 }
 
 form label {
@@ -64,8 +113,8 @@ form label {
 
 /* ------------- FORM BUTTONS -------------*/
 
-.btns input, .btns a {
-    width: 170px;
+.btns input, .btns a, .btns button {
+    width:fit-content;
     background-color: #161538;
     border-style: solid;
     border-color: #838287;
@@ -76,13 +125,12 @@ form label {
     font-weight: 400;
     margin: 0.5rem;
     text-decoration: none;
-    text-align: center;
 }
 
 .btns {
     display: flex;
     margin-top: 1.5rem;
-    margin-right: 1.5rem;
+    margin-right: 2rem;
     margin-bottom: 1rem;
 }
 
@@ -107,78 +155,3 @@ form label {
     font-weight: bold;
 }
 
-/* ------------- RESPONSIVE WEB DESIGN -------------*/
-
-@media screen and (max-width:1200px) {
-
-    .form_group {
-        display: block;
-        padding-bottom: 0.5rem;
-        margin-left: 2rem; 
-    }
-
-    .form_group label {
-        display: block;
-        text-align: start;
-        padding: 0;
-        padding: 0.5rem 0;
-    }
-
-    form {
-        height: 100%;
-        margin: 1.5rem auto;
-    }
-}
-
-@media screen and (max-width:767px) {
-
-    /* ------------- FORM -------------*/
-
-    .inputs {
-        align-items: center;
-    }
-    
-    .form_group {
-        display: block;
-        padding-bottom: 0.5rem;
-        margin: 0;
-    }
-
-    .form_group label {
-        display: block;
-        text-align: start;
-        padding: 0;
-        padding: 0.5rem 0;
-    }
-
-    form {
-        height: 100%;
-        margin: 1.5rem auto;
-    }
-
-    /* ------------- BUTTONS -------------*/
-
-    .btns {
-        flex-direction: column-reverse;
-        margin: 1rem 0;
-    }
-
-    #submitbtn, #cancelbtn {
-        margin: auto;
-    }
-
-    #submitbtn {
-        margin-bottom: 1rem;
-    }
-}
-
-@media screen and (max-width:519px) {
-    .form_group input {
-        width: 100%;
-    }
-
-    .form_group label {
-        margin: auto;
-        text-align: start;
-    }
-}

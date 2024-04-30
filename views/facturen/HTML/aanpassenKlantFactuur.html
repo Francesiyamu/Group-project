@@ -11,103 +11,87 @@
 
 
 
-
+<h1>Factuur klant aanpassen</h1>
     
 
         <div class="split-container">         
+            <div id="form_box">
+
+                <h2>Factuurgegevens</h2>
+
                 <form id="factuurKlant_form">
-                    
-                    <h1>Factuur klant aanpassen</h1>
-                    <div id="form_box">
-                        <div id="factuurgegevens_box">
-                            <h2>Factuurgegevens</h2>
 
-                    
-                            <div class="form_group">
-                                <label for="factuurnr">Factuurnummer:</label>
-                                <input type="text" class="form-control" id="factuurnr" name="factuurnr" required>
-                            </div>
-
-                            <div class="form_group">
-                                <label for="factuurDatum">Factuur datum:</label>
-                                <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" required>
-                            </div>
-
-                            <div class="form_group">
-                                <label for="projectnaam">Projectnaam:</label>
-                                <input type="text" class="form-control" id="projectnaam" name="projectnaam" max="255" required>
-                            </div>
-
-                            <div class="form_group">
-                                <label for="klantnaam">Klantnaam:</label>
-                                <input type="text" class="form-control" id="klantnaam" name="klantnaam" max="255" required>
-                            </div>
-
-                            <div class="form_group">
-                            <label for="BTW">BTW-percentage:</label>
-                            <select name="BTW" id="BTW" class="form-control" required>
-                                    <option value="0">0%</option>
-                                    <option value="6" >6%</option>
-                                    <option value="12">12%</option>
-                                    <option value="21" selected>21%</option>
-                                </select>
-                            </div>   
-
-                            <div class="form_group">
-                            <label for="BTW_bedrag">BTW bedrag:</label>
-                            <input type="text" class="form-control" id="BTW_bedrag" name="BTW_bedrag" max="20" required>
-                                </div>
-
-                            <div class="form_group">
-                            <label for="totaalBedrag">Totaal bedrag:</label>
-                            <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required>
-                            </div>
-
-                            <div class="form_group">
-                                <label for="status">Status betaling:</label> <br>
-                                <select name="status" id="status" class="form-control">
-                                    <option value="betaald">Betaald</option>
-                                    <option value="nietBetaald" selected>Niet betaald</option>
-                                </select>
-                            </div>
-
-                            <div class="form_group">
-                                <label for="betalingsDatum">Datum betaling:</label>
-                                <input type="date" class="form-control" id="betalingsDatum" name="betalingsDatum" required>
-                            </div>
-                        
-                            <div class="form_group">
-                                <label for="beschrijving">Beschrijving:</label> <br>
-                                <textarea name="beschrijving" id="beschrijving" cols="85" rows="4" placeholder="Voer hier een beschrijving of opmerking in."></textarea>
-                            </div>
-                        </div>
-                        
-                        <div id="factuurUploaden_box">
-                            <h2>Factuur</h2>
-                            <div id="factuurUploaden">
-                                <label for="selector">Selecteer een bestand: </label> 
-                                <input type="file" id="selector" multiple></input>
-                                <input type="submit" id="uploadbtn" value= "Factuur uploaden" class="btn_bottom"></input>
-                            </div>
-                        </div>
+                    <div class="form_group">
+                    <label for="factuurnr">Factuurnummer:</label>
+                    <input type="text" class="form-control" id="factuurnr" name="factuurnr" required>
                     </div>
 
-                    <div class="btns">
-                        <input type="submit" id="submitbtn" value= "Factuur aanpassen" class="btn_bottom"></input>
-                        <a href="../HTML/home_klantFacturen.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
-                        <a id="deletebtn" class="btn_bottom">Verwijderen</a>
+                    <div class="form_group">
+                    <label for="factuurDatum">Factuur datum:</label>
+                    <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" required>
                     </div>
-               
-                   
-               
-               
-               
+
+                    <div class="form_group">
+                    <label for="projectnaam">Projectnaam:</label>
+                    <input type="text" class="form-control" id="projectnaam" name="projectnaam" max="255" required>
+                    </div>
+
+                    <div class="form_group">
+                        <label for="klantnaam">Klantnaam:</label>
+                        <input type="text" class="form-control" id="klantnaam" name="klantnaam" max="255" required>
+                        </div>
+
+                    <div class="form_group">
+                       <label for="BTW">BTW-percentage:</label>
+                       <input type="text" class="form-control" id="BTW" name="BTW" max="5" required>
+                        </div>   
+
+                    <div class="form_group">
+                       <label for="BTW_bedrag">BTW bedrag:</label>
+                       <input type="text" class="form-control" id="BTW_bedrag" name="BTW_bedrag" max="20" required>
+                        </div>
+
+                    <div class="form_group">
+                       <label for="totaalBedrag">Totaal bedrag:</label>
+                       <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required>
+                    </div>
+
+                    <div class="form_group">
+                        <label for="status">Status betaling:</label> <br>
+                        <select name="status" id="status" class="form-control">
+                            <option value="betaald">Betaald</option>
+                            <option value="nietBetaald" selected>Niet betaald</option>
+                        </select>
+                     </div>
+                        
+                         
+                           
+
+                        <div class="form_group">
+                            <label for="betalingsDatum">Datum betaling:</label>
+                            <input type="date" class="form-control" id="betalingsDatum" name="betalingsDatum" required>
+                            </div>
+                    
+
+                        <div class="form_group">
+                            <label for="beschrijving">Beschrijving:</label> <br>
+                            <textarea name="beschrijving" id="beschrijving" cols="85" rows="4"></textarea>
+                        </div>
+                    
+                
+                    <button type="submit" class="button">Factuur aanpassen</button>
+                    <button type="submit" class="button">Annuleren</button>
+                    <button type="submit" class="button">Verwijderen</button>
                 </form>
-            
+            </div>
 
-             
+            <div id="factuurUploaden_box">
+                <h2>Factuur</h2>
+                  <div id="factuurUploaden">
+                  
+                    
+                  </div>
         </div>
  
-          
 </body>
 </html>
