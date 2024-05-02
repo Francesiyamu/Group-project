@@ -17,8 +17,7 @@ body {
 /* ------------- FORM -------------*/
 
 form {
-    width: 70%;
-    height: 790px; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
+    width: fit-content;
     margin: 1.5rem auto;
     color: #161538;
     background-color: #e9e6e6;
@@ -27,13 +26,25 @@ form {
     border-radius: 5px;
 }
 
+#form_leverancier {
+    height: 790px; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
+}
+
+#form_gebruiker {
+    height: 845px;
+}
+
 form h1 {
     color: #ff9992;
     padding: 2rem 0rem 1rem 0rem;
     text-align: center;
     text-transform: uppercase;
-    margin: 0 1rem 1rem 1rem;
-    
+    margin: 0 2rem 1rem 2rem;
+}
+
+#form_gebruiker h1 {
+    padding: 2rem 1.5rem 1rem 1.5rem;
+
 }
 
 form label {
@@ -42,6 +53,7 @@ form label {
     display: inline-block;
     width: 200px;
     text-align: right;
+    font-weight: 630;
 }
 
 .inputs {
@@ -75,25 +87,28 @@ form label {
     padding: 1rem 2.5rem;
     color: #c7c7ca;
     font-weight: 400;
-    margin: 0.5rem;
     text-decoration: none;
     text-align: center;
 }
 
 .btns {
     display: flex;
-    margin-top: 1.5rem;
-    margin-right: 1.5rem;
-    margin-bottom: 1rem;
+    margin: 2rem 1.5rem 0 0;
+    height: 80px;   /* Zorgt ervoor dat bij hoveren de andere knop niet ook beweegt (scale maakt btns box groter) */
+    align-items: flex-end;
 }
 
 #submitbtn {
     margin-left: auto;
+    height: fit-content;
+    margin-bottom: 0.8rem;
 }
 
 #cancelbtn {
-    margin-left: 2rem;
+    margin-left: 1.5rem;
     display: inline-block; /* a: default display: inline --> doesn't respond to width or height changes --> change such that transform has an effect. Not block only to keep buttons on same line */
+    height: fit-content;
+    margin-bottom: 0.8rem;
 }
 
 .btn_bottom {
@@ -112,37 +127,29 @@ form label {
 
 @media screen and (max-width:1200px) {
 
-    .form_group {
-        display: block;
-        padding-bottom: 0.5rem;
-        margin-left: 2rem; 
-    }
-
-    .form_group label {
-        display: block;
-        text-align: start;
-        padding: 0;
-        padding: 0.5rem 0;
-    }
+/* ------------- FORM -------------*/
 
     form {
-        height: 100%;
         margin: 1.5rem auto;
     }
-}
 
-@media screen and (max-width:767px) {
+    /*#form_leverancier, #form_gebruiker { /* Indien titel op 1 lijn
+        height: 100%;
+    }*/
 
-    /* ------------- FORM -------------*/
-
-    .inputs {
-        align-items: center;
+    #form_leverancier {
+        height: 1180px; 
     }
     
+    #form_gebruiker {  /* Om titel gebruiker op 1 lijn --> padding links & rechts verminderen*/
+        height: 1270px;
+    }
+
     .form_group {
         display: block;
         padding-bottom: 0.5rem;
-        margin: 0;
+        align-self: center;
+
     }
 
     .form_group label {
@@ -152,34 +159,67 @@ form label {
         padding: 0.5rem 0;
     }
 
-    form {
-        height: 100%;
-        margin: 1.5rem auto;
+    form h1 {
+        width: 450px;
+        font-size: 2.5rem;
     }
 
-    /* ------------- BUTTONS -------------*/
+/* ------------- BUTTONS -------------*/
 
     .btns {
-        flex-direction: column-reverse;
-        margin: 1rem 0;
-    }
-
-    #submitbtn, #cancelbtn {
-        margin: auto;
+        margin-right: 1rem;
     }
 
     #submitbtn {
-        margin-bottom: 1rem;
+        margin-right: 0;
     }
+
+    #cancelbtn {
+        margin-left: 1rem;
+    }
+
+
 }
 
-@media screen and (max-width:519px) {
+@media screen and (max-width:540px) { /*767*/ /*519*/
+
+/* ------------- FORM -------------*/
+
+    #form_leverancier, #form_gebruiker {
+        height: 100%;
+    }
+
+    form h1 {
+        width: min-content;
+        font-size: 2rem;
+        margin: 1rem 2rem;
+    }
+
+    #form_leverancier h1, #form_gebruiker h1 {
+        padding: 0;
+    }
+    
     .form_group input {
-        width: 100%;
+        width: 230px;
     }
 
     .form_group label {
-        margin: auto;
         text-align: start;
+    }
+
+/* ------------- BUTTONS -------------*/
+
+    .btns {
+        flex-direction: column-reverse;
+        margin: 1.5rem 0 1rem 0;
+        height: fit-content;
+    }
+    
+    #submitbtn, #cancelbtn {
+        margin: auto;
+    }
+    
+    #submitbtn {
+        margin-bottom: 2.5rem;
     }
 }
