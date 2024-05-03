@@ -4,8 +4,8 @@ const mysql = require('mysql2');
 // Create MySQL connection
 const connection = mysql.createConnection({
     host: '10.0.1.50', //  IP address
-    user: 'User',
-    password: 'ubarsontryok',
+    user: 'Developer',
+    password: 'RADEPIREMENT',
     database: 'Datafact'
 });
 

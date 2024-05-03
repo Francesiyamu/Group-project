@@ -1,4 +1,4 @@
-console.log('Hello from script.js!');
+console.log('Hello from nieuwproject!');
 
 
 const serverUrl = 'http://localhost:3000';
@@ -21,7 +21,7 @@ document.getElementById('project_form').addEventListener('submit', function(e) {
     const json = JSON.stringify(formData);
     console.log(formData);
 
-    fetch('/submit-form' ,{
+    fetch(`${serverUrl}/submit-form-nieuw-project` ,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
