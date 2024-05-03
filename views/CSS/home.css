@@ -164,7 +164,7 @@ a.menu.active::after {
     border-color: #ff9992;
     border-width: 2.3px;
     font-weight: bold;
-    margin-bottom: 9px;
+    /*margin-bottom: 9px;*/
 }
 
 /* ------------- RESPONSIVE WEB DESIGN -------------*/
