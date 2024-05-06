@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
 
-
 const app = express();
 const port = 3000;
 
@@ -16,8 +15,6 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
   }
-
-
 });
 
 const upload = multer({ storage: storage });
@@ -32,11 +29,54 @@ const connection = mysql.createConnection({
   password: 'ubarsontryok',
   database: 'Datafact'
 });
-
 connection.connect(err => {
   if (err) throw err;
   console.log('Connected to the MySQL server.');
 });
+
+
+
+
+//routes
+
+//voorbeeld
+app.get('/' , (req, res) =>{
+let html = 'hallo'
+html += ' user'
+res.send(html)
+}
+)
+
+
+
+
+// Home route to fetch and display all data
+app.get('/gebruikers', (req, res) => {
+  connection.query('SELECT * FROM GEBRUIKERS', (error, results, fields) => {
+    if (error) throw error;
+
+    let html = '<h1>Gebruikers</h1><table border="1"><tr>';
+    
+    for (let field of fields) {
+      html += `<th>${field.name}</th>`;
+    }
+    html += '</tr>';
+
+    for (let row of results) {
+      html += `<tr>`;
+      for (let field of fields) {
+        html += `<td>${row[field.name]}</td>`;
+      }
+      html += '</tr>';
+    }
+
+    html += '</table>';
+
+    res.send(html);
+  });
+});
+
+
 
 
 // Home route to fetch and display all data
@@ -45,6 +85,7 @@ app.get('/Facturenklanten', (req, res) => {
       if (error) throw error;
   
       let html = '<h1>Facturen aan klanten</h1><table border="1"><tr>';
+      
       for (let field of fields) {
         html += `<th>${field.name}</th>`;
       }
@@ -101,8 +142,8 @@ app.get('/Facturenklanten', (req, res) => {
   });
   
 
-// Route to display insert form
-app.get('/edit', (req, res) => {
+// Route  todisplay insert form
+app.get('/add', (req, res) => {
   res.sendFile(__dirname + '/Server/edit.html');
 });
 
@@ -116,6 +157,10 @@ app.post('/submit', (req, res) => {
     res.send('Data inserted successfully!');
   });
 });
+
+
+
+
 
 // Route to serve upload page
 app.get('/fileupload/', (req, res) => {
@@ -140,6 +185,8 @@ html += '<a href="/details?id='+id+'">Back to detail weergace</a>'
 });
 
 app.use(express.static('uploads'));
+
+
 
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
