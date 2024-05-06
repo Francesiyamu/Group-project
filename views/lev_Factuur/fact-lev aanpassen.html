@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../CSS/fact-lev-aanpassen.css" />
+		<title>Form</title>
+	</head>
+	<body>
+		<div class="wrapper">
+			<h1 class="form-title">Factuur leverancier aanpassen</h1>
+			<form>
+				<div class="form">
+					<div class="form-section">
+						<div class="form-group">
+							<label class="form-label">Factuur nummer:</label>
+							<input class="form-input" type="number" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">Factuur datum:</label>
+							<input class="form-input" type="date" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">Btw-percentage:</label>
+							<input class="form-input" type="number" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">Btw bedrag:</label>
+							<input class="form-input" type="number" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">Status betaling: </label>
+							<select class="form-input">
+								<option>Betaald</option>
+								<option>Niet betaald</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="form-label"> Datum betaling:</label>
+							<input class="form-input" type="date" />
+						</div>
+					</div>
+					<div class="form-section">
+						<div class="form-group">
+							<label class="form-label">Voorgeschoten:</label>
+							<input class="form-input" type="number" />
+						</div>
+						<div class="form-group">
+							<label class="form-label">Datum voorschot:</label>
+							<input class="form-input" type="date" />
+						</div>
+						<div class="form-group form-group--radio">
+							<label class="form-label">Terugbetaald:</label>
+							<div class="radio-group">
+								<div class="radio-container">
+									<input type="radio" id="ja" name="ja_nee" value="ja" />
+									<label for="ja" class="radio-label">Ja</label>
+								</div>
+
+								<div class="radio-container">
+									<input type="radio" id="nee" name="ja_nee" value="nee" />
+									<label for="nee" class="radio-label">Nee</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="form-label">Datum terugbetaling:</label>
+							<input class="form-input" type="date" />
+						</div>
+						<div class="form-group form-group--radio">
+							<label class="form-label">Verstuurd boekhouder:</label>
+							<div class="radio-group">
+								<div class="radio-container">
+									<input type="radio" id="ja" name="ja_nee" value="ja" />
+									<label for="ja" class="radio-label">Ja</label>
+								</div>
+
+								<div class="radio-container">
+									<input type="radio" id="nee" name="ja_nee" value="nee" />
+									<label for="nee" class="radio-label">Nee</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-upload">
+							<div class="file-section"><span class="file-text">Selecteer een bestand: </span> <input placeholder="Bestanden kiezen" type="file" id="fileInput" class="hidden" /></div>
+							<button class="form-btn" id="fileButton">Bestand Uploaden</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group form-group--btn">
+					<button class="form-btn">Toevoegen</button>
+					<a class="form-btn" href="home_levFacturen.html">Annuleren</a>
+				</div>
+			</form>
+
+			<div class="floating floating--rect"></div>
+			<div class="floating floating--rect floating--rect--down"></div>
+		</div>
+		<script src="index.js"></script>
+	</body>
+</html>

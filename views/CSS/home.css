@@ -9,13 +9,8 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-color: #161538 !important;
-    width: auto;
-    display: grid;
-    grid-template-rows: 120px calc(100vh - 220px) 100px;
-    grid-template-areas: 
-    "header"
-    "body_home"
-    "footer";
+    /*width: auto;*/
+    min-height: 100vh;
 }
 
 /* ------------- HEADER ------------- */
@@ -24,7 +19,7 @@ body {
 nav {
     background-color: #161538;
     padding: 0.8rem 1rem;
-    grid-area: header;
+    height: 123px;
 }
 
 nav ul {
@@ -72,6 +67,10 @@ nav a.menu:hover::after {
     width: 100%;
 }
 
+a.menu.active::after {
+    width: 100%;
+}
+
 #logo {
     display: block;
     width: 60px;
@@ -91,16 +90,23 @@ nav a.menu:hover::after {
 
 /* ------------- CONTENT -------------*/
 
+#body_without_navbar {
+    min-height: calc(100vh - 123px);
+    display: flex;
+}
+
 .content {
-    grid-area: body_home;
-    width: 75%;
-    height: 100%;
+    width: 80%;
+    min-height: 75vh;
     margin: 1.5rem auto;
-    color: #161538;
+    color:161538;
     background-color: #e9e6e6;
     border-style: solid;
     border-color: #838287;
-    border-radius: 5px;
+    border-radius: 5px;   
+
+    display: flex;
+    flex-direction: column;
 }
 
 /* ------------- h1 -------------*/
@@ -112,14 +118,26 @@ nav a.menu:hover::after {
     text-transform: uppercase;    
 }
 
+/*voorstel*/
+
+.content ul a, .content ul a:visited{
+text-decoration: none;
+color: #161538;
+}
+.content ul a:hover{
+background: #c1c1c4;
+
+display: block;
+}
+
+
+
 
 /* ------------- BUTTONS -------------*/
 
 .buttons {
-    grid-area: footer;
     display: flex;
-    align-items: flex-end;
-    margin-bottom: 5px;
+    margin-top: auto;
 }
 
 .btn_bottom {
@@ -131,22 +149,23 @@ nav a.menu:hover::after {
     padding: 1rem;
     color: #c7c7ca;
     font-weight: 400;
-    margin: 1rem 1rem 0rem 1rem;
+    margin: 1rem 0 10px 1rem;
     text-decoration: none;
 }
 
 #btn_new {
-    margin-left: 2rem;
-    margin-right: auto;
+    margin-right: 1rem;
+    margin-left: auto;
 }
 
 .modify_remove_btns {
-    margin-right: 1.1rem;
-    margin-bottom: 0;
+    margin-left: 0rem;
 } 
 
-#btn_new, #btn_modify {
-    display: inline-block;
+#btn_new, #btn_modify, #btn_remove {
+    display: inline-block; /* Nodig om btns een width te kunnen geven */
+    width: 220px;
+    text-align: center;
 }
 
 .btn_bottom {
@@ -159,14 +178,48 @@ nav a.menu:hover::after {
     border-color: #ff9992;
     border-width: 2.3px;
     font-weight: bold;
+    /*margin-bottom: 9px;*/
 }
 
 /* ------------- RESPONSIVE WEB DESIGN -------------*/
 
-/* min-width: vanaf zoveel pixels, doe dit en dat */
-/* max-width: tot zoveel pixels, doe dit en dat */
+@media screen and (max-width:1197px){
+
+    /* ------------- NAVBAR -------------*/
+
+    .large_screen_nav li {
+        width: min-content; /* Wanneer menu items wrappen op 2 lijnen, zorgen nog steeds goed geplaatst*/
+    }
+
+    #fact_lev_menu::after {
+        left: 42%;
+    }
+    
+    #fact_lev_menu:hover::after {
+        height: 1.5px;
+        width: 118%;
+    }
+    
+    #fact_klant_menu::after {
+        left: 53%;
+    }
+    
+    #fact_klant_menu:hover::after {
+        height: 1.5px;
+        width: 103%;
+    }
+}
+
+@media screen and (max-width:1030px) { /* Om geen problemen te hebben met scroll bij overgang */
+    .large_screen_nav ul {
+        justify-content: center;
+    }
+}
 
 @media screen and (max-width:1000px) {
+
+/* ------------- NAVBAR -------------*/
+
     .large_screen_nav {
         display: none;
     }
@@ -196,18 +249,37 @@ nav a.menu:hover::after {
         margin-left: 1.5rem;
     }
 
-    #li_logout, #li_logo { /*Testen gewoon list weg te doen en enkel a laten staan (zonder li) */
-        list-style: none;
-    }
-
     #logo {
-        width: 70px;
         margin-right: 0.5rem;
     }
 
+/* ------------- BUTTONS -------------*/
+
+    .buttons {
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 2px;
+    }
+    
+   .modify_remove_btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+    }
+
+    #btn_modify, #btn_remove {
+        margin: 0;
+        margin-bottom: 7px;
+    }
+
+    #btn_new {
+        margin: 0.5rem 0 2rem 0;
+    }
 }
 
-@media screen and (max-width:845px) {
+@media screen and (max-width:845px) { /* Check waarde zodanig overgang niet te plots */
 
 /* ------------- NAVBAR -------------*/
 
@@ -222,32 +294,6 @@ nav a.menu:hover::after {
 
     .bg-custom.navbar {
         background-color: #161538;
-    }
-
-/* ------------- BUTTONS -------------*/
-
-    #btn_new, #btn_modify, #btn_remove {
-        margin: 0;
-    }
-
-    #btn_new, #btn_modify {
-        margin-right: 1rem;
-    }
-
-    .buttons {
-        justify-content: center;
-    }
-
-    .btn_bottom {
-        text-align: center;
-        width:220px
-    }
-
-    .modify_remove_btns {
-        display: flex;
-    }
-    .btn_bottom:hover {
-        transform: scale(1.05);
     }
 }
 
@@ -294,6 +340,10 @@ nav a.menu:hover::after {
         font-size: small;
     }
 
+    a.menu.nav-link.active {
+        color: #cbcaca;
+    }
+
     #li_logout a{
         display: flex;
         margin: 0.5rem 0;
@@ -304,38 +354,6 @@ nav a.menu:hover::after {
     #li_logout i {
         margin-left: 0;
         margin-right: 0.5rem;
-        font-size: 15px;
-        
-    }
-
-    /* ------------- BODY -------------*/
-
-    body {
-        grid-template-rows: 100px 100vh 230px;
-    }
-
-    /* ------------- BUTTONS -------------*/
-
-    .buttons {
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        margin-bottom: 2px;
-    }
-    
-
-    .modify_remove_btns {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .modify_remove_btns {
-        margin: 0;
-    }
-
-    #btn_new, #btn_modify, #btn_remove {
-        margin: 0;
-        margin-bottom: 7px;
+        font-size: 15px;   
     }
 }
