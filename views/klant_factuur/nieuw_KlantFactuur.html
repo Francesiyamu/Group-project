@@ -3,93 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../CSS/nieuwKlantFactuur.css">
     <title>Klantenfactuur toevoegen</title>
+    <link rel="stylesheet" href="../CSS/klantFactuur.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-sign-out-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
 
 
 
-    <h1>Factuur klant toevoegen</h1>
-    
-
-        <div class="split-container">         
-            <div id="form_box">
-
+    <form id="form_klantFactuur">
+        <h1>Factuur klant toevoegen</h1>
+        <div class="inputs">     
+            <div id="factuurgegevens_box">
                 <h2>Factuurgegevens</h2>
 
-                <form id="factuurKlant_form">
-
-                    <div class="form_group">
+                <div class="form_group">
                     <label for="factuurnr">Factuurnummer:</label>
                     <input type="text" class="form-control" id="factuurnr" name="factuurnr" required>
-                    </div>
+                </div>
 
-                    <div class="form_group">
-                    <label for="factuurDatum">Factuur datum:</label>
-                    <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" required>
-                    </div>
-
-                    <div class="form_group">
-                    <label for="projectnaam">Projectnaam:</label>
-                    <input type="text" class="form-control" id="projectnaam" name="projectnaam" max="255" required>
-                    </div>
-
-                    <div class="form_group">
-                        <label for="klantnaam">Klantnaam:</label>
-                        <input type="text" class="form-control" id="klantnaam" name="klantnaam" max="255" required>
-                        </div>
-
-                    <div class="form_group">
-                       <label for="BTW">BTW-percentage:</label>
-                       <input type="text" class="form-control" id="BTW" name="BTW" max="5" required>
-                        </div>   
-
-                    <div class="form_group">
-                       <label for="BTW_bedrag">BTW bedrag:</label>
-                       <input type="text" class="form-control" id="BTW_bedrag" name="BTW_bedrag" max="20" required>
-                        </div>
-
-                    <div class="form_group">
-                       <label for="totaalBedrag">Totaal bedrag:</label>
-                       <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required>
-                    </div>
-
-                    <div class="form_group">
-                        <label for="status">Status betaling:</label> <br>
-                        <select name="status" id="status" class="form-control">
-                            <option value="betaald">Betaald</option>
-                            <option value="nietBetaald" selected>Niet betaald</option>
-                        </select>
-                     </div>
-                        
-                         
-                           
-
-                        <div class="form_group">
-                            <label for="betalingsDatum">Datum betaling:</label>
-                            <input type="date" class="form-control" id="betalingsDatum" name="betalingsDatum" required>
+                            <div class="form_group">
+                                <label for="factuurDatum">Factuur datum:</label>
+                                <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" required>
                             </div>
-                    
 
-                        <div class="form_group">
-                            <label for="beschrijving">Beschrijving:</label> <br>
-                            <textarea name="beschrijving" id="beschrijving" cols="110" rows="4"></textarea>
-                        </div>
-                    
-                
-                    <button type="submit" class="button">Factuur toevoegen</button>
-                </form>
+                            <div class="form_group">
+                                <label for="projectnaam">Projectnaam:</label>
+                                <input type="text" class="form-control" id="projectnaam" name="projectnaam" max="255" required>
+                            </div>
+
+                            <div class="form_group">
+                                <label for="klantnaam">Klantnaam:</label>
+                                <input type="text" class="form-control" id="klantnaam" name="klantnaam" max="255" required>
+                            </div>
+
+                            <div class="form_group">
+                            <label for="BTW">BTW-percentage:</label>
+                            <select name="BTW" id="BTW" class="form-control" required>
+                                    <option value="0">0%</option>
+                                    <option value="6" >6%</option>
+                                    <option value="12">12%</option>
+                                    <option value="21" selected>21%</option>
+                                </select>
+                            </div>   
+
+                            <div class="form_group">
+                            <label for="BTW_bedrag">BTW bedrag:</label>
+                            <input type="text" class="form-control" id="BTW_bedrag" name="BTW_bedrag" max="20" required>
+                                </div>
+
+                            <div class="form_group">
+                            <label for="totaalBedrag">Totaal bedrag:</label>
+                            <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required>
+                            </div>
+
+                            <div class="form_group">
+                                <label for="status">Status betaling:</label> 
+                                <select name="status" id="status" class="form-control">
+                                    <option value="betaald">Betaald</option>
+                                    <option value="nietBetaald" selected>Niet betaald</option>
+                                </select>
+                            </div>
+
+                            <div class="form_group">
+                                <label for="betalingsDatum">Datum betaling:</label>
+                                <input type="date" class="form-control" id="betalingsDatum" name="betalingsDatum" required>
+                            </div>
+                        
+                            <div class="form_group">
+                                <label for="beschrijving">Beschrijving:</label>
+                                <textarea name="beschrijving" id="beschrijving" cols="85" rows="4" placeholder="Voer hier een beschrijving of opmerking in."></textarea>
+                            </div>
+                            
             </div>
-
+                        
             <div id="factuurUploaden_box">
                 <h2>Factuur</h2>
-                  <div id="factuurUploaden">
-                    <input type="file" class="button" value="upload"></input>
+                <div id="factuurUploaden">
+                    <label for="selector" id="selectBestand">Selecteer een bestand: </label> 
+                    <input type="file" id="selector" multiple></input>
+                    <input type="submit" id="uploadbtn" value= "Uploaden" class="btn_bottom"></input>
+                </div>
+            </div>
                     
-                  </div>
         </div>
- 
+                    <div class="btns">
+                        <a href="../klant_factuur/home_klantFacturen.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
+                        <input type="submit" id="submitbtn" value= "Save" class="btn_bottom"></input>
+                    </div>     
+    </form>
+
 </body>
 </html>
