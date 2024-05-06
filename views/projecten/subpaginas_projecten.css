@@ -1,0 +1,458 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../../assests/images/backgroud.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #161538 !important;
+    min-height: 100vh;
+}
+
+/* ------------- HEADER ------------- */
+
+/* ------------- MAIN NAVBAR -------------*/
+nav.main {
+    background-color: #161538;
+    padding: 0.8rem 1rem;
+    height: 123px;
+}
+
+nav.main ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.large_screen_nav li {
+    padding: 1.3rem 1rem;
+    text-align: center;
+}
+
+a.menu, nav.main a, a.menu:hover {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    color:#cbcaca; /* c7c7ca */
+    position: relative;
+}
+
+a.menu::after {
+    /*Je maakt hier een leeg grijs gekleurd blokje dat 2px hoog is en 0% breed.
+    Je plaatst het blokje op een bepaalde positie (5px onder a en in het midden van a) en geeft aan dat de transitie toegepast moet worden op breedte van blokje*/
+    content: ''; 
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0%;
+    height: 2px;
+    background-color: #c7c7ca;
+    transition: width 0.5s ease;
+    transform: translateX(-50%);    
+}
+
+a.menu.nav-link::after {
+    bottom: 5px;
+}
+
+nav.main a.menu:hover::after {
+    /* Hover zorgt ervoor dat blokje (dus eigenlijk lijn) 100% breed wordt*/
+    width: 100%;
+}
+
+a.menu.active::after {
+    width: 100%;
+}
+
+#logo {
+    display: block;
+    width: 60px;
+}
+
+#logout {
+    font-size:24px;
+}
+
+.medium_screen_nav {
+    display: none;
+}
+
+#small_screen_nav {
+    display: none;
+}
+
+/* ------------- CONTENT -------------*/
+
+#body_without_navbar {
+    min-height: calc(100vh - 123px);
+    display: flex; /* Grijs vak in het midden (verticaal) */
+}
+
+.content {
+    width: 80%;
+    min-height: 75vh;
+    margin: 1.5rem auto;
+    color: #161538;
+    background-color: #e9e6e6;
+    border-style: solid;
+    border-color: #838287;
+    border-radius: 5px;   
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------------- SUBNAVBAR -------------*/
+
+#subnav_large {
+    background-color: #161538;
+    height: fit-content;
+    padding: 0rem;
+    margin: -2.5px -2.5px 0 -2.5px; /* To make border of navbar overlap with border of content */
+    border-style: solid;
+    border-color: #161538;
+    border-radius: 5px 5px 1px 1px;   
+    border-bottom-width: 0;
+}
+
+#subnav_large ul {
+    list-style: none;
+    padding: 0 1rem;
+    margin: 0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#subnav_large li {
+    padding: 0;
+    /*border-right: 2px solid #cbcaca;*/
+}
+
+#subnav_large ul button, #subnav_small ul button {
+    height: min-content;
+    text-transform: capitalize;
+    font-weight: 700;
+    color:#cbcaca;
+    background-color: #161538;
+    border-width: 0;
+    padding: 0.8rem 1rem 15.3px 1rem;
+}
+
+#subnav_large ul:last-child {
+    padding-right: 0;
+}
+
+#subnav_large li:last-child {
+    border-right-width: 0;
+}
+
+#subnav_small {
+    display: none;
+}
+
+#subnav_large button.subnav_active {
+    background-color: #e9e6e6;
+    margin: 0 0 -2.5px 0; /* To make border of navbar overlap with border of content */
+    color: #161538;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#subnav_large button:hover { 
+    background-color: #e9e6e6;
+    margin: 0 0 -2.5px 0; /* To make border of navbar overlap with border of content */
+    color: #161538;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#subnav_large ul li:last-child button:hover {
+    margin: 0 0 -2.5px 0; /* To make border of navbar overlap with border of content */
+}
+
+/* ------------- h1 -------------*/
+
+.content h1 {
+    color: #ff9992;
+    padding: 1rem 0rem;
+    text-align: center;
+    text-transform: uppercase;    
+}
+
+/* ------------- DIV -------------*/
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+/* ------------- BUTTON -------------*/
+
+#btn_back {
+    background-color: #161538;
+    border-style: solid;
+    border-color: #c7c7ca;
+    border-width: 1px;
+    border-radius: 4em;
+    padding: 1rem;
+    color: #c7c7ca;
+    font-weight: 400;
+    text-decoration: none;
+    width: 170px;
+    text-align: center;
+    margin: auto 1rem 1rem auto;
+}
+
+#btn_back {
+    transition: transform 0.7s;
+}
+
+#btn_back:hover {
+    transform: scale(1.1);
+    color: #ff9992;
+    border-color: #ff9992;
+    border-width: 2.3px;
+    font-weight: bold;
+}
+
+/* ------------- RESPONSIVE WEB DESIGN -------------*/
+
+@media screen and (max-width:1197px){
+
+/* ------------- MAIN NAVBAR -------------*/
+
+    .large_screen_nav li {
+        width: min-content; /* Wanneer menu items wrappen op 2 lijnen, zorgen nog steeds goed geplaatst*/
+    }
+
+    #fact_lev_menu::after {
+        left: 42%;
+    }
+    
+    #fact_lev_menu:hover::after {
+        height: 1.5px;
+        width: 118%;
+    }
+    
+    #fact_klant_menu::after {
+        left: 53%;
+    }
+    
+    #fact_klant_menu:hover::after {
+        height: 1.5px;
+        width: 103%;
+    }
+}
+
+@media screen and (max-width:1030px) { /* Om geen problemen te hebben met scroll bij overgang */
+    .large_screen_nav ul {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width:1000px) {
+
+/* ------------- MAIN NAVBAR -------------*/
+
+    .large_screen_nav {
+        display: none;
+    }
+
+    .medium_screen_nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    nav.main ul {
+        flex-direction: column;
+    }
+
+    .part_nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .part_nav li {
+        margin: 0.5rem 1rem;
+        text-align: center;
+    }
+
+    #logout {
+        display: block;
+        margin-left: 1.5rem;
+    }
+
+    #logo {
+        margin-right: 0.5rem;
+    }
+
+/* ------------- SUBNAVBAR -------------*/
+
+    #subnav_large ul {
+        flex-direction: row;
+        justify-content: center;
+        padding-left: 0;
+    }
+
+    #subnav_large button {
+        padding: 0.8rem 1rem 15.3px 1rem;
+    }
+}
+
+@media screen and (max-width:864px) {
+
+/* ------------- SUBNAVBAR -------------*/
+    #subnav_large {
+        display: none;
+    }
+
+    #subnav_small {
+        display: block;
+        margin: -2.5px -2.5px 0 -2.5px; 
+        border-style: solid;
+        border-color: #161538;
+        border-radius: 5px 5px 1px 1px; 
+    }
+
+    #subnav_small ul {
+        align-items: flex-end;
+        margin-bottom: 0 !important;
+    }
+
+    #subnav_small li {
+        margin: 0.5rem 0;
+    }
+
+    #toggle_subnav {
+        color: #c7c7ca;
+    }
+
+    .bg-custom.navbar {
+        background-color: #161538;
+    }
+
+    button.navbar-toggler {
+        outline: none;
+        border-width: 0;
+        z-index: 4;
+    }
+    
+    button.navbar-toggler:focus {
+        box-shadow: none;
+    }
+    
+    #subnav_small button.navbar-toggler:hover {
+        border-width: 1px;
+        border-color: #838287;    
+    }
+
+    .navbar-collapse {
+        margin-top: -30px
+    }
+
+    #subnav_small ul button {
+        padding: 0;
+    }
+
+    #subnav_small button.subnav_active {
+        -webkit-text-stroke: 0.4px #ff9992;
+        /*text-shadow: 0 0 1.5px #ff9992;*/ /* https://kinsta.com/blog/css-text-outline/*/
+        color: #ffffff;
+    }
+
+    #subnav_small .subnav-btn:hover {
+        -webkit-text-stroke: 0.4px #ff9992;
+        /*text-shadow: 0 0 1.5px #ff9992;*/
+        color: #ffffff;
+    }
+}
+
+@media screen and (max-width:845px) { /* Check waarde zodanig overgang niet te plots */
+
+    /* ------------- MAIN NAVBAR -------------*/
+    
+        #nav_lower li {
+            margin: 0.5rem 0.5rem;
+        }
+    
+        #logo {
+            width: 60px;
+            margin-right: 0.3rem;
+        }
+    }
+    
+@media screen and (max-width:767px) { /* Waarde volgens bootstrap */
+    
+/* ------------- MAIN NAVBAR -------------*/
+   
+    .medium_screen_nav {
+        display: none;
+    }
+    
+    #small_screen_nav {
+        padding-left: 0;
+        padding-right: 0;
+        display: flex; /* Heeft zelfde effect als block */
+        z-index: 10; /* Stacking order */
+    }
+    
+    #toggle {
+        color: #ff9992;
+    }
+
+    button.navbar-toggler:hover {
+        border-width: 1px;
+        border-color: #ffffff;    
+    }
+    
+    div.container-fluid {
+        background-color: #161538;
+    }
+    
+    #logo {
+        margin-left: 0.5rem;
+    }
+
+    .container-fluid button {
+        margin-right: 0.5rem;
+    }
+    
+    .nav-item {
+        margin: 0.2rem 0;
+        font-size: small;
+    }
+    
+    a.menu.nav-link.active {
+        color: #cbcaca;
+    }
+    
+    #li_logout a{
+        display: flex;
+        margin: 0.5rem 0;
+        align-items: center;
+        font-size: small;
+    }
+    
+    #li_logout i {
+        margin-left: 0;
+        margin-right: 0.5rem;
+        font-size: 15px;   
+    }
+}
+
+@media screen and (max-width:425px) {
+
+/* ------------- BUTTON -------------*/
+
+    #btn_back {
+        margin: auto auto 1rem auto;
+    }
+}
