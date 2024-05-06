@@ -31,14 +31,6 @@ form {
     height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
 }
 
-/* #form_leverancier {
-    height: 790px; 
-}
-
-#form_gebruiker {
-    height: 845px; 
-}*/
-
 form h1 {
     color: #ff9992;
     padding: 2rem 0rem 1rem 0rem;
@@ -52,23 +44,20 @@ form h2 {
     text-align: center;
 }
 
-#form_klantFactuur h1 {
-    padding: 2rem 1.5rem 1rem 1.5rem;
-
-}
 
 form label {
     padding: 1rem 0 1rem 0;
     margin-right: 1rem;
     display: inline-block;
-    width: 170px;
+    width: 150px;
     text-align: right;
     font-weight: 630;
 }
 
+
+
 .inputs {
     display: flex;
-    
     flex-wrap: wrap;
 }
 
@@ -77,14 +66,6 @@ form label {
     align-items: center;
 }
 
-/* .form_group input {
-    padding: 0.5rem;
-    width: 300px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #161538;
-    border-radius: 3px;
-} */
 
 /* ------------- FORM BUTTONS -------------*/
 
@@ -135,24 +116,19 @@ form label {
     font-weight: bold;
 }
 
-
+#factuurUploaden {
+    margin-top: 2rem;
+    text-align: center;
+}
 
 #uploadbtn {
-    /* transition: transform 0.7s; */
-    margin: 0 auto 0 60%;
+    margin: 2rem 0 0 0;
 }
 
-
-#factuurUploaden label{
-    margin: 25% 0 0 5%;
-    width: auto;
-
+#selectBestand{
+    width: 170px;
 }
 
-
-#uploadbtn{
-    margin: 2rem auto 0 35%;
-}
 
 #form_box{
     display: flex;
@@ -161,10 +137,11 @@ form label {
 
  #factuurUploaden_box{
     margin-left: auto;
-    margin-right: 1rem;
+    margin-right: 1rem; 
     width: 50%;
     background-color: gainsboro;
 } 
+
 
 .form_group input , .form_group select, .form_group textarea{
     padding: 0.5rem;
@@ -175,32 +152,21 @@ form label {
     border-color: #161538;
     border-radius: 3px;
 }
+
+
+
+
+
 /* ------------- RESPONSIVE WEB DESIGN -------------*/
 
 @media screen and (max-width:1200px) {
 
 /* ------------- FORM -------------*/
 
-    form {
-        /* margin: 1.5rem auto; */
-        width: fit-content;
-    }
-
-    /*#form_leverancier, #form_gebruiker { /* Indien titel op 1 lijn
-        height: 100%;
-    }*/
-
-    #form_klantFactuur {
-        height: 1180px; 
-    }
-    
-  
-
-     .form_group {
+    .form_group {
         display: block;
         padding-bottom: 0.5rem;
         align-self: center;
-
     } 
 
     .form_group label {
@@ -228,57 +194,80 @@ form label {
         margin-left: 1rem;
     }
 
-
 }
 
 
 
-@media screen and (max-width:1200px) {
+@media screen and (max-width:1000px) {
+    
+    form h1 {
+        padding: 0;
+        padding-top: 1rem; 
+    }
+    
     .inputs{
         flex-direction: column;
         align-items: center;
     }
 
+    .form_group{
+        display: flex;
+    }
+
+    .form_group label {
+        margin-right: 0;
+    }
+
     #factuurUploaden_box{
-        width: 90%;
+        width: 500px;
         height: max-content;
-        
+       margin: 2rem 2rem 0 2rem;
     } 
 
+    #form_klantFactuur{
+        height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
+    }
+    
+    #uploadbtn{
+        margin: 2rem 0 2rem 0;
+    }
 }
 
 
-
-
-
-
-
-@media screen and (max-width:540px) { /*767*/ /*519*/
+@media screen and (max-width:600px) { 
 
 /* ------------- FORM -------------*/
 
-    #form_leverancier, #form_gebruiker {
+    #form_klantFactuur {
         height: 100%;
     }
 
     form h1 {
-        width: min-content;
+         width: 320px;
         font-size: 2rem;
         margin: 1rem 2rem;
+        text-align: center;
     }
 
-    #form_leverancier h1, #form_gebruiker h1 {
+    #form_klantFactuur h1 {
         padding: 0;
-    }
-    
-    .form_group input {
-        width: 230px;
     }
 
     .form_group label {
         text-align: start;
+        margin-right: 0;
     }
 
+
+    .form_group input , .form_group select, .form_group textarea{
+        width: 200px;
+        margin-left: 0;
+    }
+
+    #factuurUploaden_box{
+        width: 350px; 
+        margin: 2rem 1rem 0 1rem;
+    } 
 /* ------------- BUTTONS -------------*/
 
     .btns {
@@ -293,5 +282,6 @@ form label {
     
     #submitbtn {
         margin-bottom: 2.5rem;
+        margin-top: 2.5rem;
     }
 }
