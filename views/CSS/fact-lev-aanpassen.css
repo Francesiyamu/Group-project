@@ -76,11 +76,10 @@ select:disabled {
 }
 
 .form-title {
-	font-size: 36px;
 	text-align: center;
-	font-weight: 500;
 	color: #ff9992;
 	margin: 20px;
+	text-transform: uppercase;
 }
 
 /*continue from here*/
@@ -95,11 +94,12 @@ select:disabled {
 	margin-top: 0;
 }
 .form-label {
-	font-weight: bold;
+	font-weight:  bold;
 	margin-right: 1em;
 	display: inline-block;
 	flex: 1;
 	min-width: fit-content;
+	color:#161538;
 }
 
 .form-input {

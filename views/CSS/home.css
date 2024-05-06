@@ -99,7 +99,7 @@ a.menu.active::after {
     width: 80%;
     min-height: 75vh;
     margin: 1.5rem auto;
-    color: #161538;
+    color:161538;
     background-color: #e9e6e6;
     border-style: solid;
     border-color: #838287;
@@ -117,6 +117,20 @@ a.menu.active::after {
     text-align: center;
     text-transform: uppercase;    
 }
+
+/*voorstel*/
+
+.content ul a, .content ul a:visited{
+text-decoration: none;
+color: #161538;
+}
+.content ul a:hover{
+background: #c1c1c4;
+
+display: block;
+}
+
+
 
 
 /* ------------- BUTTONS -------------*/
