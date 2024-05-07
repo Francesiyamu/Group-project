@@ -53,8 +53,12 @@ window.onload = function () {
     }
 
 
-
-
+// Close main navbar when click on screen --> bij elke JS script
+let body_without_navbar = document.getElementById('body_without_navbar');
+body_without_navbar.addEventListener('click',function(){
+    let navbar = document.getElementById('navbarToggler');
+    navbar.classList.remove('show');
+})
 
 
 }
