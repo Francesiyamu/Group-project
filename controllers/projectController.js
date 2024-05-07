@@ -2,11 +2,11 @@ const connection = require('../db_connection');
 
 const registreerNieuwProject = async (req, res) => {
     // Extract data from request body
-    const { klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land } = req.body;
+    const { projectnr, klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land } = req.body;
 
     // Insert data into MySQL
-    const sql = 'INSERT INTO PROJECTEN (klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land) VALUES (?,?,?,?,?,?,?,?)';
-    connection.query(sql, [ klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land],
+    const sql = 'INSERT INTO PROJECTEN (projectnr,klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land) VALUES (?,?,?,?,?,?,?,?,?)';
+    connection.query(sql, [projectnr, klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land],
         (err, result) => {
             if (err) {
                 console.error('Error inserting data into MySQL:', err);

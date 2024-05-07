@@ -7,6 +7,7 @@ document.getElementById('project_form').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const formData = {
+        projectnr: document.getElementById('projectnr').value,
         klantnr: document.getElementById('klantnr').value,
         projectnaam: document.getElementById('projectnaam').value,
         status: document.getElementById('status').value,
