@@ -99,7 +99,7 @@ a.menu.active::after {
     width: 80%;
     min-height: 75vh;
     margin: 1.5rem auto;
-    color:161538;
+    color:#161538;
     background-color: #e9e6e6;
     border-style: solid;
     border-color: #838287;
