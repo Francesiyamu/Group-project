@@ -401,7 +401,7 @@ a.menu.active::after {
         padding-left: 0;
         padding-right: 0;
         display: flex; /* Heeft zelfde effect als block */
-        z-index: 10; /* Stacking order */
+        z-index: 10; /* Stacking order --> zodat subnav onder main navbar */
     }
     
     #toggle {
