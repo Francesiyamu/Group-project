@@ -1,3 +1,4 @@
+console.log('Hello from the login script!');
 
 const wrapper = document.querySelector('.wrapper');
 
