@@ -75,7 +75,6 @@ router.get('/nieuwe_gebruiker.js', (req, res) => {
 router.post('/submit-form-nieuw-project', registreerNieuwProject);
 
 // nieuwe gebruiker
-// router.post('/nieuwe-gebruiker', registreerGebruiker);
 router.post('/submit-form-nieuwe-gebruiker', registreerGebruiker);
 
 module.exports = router;
