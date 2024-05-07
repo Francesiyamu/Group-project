@@ -31,7 +31,7 @@ form {
 }
 
 #form_gebruiker {
-    height: 845px;
+    height: 900px;
 }
 
 form h1 {
@@ -53,7 +53,7 @@ form label {
     display: inline-block;
     width: 200px;
     text-align: right;
-    font-weight: 630px;
+    font-weight: bold;
 }
 
 .inputs {
@@ -66,7 +66,7 @@ form label {
     align-items: center;
 }
 
-.form_group input {
+.form_group input, #functie {
     padding: 0.5rem;
     width: 300px;
     border-style: solid;
@@ -199,7 +199,7 @@ form label {
         padding: 0;
     }
     
-    .form_group input {
+    .form_group input, #functie {
         width: 230px;
     }
 

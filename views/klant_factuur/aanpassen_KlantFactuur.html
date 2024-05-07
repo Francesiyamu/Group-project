@@ -12,7 +12,7 @@
 </head>
 <body>
               
-    <form id="form_gebruiker">
+    <form id="form_klantFactuur">
         <h1>Factuur klant aanpassen</h1>
         <div class="inputs">     
             <div id="factuurgegevens_box">
@@ -81,7 +81,7 @@
             <div id="factuurUploaden_box">
                 <h2>Factuur</h2>
                 <div id="factuurUploaden">
-                    <label for="selector">Selecteer een bestand: </label> 
+                    <label for="selector" id="selectBestand">Selecteer een bestand: </label> 
                     <input type="file" id="selector" multiple></input>
                     <input type="submit" id="uploadbtn" value= "Uploaden" class="btn_bottom"></input>
                 </div>
@@ -89,23 +89,9 @@
                     
         </div>
                     <div class="btns">
-                        <a href="../HTML/home_klantFacturen.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
+                        <a href="../klant_factuur/home_klantFacturen.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
                         <input type="submit" id="submitbtn" value= "Save" class="btn_bottom"></input>
-                        
-                        <!-- <a id="deletebtn" class="btn_bottom">Verwijderen</a> -->
-                    </div>
-               
-                   
-       
-               
-               
-               
-    </form>
-            
-
-             
-       
- 
-          
+                    </div>    
+    </form>       
 </body>
 </html>

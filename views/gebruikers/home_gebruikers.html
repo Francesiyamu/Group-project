@@ -10,6 +10,7 @@
 </head> 
 <body>
 
+    <!-- ------------- NAVIGATION BARS ------------- -->
     <nav class="large_screen_nav" id="top">
         <ul>
             <li><img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo"></li>
@@ -17,7 +18,7 @@
             <li><a href="../klant/home_klant.html" class="menu">Klanten</a></li> 
             <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
             <li><a href="../projecten/home_project.html" class="menu">Projecten</a></li>
-            <li><a href="../Factuur-lev/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> 
+            <li><a href="../lev_Factuur/home_levFacturen.html" class="menu">Facturen Leveranciers</a></li> 
             <li><a href="../facturen/HTML/home_klantFacturen.html" class="menu">Facturen Klanten</a></li>
             <li><a href="#top" class="menu active">Gebruikers</a></li>
             <li><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a></li>
@@ -57,27 +58,29 @@
                     <li class="nav-item"><a href="../projecten/home_project.html" class="menu nav-link">Projecten</a></li>
                     <li class="nav-item"><a href="../Factuur-lev/factuur-lev.html" class="menu nav-link">Facturen Leveranciers</a></li> 
                     <li class="nav-item"><a href="../facturen/HTML/home_klantFacturen.html" class="menu nav-link">Facturen Klanten</a></li>
-                    <li class="nav-item"><a href="#top" class="menu nav-link active">Gebruikers</a></li>
+                    <li class="nav-item"><a href="#top" class="menu nav-link active" data-bs-toggle="collapse" data-bs-target="#navbarToggler">Gebruikers</a></li>
                     <li id="li_logout"><a href="../login/login.html" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i>Log out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="content">
-        <h1>Gebruikers</h1>
-        <!-- Hier komt een overzicht van alle toegevoegde gebruikers -->
-        <p>Gebruikers</p>
+    <!-- ------------- CONTENT PAGE ------------- -->
+    <div id="body_without_navbar">
+        <div class="content">
+            <h1>Gebruikers</h1>
+            <!-- Hier komt een overzicht van alle toegevoegde gebruikers -->
+            <p>Gebruikers</p>
 
-        <div class="buttons">
-            <div class="modify_remove_btns">
-                <a href="aanpassen_gebruiker.html" id="btn_modify" class="btn_bottom">Gebruiker aanpassen</a>
-                <button id="btn_remove" class="btn_bottom">Gebruiker verwijderen</button>
+            <div class="buttons">
+                <div class="modify_remove_btns">
+                    <a href="aanpassen_gebruiker.html" id="btn_modify" class="btn_bottom">Gebruiker aanpassen</a>
+                    <button id="btn_remove" class="btn_bottom">Gebruiker verwijderen</button>
+                </div>
+                <a href="nieuwe_gebruiker.html" id="btn_new" class="btn_bottom">Gebruiker toevoegen</a>
             </div>
-            <a href="nieuwe_gebruiker.html" id="btn_new" class="btn_bottom">Gebruiker toevoegen</a>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

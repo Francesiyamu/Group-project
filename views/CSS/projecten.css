@@ -27,7 +27,7 @@ form {
     
 }
 
-#form_klantFactuur{
+#form_projecten{
     height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
 }
 
@@ -224,7 +224,7 @@ form label {
        margin: 2rem 2rem 0 2rem;
     } 
 
-    #form_klantFactuur{
+    #form_projecten{
         height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
     }
     
@@ -238,7 +238,7 @@ form label {
 
 /* ------------- FORM -------------*/
 
-    #form_klantFactuur {
+    #form_projecten {
         height: 100%;
     }
 
@@ -249,7 +249,7 @@ form label {
         text-align: center;
     }
 
-    #form_klantFactuur h1 {
+    #form_projecten h1 {
         padding: 0;
     }
 
