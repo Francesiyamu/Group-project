@@ -5,3 +5,7 @@ gray : #838287
 pink : #e37995
 gray-blue : #5a6984
 
+create crypto for access token
+-> open node in terminal
+-> require('crypto').randomBytes(64).toString('hex')
+
