@@ -14,6 +14,10 @@ body {
     align-items: center;
 }
 
+div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overschreven door rest (niet nodig als helemaal onderaan */
+    display: none;
+}
+
 /* ------------- FORM -------------*/
 
 form {
@@ -31,7 +35,7 @@ form {
 }
 
 #form_gebruiker {
-    height: 900px;
+    height: 960px;
 }
 
 form h1 {
@@ -51,9 +55,13 @@ form label {
     padding: 1rem;
     margin-right: 1rem;
     display: inline-block;
-    width: 200px;
+    width: 195px; /*200px;*/
     text-align: right;
     font-weight: bold;
+}
+
+#form_gebruiker label {
+    width: 175px;
 }
 
 .inputs {
@@ -64,6 +72,11 @@ form label {
 .form_group {
     display: flex;
     align-items: center;
+    /*margin-left: 100px of justify-content: center --> enkel bij details */
+}
+
+.form_group.toev {
+    justify-content: center;
 }
 
 .form_group input, #functie {
@@ -75,9 +88,13 @@ form label {
     border-radius: 3px;
 }
 
+#functie:disabled {
+    background-color: #e9e6e6;
+}
+
 /* ------------- FORM BUTTONS -------------*/
 
-.btns input, .btns a {
+.btns input, .btns a, .btns_details a, .btns_details button {
     width: 170px;
     background-color: #161538;
     border-style: solid;
@@ -91,11 +108,37 @@ form label {
     text-align: center;
 }
 
-.btns {
+.btns, .btns_details {
     display: flex;
     margin: 2rem 1.5rem 0 0;
-    height: 80px;   /* Zorgt ervoor dat bij hoveren de andere knop niet ook beweegt (scale maakt btns box groter) */
+    height: 80px;   
     align-items: flex-end;
+}
+
+.btns_details {
+    flex-direction: row-reverse;
+    margin: 2rem 0 0 0;
+}
+
+.modify_back_btns {
+    margin-left:8rem;
+}
+
+#btn_modify, #btn_remove {
+    display: inline-block;
+    height: fit-content;
+    width: 220px;
+    padding: 1rem;
+    margin: 0 1.5rem 0.8rem 1rem;
+}
+
+#btn_remove {
+    margin: 0 0 0.8rem 1.5rem;
+}
+
+#btn_back {
+    display: inline-block;
+    width: 220px;
 }
 
 #submitbtn {
@@ -115,7 +158,7 @@ form label {
     transition: transform 0.7s;
 }
 
-.btn_bottom:hover {
+.btn_bottom:hover, .btns_details .btn_bottom:hover {
     transform: scale(1.1);
     color: #ff9992;
     border-color: #ff9992;
@@ -133,17 +176,17 @@ form label {
         margin: 1.5rem auto;
     }
 
-    /*#form_leverancier, #form_gebruiker { /* Indien titel op 1 lijn
+    #form_leverancier, #form_gebruiker { /* Indien titel op 1 lijn */
         height: 100%;
-    }*/
+    }
 
-    #form_leverancier {
+    /* #form_leverancier {
         height: 1180px; 
-    }
+    } 
     
-    #form_gebruiker {  /* Om titel gebruiker op 1 lijn --> padding links & rechts verminderen*/
+    #form_gebruiker {  /* Om titel gebruiker op 1 lijn --> padding links & rechts verminderen 
         height: 1270px;
-    }
+    } */
 
     .form_group {
         display: block;
@@ -162,6 +205,7 @@ form label {
     form h1 {
         width: 450px;
         font-size: 2.5rem;
+        /*margin: 0 auto 1rem auto;*/
     }
 
 /* ------------- BUTTONS -------------*/
@@ -176,6 +220,32 @@ form label {
 
     #cancelbtn {
         margin-left: 1rem;
+    }
+
+    #btn_back, #btn_modify, #btn_remove {
+        margin: 0;
+    }
+
+    #btn_modify {
+        margin-bottom: 7px;
+    }
+
+    #btn_remove {
+        margin-bottom: 10px;
+    }
+
+    .btns_details {
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        height: auto;
+    }
+
+    .modify_back_btns {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        margin: 0.5rem 0 2rem 0;
     }
 
 
