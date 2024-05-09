@@ -131,16 +131,17 @@ display: block;
 }
 
 
-
-
 /* ------------- BUTTONS -------------*/
 
-.buttons {
-    display: flex;
+.button {
+    margin-left: auto;
     margin-top: auto;
 }
 
-.btn_bottom {
+#btn_new {
+    display: inline-block; /* Nodig om btns een width te kunnen geven */
+    width: 220px;
+    text-align: center;
     background-color: #161538;
     border-style: solid;
     border-color: #c7c7ca;
@@ -149,30 +150,15 @@ display: block;
     padding: 1rem;
     color: #c7c7ca;
     font-weight: 400;
-    margin: 1rem 0 10px 1rem;
+    margin: 1rem 1rem 1rem 0;
     text-decoration: none;
 }
 
 #btn_new {
-    margin-right: 1rem;
-    margin-left: auto;
-}
-
-.modify_remove_btns {
-    margin-left: 0rem;
-} 
-
-#btn_new, #btn_modify, #btn_remove {
-    display: inline-block; /* Nodig om btns een width te kunnen geven */
-    width: 220px;
-    text-align: center;
-}
-
-.btn_bottom {
     transition: transform 0.7s;
 }
 
-.btn_bottom:hover {
+#btn_new:hover {
     transform: scale(1.1);
     color: #ff9992;
     border-color: #ff9992;
@@ -252,31 +238,6 @@ display: block;
     #logo {
         margin-right: 0.5rem;
     }
-
-/* ------------- BUTTONS -------------*/
-
-    .buttons {
-        flex-direction: column-reverse;
-        justify-content: flex-end;
-        align-items: center;
-        margin-bottom: 2px;
-    }
-    
-   .modify_remove_btns {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-    }
-
-    #btn_modify, #btn_remove {
-        margin: 0;
-        margin-bottom: 7px;
-    }
-
-    #btn_new {
-        margin: 0.5rem 0 2rem 0;
-    }
 }
 
 @media screen and (max-width:845px) { /* Check waarde zodanig overgang niet te plots */
@@ -355,5 +316,13 @@ display: block;
         margin-left: 0;
         margin-right: 0.5rem;
         font-size: 15px;   
+    }
+
+    #btn_new {
+        margin-right: 0;
+    }
+
+    .button {
+        margin: auto auto 0 auto;
     }
 }
