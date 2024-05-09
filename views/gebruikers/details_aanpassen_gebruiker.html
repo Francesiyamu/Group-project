@@ -10,79 +10,94 @@
 </head> 
 <body>
     <form id="form_gebruiker">
-        <h1>Gebruiker aanpassen</h1>
+        <h1 class="visible">Details</h1>
+        <h1 class="hidden">Gebruiker aanpassen</h1>
 
         <div class="inputs">
             <div class="form_group">
                 <label for="idnr">ID-nummer:</label>
-                <input type="text" id="levnr" placeholder="123456"> <br>
+                <input type="text" id="idnr" placeholder="123456" disabled> <br>
+            </div>
+
+            <div class="form_group">
+                <label for="gebruikersnaam">Gebruikersnaam:</label>
+                <input type="text" id="gebruikersnaam" placeholder="PeterPan1" disabled> <br>
+            </div>
+
+            <div class="form_group">
+                <label for="wachtwoord">Wachtwoord:</label>
+                <input type="password" id="wachtwoord" disabled> <br>
             </div>
 
             <div class="form_group">
                 <label for="functie">Functie:</label>
-                <select name="functie" id="functie">
+                <select name="functie" id="functie" disabled>
                     <option value="medewerker">Medewerker</option>
                     <option value="boekhouder">Boekhouder</option>
                     <option value="manager">Manager</option>
                 </select>
             </div>
-
-            <div class="form_group">
-                <label for="gebrpassword">Wachtwoord:</label>
-                <input type="password" id="gebrpassword"> <br>
-            </div>
     
             <div class="form_group">
                 <label for="voornaam">Voornaam:</label>
-                <input type="text" id="voornaam" placeholder="Jane"> <br>
+                <input type="text" id="voornaam" placeholder="Jane" disabled> <br>
             </div>
 
             <div class="form_group">
                 <label for="achternaam">Achternaam:</label>
-                <input type="text" id="achternaam" placeholder="Doe"> <br>
+                <input type="text" id="achternaam" placeholder="Doe" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrstraat">Straat:</label>
-                <input type="text" id="gebrstraat" placeholder="Main Street"> <br>
+                <input type="text" id="gebrstraat" placeholder="Main Street" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrhuisnr">Huisnummer:</label>
-                <input type="number" id="gebrhuisnr" placeholder="12B"> <br>
+                <input type="number" id="gebrhuisnr" placeholder="12B" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrpostcode">Postcode:</label>
-                <input type="text" id="gebrpostcode" placeholder="1000"> <br>
+                <input type="text" id="gebrpostcode" placeholder="1000" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrgemeente">Gemeente:</label>
-                <input type="text" id="gebrgemeente" placeholder="Brussel"> <br>
+                <input type="text" id="gebrgemeente" placeholder="Brussel" disabled> <br>
             </div>
 
             <div class="form_group">
                 <label for="gebrland">Land:</label>
-                <input type="text" id="gebrland" placeholder="België"> <br>
+                <input type="text" id="gebrland" placeholder="België" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="gebrtelefoon">Telefoonnummer:</label>
-                <input type="tel" id="gebrtelefoon" placeholder="+32345678903"> <br>
+                <input type="tel" id="gebrtelefoon" placeholder="+32345678903" disabled> <br>
             </div>
     
             <div class="form_group">
-                <label for="gebrmail">E-mail adres:</label>
-                <input type="email" id="gebrmail" placeholder="janedoe@example.com"> <br>
+                <label for="emailadres">E-mail adres:</label>
+                <input type="email" id="emailadres" placeholder="janedoe@example.com" disabled> <br>
             </div>
 
-            <div class="btns">
-                <a href="home_gebruikers.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
+            <div class="btns_details visible">
+                <div class="modify_back_btns">
+                    <a href="home_gebruikers.html" id="btn_back" class="btn_bottom">Back</a>
+                    <button id="btn_modify" class="btn_bottom">Gebruiker aanpassen</button>
+                </div>
+                <button id="btn_remove" class="btn_bottom">Gebruiker verwijderen</button>
+            </div>
+
+            <div class="btns hidden">
+                <a href="#" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
                 <input type="submit" id="submitbtn" value="Save" class="btn_bottom">
             </div>
         </div>
     </form>
 
+    <script src="../JS/details_aanpassen.js"></script>
 </body>
 </html>

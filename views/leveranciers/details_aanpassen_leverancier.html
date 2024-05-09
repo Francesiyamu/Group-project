@@ -10,68 +10,77 @@
 </head> 
 <body>
     <form id="form_leverancier">
-        <h1>Leverancier aanpassen</h1>
+        <h1 class="visible">Details</h1>
+        <h1 class="hidden">Leverancier aanpassen</h1>
 
         <div class="inputs">
             <div class="form_group">
                 <label for="levnr">Leveranciersnummer:</label>
-                <input type="text" id="levnr" placeholder="123456"> <br>
+                <input type="text" id="levnr" placeholder="123456" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levnaam">Naam:</label>
-                <input type="text" id="levnaam" placeholder="Leverancier XYZ"> <br>
+                <input type="text" id="levnaam" placeholder="Leverancier XYZ" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levstraat">Straat:</label>
-                <input type="text" id="levstraat" placeholder="Main Street"> <br>
+                <input type="text" id="levstraat" placeholder="Main Street" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levhuisnr">Huisnummer:</label>
-                <input type="text" id="levhuisnr" placeholder="12B"> <br>
+                <input type="text" id="levhuisnr" placeholder="12B" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levpostcode">Postcode:</label>
-                <input type="text" id="levpostcode" placeholder="1000"> <br>
+                <input type="text" id="levpostcode" placeholder="1000" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levgemeente">Gemeente:</label>
-                <input type="text" id="levgemeente" placeholder="Brussel"> <br>
+                <input type="text" id="levgemeente" placeholder="Brussel" disabled> <br>
             </div>
 
             <div class="form_group">
                 <label for="levland">Land:</label>
-                <input type="text" id="levland" placeholder="België"> <br>
+                <input type="text" id="levland" placeholder="België" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levtelefoon">Telefoonnummer:</label>
-                <input type="tel" id="levtelefoon" placeholder="+32345678903"> <br>
+                <input type="tel" id="levtelefoon" placeholder="+32345678903" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levmail">E-mail adres:</label>
-                <input type="email" id="levmail" placeholder="johndoe@example.com"> <br>
+                <input type="email" id="levmail" placeholder="johndoe@example.com" disabled> <br>
             </div>
     
             <div class="form_group">
                 <label for="levBTWnr">BTW-nummer:</label>
-                <input type="text" id="levBTWnr" placeholder="BE0123456789">
+                <input type="text" id="levBTWnr" placeholder="BE0123456789" disabled>
             </div>
 
-            <div class="btns">
-                <a href="home_leveranciers.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
+            <div class="btns_details visible">
+                <div class="modify_back_btns">
+                    <a href="home_leveranciers.html" id="btn_back" class="btn_bottom">Back</a>
+                    <button id="btn_modify" class="btn_bottom">Leverancier aanpassen</button>
+                </div>
+                <button id="btn_remove" class="btn_bottom">Leverancier verwijderen</button>
+            </div>
+
+           <div class="btns hidden">
+                <a href="#" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
                 <input type="submit" id="submitbtn" value="Save" class="btn_bottom">
             </div>
 
-            <div id="map"></div>
 
         </div>
     </form>
 
+   <script src="../JS/details_aanpassen.js"></script>
 </body>
 </html>
