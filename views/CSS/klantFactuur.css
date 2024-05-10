@@ -14,6 +14,10 @@ body {
     align-items: center;
 }
 
+div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overschreven door rest (niet nodig als helemaal onderaan */
+    display: none;
+}
+
 /* ------------- FORM -------------*/
 
 form {
