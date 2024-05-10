@@ -31,6 +31,7 @@ function toggleAttributes() {
 
 function switchToModify() {
     replaceClasses();
+    document.title = document.getElementById('titel').textContent
     toggleAttributes();
     window.scrollTo(0,0); // https://css-tricks.com/need-to-scroll-to-the-top-of-the-page/#:~:text=You%20might%20need%20to%20trigger,element)%20back%20to%20the%20top.
     inputs.style.alignItems = 'initial';
@@ -38,6 +39,7 @@ function switchToModify() {
 
 function switchToDetails() {
     replaceClasses();
+    document.title = 'Details'
     toggleAttributes();
     window.scrollTo(0,0);
     inputs.style.alignItems = 'center';
