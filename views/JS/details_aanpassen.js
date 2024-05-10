@@ -23,9 +23,14 @@ function toggleAttributes() {
         input.toggleAttribute('disabled');
     }
 
-    let select = document.getElementById('functie');
-    if(select) {
+    let selects = document.getElementsByTagName('select');
+    for(let select of selects) {
         select.toggleAttribute('disabled');
+    }
+
+    let textareas = document.getElementsByTagName('textarea');
+    for(let textarea of textareas) {
+        textarea.toggleAttribute('disabled');
     }
 }
 
