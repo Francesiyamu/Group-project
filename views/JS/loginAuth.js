@@ -1,31 +1,38 @@
-
+// Function to handle login form submission
 const loginForm = document.querySelector('#login-form');
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const gebruikersnaam = document.querySelector('#gebruikersnaam').value;
     const wachtwoord = document.querySelector('#wachtwoord').value;
-    const result = await loginGebruiker(gebruikersnaam, wachtwoord);
-    if(result.status === 'success'){
-        window.location.href = '/home_klant'; // na login wordt je naar deze pagina gebracht... 
+    
+    // Attempt to log in the user
+    const loginResult = await loginUser(gebruikersnaam, wachtwoord);
+    if (loginResult.status === 'success') {
+        // If login is successful, store the access token and redirect to home page
+        localStorage.setItem('access_token', loginResult.access_token);
+        window.location.href = '/home_klantFacturen';
     } else {
-        alert(result.message);
+        // If login fails, show an alert with the error message
+        alert(loginResult.message);
     }
 });
 
-
-const loginGebruiker = async (gebruikersnaam, wachtwoord) => {
-    try{
+// Function to handle user login
+const loginUser = async (gebruikersnaam, wachtwoord) => {
+    try {
         const response = await fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({gebruikersnaam, wachtwoord})
+            body: JSON.stringify({ gebruikersnaam, wachtwoord })
         });
         const result = await response.json();
+        console.log('Login result:', result);
+        console.log('Access token:', result.access_token);
         return result;
-    } catch (error){
+    } catch (error) {
         console.error('Error in login gebruiker:', error);
-        return {status: 'error', message: 'Internal server error'};
+        return { status: 'error', message: 'Internal server error' };
     }
 };

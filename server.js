@@ -15,9 +15,13 @@ app.use('/CSS', express.static(__dirname + '/views/CSS'));
 app.use('/JS', express.static(__dirname + '/views/JS'));
 app.use('/assests/images', express.static('assests/images'))
 
+// Exempt favicon.ico from authentication
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 // Routes
 app.use('/', routes);
+
+
 
 // Start server
 app.listen(port, () => {

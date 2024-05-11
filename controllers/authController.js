@@ -1,10 +1,8 @@
 const express = require('express');
 const connection = require('../db_connection');
-const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();;
-const fsPromises = require('fs').promises;
+require('dotenv').config();
 const path = require('path');
 
 const app = express();
@@ -26,6 +24,9 @@ const userLogin = async (req, res) => {
         }
 
         const user = rows[0]; // Assuming only one user with a unique username
+        //console.log('Gebruikersnaam:', user.gebruikersnaam);
+        //console.log('Wachtwoord:', user.wachtwoord);
+        //console.log('Functienr:', user.functienr    );
 
         // Compare hashed passwords
         const isPasswordValid = await bcrypt.compare(wachtwoord, user.wachtwoord);
@@ -38,16 +39,27 @@ const userLogin = async (req, res) => {
 
         // Authentication successful
         // Create a JWT token       
-        const accessToken = jwt.sign({ gebruikersnaam: user.gebruikersnaam}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' }); //10 minutes
-        const refreshToken = jwt.sign({ gebruikersnaam: user.gebruikersnaam}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' }); // 1 day
+        const access_token = jwt.sign({ gebruikersnaam: user.gebruikersnaam }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' }); //10 minutes
+        const refresh_token = jwt.sign({ gebruikersnaam: user.gebruikersnaam }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' }); // 1 day
 
-        // Save refresh token in the database
-        const insertQuery = 'INSERT INTO REFRESH_TOKENS (token) VALUES (?)';
+        //console.log('Access token:', access_token);
+        //console.log('Refresh token:', refresh_token);   
 
 
+        // Save refresh token in the database --- also used for logging out
+        const insertQuery = 'INSERT INTO REFRESH_TOKENS (refresh_token, gebruikersnaam) VALUES (?, ?)';
+        connection.query(insertQuery, [refresh_token, gebruikersnaam], (error, result) => {
+            if (error) {
+                console.error('Error in saving refresh token:', error);
+                return res.status(500).json({ status: 'error', message: 'Internal server error' });
+            }
+            console.log('Refresh token saved');
+            res.cookie('jwt', refresh_token, { httpOnly: true, maxAge: 24*60*60*1000, path: '/refresh_token' }) // 24h expiration
+            //http only prevents client side javascript from accessing the cookie
+            res.status(200).json({ status: 'success', message: `Authenticatie succesvol` , access_token});
+            console.log(`The access token is ${access_token}`);
+        });
 
-        res.status(200).json({ status: 'success', message: 'Authenticatie succesvol' });
-        console.log('Authenticatie succesvol');
 
     } catch (error) {
         console.error('Error in userLogin:', error);
