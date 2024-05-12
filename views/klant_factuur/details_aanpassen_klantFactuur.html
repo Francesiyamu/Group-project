@@ -39,6 +39,11 @@
                 </div>
 
                 <div class="form_group">
+                    <label for="totaalBedrag">Totaal bedrag:</label>
+                    <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required disabled>
+                </div>
+
+                <div class="form_group">
                     <label for="BTW">BTW-percentage:</label>
                     <select name="BTW" id="BTW" class="form-control" required disabled>
                         <option value="0">0%</option>
@@ -51,11 +56,6 @@
                 <div class="form_group">
                     <label for="BTW_bedrag">BTW bedrag:</label>
                     <input type="text" class="form-control" id="BTW_bedrag" name="BTW_bedrag" max="20" required disabled>
-                </div>
-
-                <div class="form_group">
-                    <label for="totaalBedrag">Totaal bedrag:</label>
-                    <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required disabled>
                 </div>
 
                 <div class="form_group">
@@ -81,21 +81,46 @@
             <div id="factuurUploaden_box">
                 <h2>Factuur</h2>
                 <div id="factuurUploaden">
-
-                    <iframe src="../../assests/images/logo_transparant.png" frameborder="0"></iframe><br>
-
-
-                    <label for="selector" id="selectBestand">Selecteer een bestand: </label> 
-                    <input type="file" id="selector" multiple></input>
-                    <!-- <input type="submit" id="uploadbtn" value= "Uploaden" class="btn_bottom"></input> -->
+                    <iframe src="../../assests/WE - HC1 Overzicht & HTML basis.pdf" frameborder="0"   height="100%"></iframe><br>
+                    <!--    
+                    <button type="button" id="kruisje"> &#10060;</button>
+                    <label for="selector" id="selectBestand"> Gekozen bestand: </label> 
+                    <input type="file" id="selector" accept=".pdf" multiple></input> -->
+                    
+                    <!-- <button type="button" id="kruisje"> &#10060;</button> -->
+                    <!-- <label for="selector" id="selectBestand"> Selecteer bestand: </label> 
+                    <input type="file" id="selector" multiple value="qdfqsd"></input> -->
+                    <!-- <input type="submit" id="upload
+                        btn" value= "Uploaden" class="btn_bottom"></input> -->
                 </div>
+
+                <div id="huidigBestand_box">
+                    <label for="huidigBestand" id="test3">Huidige bestand(en):</label>
+                    
+                    <!-- <form action="files.php"> -->
+                    <input list="files" name="" id="test2" disabled placeholder="Selecteer het bestand">
+                    <datalist id="files">
+                        <option value="Dit is een bestand"></option>
+                        <option value="Dit is een bestand 2"></option>
+                        <option value="Samenvatting Web essentials.docx"></option>
+                    </datalist>
+                    <!-- </form> -->
+                    <!-- <p id="huidigBestand">Dit is het huidige bestand</p> -->
+                </div>
+
+
+                <div id="nieuwBestand_box">
+                    <input type="file" id="selector" multiple disabled></input>
+                    <label for="selector" id="fileSelect" class="hidden" hidden> <span>Nieuw bestand selecteren</span> &#128194; </label> 
+                </div>
+                
             </div>
                     
         </div>
 
         <div class="btns_details visible">
             <div class="modify_back_btns">
-                <a href="home_gebruikers.html" id="btn_back" class="btn_bottom">Back</a>
+                <a href="home_klantFacturen.html" id="btn_back" class="btn_bottom">Back</a>
                 <button id="btn_modify" class="btn_bottom">Gebruiker aanpassen</button>
             </div>
             <button id="btn_remove" class="btn_bottom">Gebruiker verwijderen</button>
