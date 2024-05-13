@@ -28,15 +28,16 @@ form {
     border-style: solid;
     border-color: #838287;
     border-radius: 5px;
+    height: 100%;
 }
 
-#form_leverancier {
-    height: 790px; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
+/*#form_leverancier {
+    height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt *
 }
 
 #form_gebruiker {
-    height: 960px;
-}
+    height: 100%;
+}*/
 
 form h1 {
     color: #ff9992;
@@ -176,9 +177,9 @@ form label {
         margin: 1.5rem auto;
     }
 
-    #form_leverancier, #form_gebruiker { /* Indien titel op 1 lijn */
+   /* #form_leverancier, #form_gebruiker { /* Indien titel op 1 lijn *
         height: 100%;
-    }
+    } */
 
     /* #form_leverancier {
         height: 1180px; 
