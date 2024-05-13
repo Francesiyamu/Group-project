@@ -109,7 +109,7 @@ a.menu.active::after {
     flex-direction: column;
 }
 
-.factuurLijnen{
+.contentLijnen{
     width: 100%;
     /* border-bottom: black 1px solid;
     border-top: black 1px solid; */
