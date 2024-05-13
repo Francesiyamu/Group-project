@@ -4,15 +4,19 @@ loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const gebruikersnaam = document.querySelector('#gebruikersnaam').value;
     const wachtwoord = document.querySelector('#wachtwoord').value;
-    
-    // Attempt to log in the user
     const loginResult = await loginUser(gebruikersnaam, wachtwoord);
     if (loginResult.status === 'success') {
         // If login is successful, store the access token and redirect to home page
+        console.log(`login successful, the access token is ${loginResult.access_token}`);
         localStorage.setItem('access_token', loginResult.access_token);
-        window.location.href = '/home_klantFacturen';
+        const headers = {
+            'Authorization': `Bearer ${loginResult.access_token}`,
+            'Content-Type': 'application/json'
+        }
+        console.log('headers:', headers);
+        window.location.href = '../views/klant_factuur/home_klantFacturen.html';
     } else {
-        // If login fails, show an alert with the error message
+        console.log('login failed:', loginResult.message);
         alert(loginResult.message);
     }
 });
@@ -28,11 +32,12 @@ const loginUser = async (gebruikersnaam, wachtwoord) => {
             body: JSON.stringify({ gebruikersnaam, wachtwoord })
         });
         const result = await response.json();
-        console.log('Login result:', result);
-        console.log('Access token:', result.access_token);
+        console.log('login result:', result);
         return result;
+        
     } catch (error) {
         console.error('Error in login gebruiker:', error);
         return { status: 'error', message: 'Internal server error' };
     }
 };
+
