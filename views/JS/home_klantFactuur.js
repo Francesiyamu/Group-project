@@ -2,7 +2,7 @@ window.onload = () => {
     console.log('loaded');
     
 
-    let selected = Array.from(document.getElementsByClassName('factuurLijnen'));
+    let selected = Array.from(document.getElementsByClassName('contentLijnen'));
 
     // DISABLE TEXT SELECTION WHEN DOUBLE CLICK --> TO DO
 
