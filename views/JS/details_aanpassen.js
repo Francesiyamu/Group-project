@@ -34,7 +34,7 @@ function toggleAttributes() {
     }
 
     let label = document.getElementById('fileSelect');
-    if('fileSelect') {
+    if(label) {
         label.toggleAttribute('hidden');
     }
 }
