@@ -88,7 +88,7 @@ a.menu.active::after {
     display: none;
 }
 
-/* ------------- CONTENT -------------*/
+/* -------------  CONTENT -------------*/
 
 #body_without_navbar {
     min-height: calc(100vh - 123px);
@@ -118,17 +118,10 @@ a.menu.active::after {
     text-transform: uppercase;    
 }
 
-/*voorstel*/
 
-.content ul a, .content ul a:visited{
-text-decoration: none;
-color: #161538;
-}
-.content ul a:hover{
-background: #c1c1c4;
 
-display: block;
-}
+
+
 
 
 /* ------------- BUTTONS -------------*/

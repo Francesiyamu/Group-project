@@ -11,7 +11,7 @@
 <body>
 
     <form id="form">
-        <h1>Klant Aanpassen</h1>
+        <h1>Klant Info</h1>
 
         <div class="inputs">
             <div class="form_group">
@@ -59,15 +59,21 @@
                 <input type="email" id="klantmail" placeholder="johndoe@example.com"> <br>
             </div>
     
-            <div class="btns">
-                <input type="submit" id="submitbtn" value="Aanpassen" class="btn_bottom">
-                <a href="home_klant.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
-                
+            <div class="btns_details visible">
+                <div class="modify_back_btns">
+                    <a href="home_gebruikers.html" id="btn_back" class="btn_bottom">Back</a>
+                    <button id="btn_modify" class="btn_bottom">Gebruiker aanpassen</button>
+                </div>
+                <button id="btn_remove" class="btn_bottom">Gebruiker verwijderen</button>
             </div>
 
-            <div id="map"></div>
+            <div class="btns hidden">
+                <a href="#" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
+                <input type="submit" id="submitbtn" value="Save" class="btn_bottom">
+            </div>
         </div>
     </form>
 
+    <script src="../JS/details_aanpassen.js"></script>
 </body>
 </html>
