@@ -127,7 +127,7 @@ iframe{
 }
 
 
-#test2{
+#filesInput{
     background-color: #e9e6e6;
     border-color: black;
     text-decoration: underline;
@@ -141,7 +141,7 @@ iframe{
     margin-top: 0;
 }
 
-#test3{
+#filesLabel{
     width:100%;
 }
 /* +++++++++++++++++++++++++++++++ */
@@ -251,42 +251,6 @@ iframe{
 }
 
 
-/* ------------- RESPONSIVE WEB DESIGN -------------*/
-
-/* @media screen and (max-width:1200px) { */
-
-/* ------------- FORM -------------*/
-
-    /* .form_group { */
-        /* display: block; */
-        /* padding-bottom: 0.5rem;
-        align-self: center;
-    } 
-
-    .form_group label {
-        display: block;
-        text-align: end; */
-        /* padding: 0 0 0 0.5rem; */
-        /* margin: 0; */
-    /* } */
-/* 
-    .form_group input, .form_group textarea, .form_group select{
-        margin: 0;
-        padding-right: 0;
-        width: 200px;
-    }
-
-    #factuurUploaden_box{
-        width: 450px;
-        margin-right: auto;
-        margin-left: 4rem;
-        
-    } 
-
-} */
-
-
-
 @media screen and (max-width:1050px) {
     
     form{
@@ -308,18 +272,12 @@ iframe{
     .form_group{
         display: flex;
     }
-
-    /* .form_group label {
-        margin-right: 0; 
-    } */
  
     #factuurUploaden_box{
         width: 500px;
         height: max-content;
        margin: 2rem 2rem 0 2rem;
     } 
-
- 
 
     #factuurUploaden_box{
         align-self: center;
@@ -425,6 +383,7 @@ iframe{
         width: 85%; 
         margin: 2rem 2rem 0 2rem;
     } 
+    
 /* ------------- BUTTONS -------------*/
 
     .btns {
