@@ -1,5 +1,4 @@
-/*clickable rows*/
-
+/*clickable rows
 
 
 
@@ -11,13 +10,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
     })
   })
  })
- 
+ */
+
  
 
  
  
  
- /*editable table
+ /*editable table*/
 
 const table = document.getElementById('table');
 const cells = table.getElementsByTagName('td');
@@ -82,4 +82,3 @@ for( let i =0; i < cells.length; i++){
   }
 } 
 
-*/
