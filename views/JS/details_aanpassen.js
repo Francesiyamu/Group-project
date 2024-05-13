@@ -32,6 +32,11 @@ function toggleAttributes() {
     for(let textarea of textareas) {
         textarea.toggleAttribute('disabled');
     }
+
+    let label = document.getElementById('fileSelect');
+    if('fileSelect') {
+        label.toggleAttribute('hidden');
+    }
 }
 
 function switchToModify() {

@@ -31,10 +31,10 @@ const getGebruikerByGebruikersnaam = async (gebruikersnaam) => {
     }
 }
 // Function to insert a new user into the database
-const insertGebruiker = async (gebruikersnaam,voornaam,achternaam,emailadres,hashedWachtwoord) => {
+const insertGebruiker = async (gebruikersnaam,functienr,voornaam,achternaam,emailadres,hashedWachtwoord) => {
     try {
-        const functienr = 2; //NOG TE VERANDEREN
-        const query = 'INSERT INTO GEBRUIKERS (gebruikersnaam,functienr,voornaam,achternaam,emailadres,wachtwoord) VALUES (?, ?,?,?,?,?)';
+        const functienr = 1;
+        const query = 'INSERT INTO GEBRUIKERS (gebruikersnaam,functienr,voornaam,achternaam,emailadres,wachtwoord) VALUES (?,?,?,?,?,?)';
         const [result] = await connection.query(query, [gebruikersnaam,functienr,voornaam,achternaam,emailadres,hashedWachtwoord]);
         return result.insertId; // Return the ID of the inserted user
     } catch (error) {
@@ -45,7 +45,9 @@ const insertGebruiker = async (gebruikersnaam,voornaam,achternaam,emailadres,has
 //registration
 const registreerGebruiker = async (req, res) => {
     try {
-        const { gebruikersnaam,voornaam,achternaam,emailadres, wachtwoord } = req.body;
+        const {gebruikersnaam,functienr,voornaam,achternaam,emailadres, wachtwoord } = req.body;
+        console.log(`in de controller... `)
+        console.log(req.body);
 
         if (!gebruikersnaam || !wachtwoord) {
             return res.status(400).json({ message: 'Gebruikersnaam en wachtwoord zijn verplicht' });
@@ -58,7 +60,7 @@ const registreerGebruiker = async (req, res) => {
 
         const hashedWachtwoord = await bcrypt.hash(wachtwoord, 10); // 10 salt rounds
 
-        const nieuweGebruikerId = await insertGebruiker(gebruikersnaam,voornaam,achternaam,emailadres,hashedWachtwoord);
+        const nieuweGebruikerId = await insertGebruiker(gebruikersnaam,functienr,voornaam,achternaam,emailadres,hashedWachtwoord);
         console.log(`Nieuwe gebruiker toegevoegd met ID: ${nieuweGebruikerId}`);
 
         res.status(201).json({ message: 'Gebruiker geregistreerd' });
