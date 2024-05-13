@@ -1,5 +1,4 @@
-
-			const form = document.getElementById('uploadform');
+const form = document.getElementById('uploadform');
 
 			const sendFiles = async() =>{
 				//Object
@@ -33,6 +32,7 @@
 				e.preventDefault()
 				sendFiles()
 			})
+			
 
 
 		
@@ -45,7 +45,7 @@
 
 
 
-/* for images*/
+/* for images
 
 const files = document.getElementById("files");
 
@@ -66,3 +66,5 @@ fetch('http://localhost:3000/uploads',{
 
 .then(res => res.json())
 .then(data => console.log(data));*/
+
+*/
