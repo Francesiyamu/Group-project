@@ -14,6 +14,11 @@
         <h1 class="hidden" id="titel">Gebruiker aanpassen</h1>
 
         <div class="inputs">
+            
+            <div class="form_group">
+                <label for="idnr">ID-nummer:</label>
+                <input type="text" id="idnr" placeholder="123456" disabled> <br>
+            </div>
 
             <div class="form_group">
                 <label for="gebruikersnaam">Gebruikersnaam:</label>
@@ -25,14 +30,15 @@
                 <input type="password" id="wachtwoord" disabled> <br>
             </div>
 
-<div class="form_group">
-    <label for="functie">Functie:</label>
-    <select name="functie" id="functie" disabled>
-        {{#each functies}}
-                <option value="{{functienr}}">{{functienaam}}</option>
-        {{/each}}
-    </select>
-</div>
+            <div class="form_group">
+                <label for="functie">Functie:</label>
+                <select name="functie" id="functie" disabled>
+                    {{#each functies}}
+                    <option value="{{functienr}}">{{functienaam}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            
             <div class="form_group">
                 <label for="voornaam">Voornaam:</label>
                 <input type="text" id="voornaam" value="{{result.voornaam}}" disabled> <br>
