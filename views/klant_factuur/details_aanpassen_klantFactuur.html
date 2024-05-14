@@ -39,6 +39,11 @@
                 </div>
 
                 <div class="form_group">
+                    <label for="totaalBedrag">Totaal bedrag:</label>
+                    <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required disabled>
+                </div>
+
+                <div class="form_group">
                     <label for="BTW">BTW-percentage:</label>
                     <select name="BTW" id="BTW" class="form-control" required disabled>
                         <option value="0">0%</option>
@@ -51,11 +56,6 @@
                 <div class="form_group">
                     <label for="BTW_bedrag">BTW bedrag:</label>
                     <input type="text" class="form-control" id="BTW_bedrag" name="BTW_bedrag" max="20" required disabled>
-                </div>
-
-                <div class="form_group">
-                    <label for="totaalBedrag">Totaal bedrag:</label>
-                    <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" max="20" required disabled>
                 </div>
 
                 <div class="form_group">
@@ -81,21 +81,32 @@
             <div id="factuurUploaden_box">
                 <h2>Factuur</h2>
                 <div id="factuurUploaden">
-
-                    <iframe src="../../assests/images/logo_transparant.png" frameborder="0"></iframe><br>
-
-
-                    <label for="selector" id="selectBestand">Selecteer een bestand: </label> 
-                    <input type="file" id="selector" multiple></input>
-                    <!-- <input type="submit" id="uploadbtn" value= "Uploaden" class="btn_bottom"></input> -->
+                    <iframe src="../../assests/WE - HC1 Overzicht & HTML basis.pdf" frameborder="0"   height="100%"></iframe><br>
                 </div>
+
+                <div id="huidigBestand_box">
+                    <label for="filesInput" id="filesLabel">Huidige bestand(en):</label>
+                    <input list="filesList" id="filesInput" disabled placeholder="Selecteer het bestand">
+                    <datalist id="filesList">
+                        <option value="WE - HC2 CSS Basis, Kleuren & Tekst.pdf"></option>
+                        <option value="WE - HC4-Tabellen Formulieren AudioVideo.pdf"></option>
+                        <option value="Samenvatting Web essentials.docx"></option>
+                    </datalist>
+                </div>
+
+
+                <div id="nieuwBestand_box">
+                    <input type="file" id="selector" multiple disabled></input>
+                    <label for="selector" id="fileSelect" class="hidden" hidden> <span>Nieuw bestand selecteren</span> &#128194; </label> 
+                </div>
+                
             </div>
                     
         </div>
 
         <div class="btns_details visible">
             <div class="modify_back_btns">
-                <a href="home_gebruikers.html" id="btn_back" class="btn_bottom">Back</a>
+                <a href="home_klantFacturen.html" id="btn_back" class="btn_bottom">Back</a>
                 <button id="btn_modify" class="btn_bottom">Gebruiker aanpassen</button>
             </div>
             <button id="btn_remove" class="btn_bottom">Gebruiker verwijderen</button>
@@ -105,10 +116,6 @@
             <a href="#" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
             <input type="submit" id="submitbtn" value="Save" class="btn_bottom">
         </div>
-                    <!-- <div class="btns">
-                        <a href="../klant_factuur/home_klantFacturen.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
-                        <input type="submit" id="submitbtn" value= "Save" class="btn_bottom"></input>
-                    </div>     -->
     </form>  
     
     <script src="../JS/details_aanpassen.js"></script>

@@ -1,4 +1,4 @@
-console.log('Hello from the login script!');
+/*console.log('Hello from the login script!');
 
 const wrapper = document.querySelector('.wrapper');
 
@@ -28,4 +28,4 @@ btnPopUp.addEventListener('click', ()=> {
 
 iconClose.addEventListener('click', ()=> {
   wrapper.classList.remove('active-popup');
-})
+})/*

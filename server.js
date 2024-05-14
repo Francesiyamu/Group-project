@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const handlebars = require('express-handlebars');
 
 const app = express();
 const port = 3000;
@@ -14,6 +15,12 @@ app.use(bodyParser.json());
 app.use('/CSS', express.static(__dirname + '/views/CSS'));
 app.use('/JS', express.static(__dirname + '/views/JS'));
 app.use('/assests/images', express.static('assests/images'))
+
+// Use handlebars
+app.engine('handlebars', handlebars.engine());
+app.set('view engine', 'hbs');
+app.set("views", __dirname + '/views');
+
 
 // Exempt favicon.ico from authentication
 app.get('/favicon.ico', (req, res) => res.status(204));
