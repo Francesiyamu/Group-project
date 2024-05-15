@@ -34,8 +34,8 @@ const userLogin = async (req, res) => {
             
         
         console.log('Access token:', accessToken);
-        res.set('Authorization', `Bearer ${accessToken}`)
-        res.json({ status: 'success', message: 'Login successful', accessToken: accessToken });
+        // res.set('Authorization', `Bearer ${accessToken}`)
+        res.json({ status: 'success', accessToken: accessToken });
 
     } catch (error) {
         console.error('Error in userLogin:', error);
