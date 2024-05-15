@@ -10,7 +10,7 @@ const connection = require('./db_connection');
 const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
-
+const { gebruikerAanpassen } = require('./controllers/gebruikerAanpassen');
 
 
 
@@ -35,23 +35,10 @@ router.get('/subpaginas_projecten', (req, res) => {
 });
 // ----------------GEBRUIKERS -------------------------------------------------------------
 router.get('/home_gebruikers.html', (req, res) => {
-    connection.query('SELECT gebruikersnaam, functienr, voornaam, achternaam ,emailadres FROM GEBRUIKERS', (error, results, fields) => {
+    connection.query('SELECT gebruikersnaam, voornaam, achternaam ,emailadres, idnr FROM GEBRUIKERS', (error, results, fields) => {
         if (error) throw error;
-
-        let html = '<table border="1" width=80% align=center><tr>';
-        for (let field of fields) {
-            html += `<th>${field.name}</th>`;
-        }
-        html += '</tr>';
-        for (let row of results) {
-            html += `<tr onclick="window.location='/details_aanpassen_gebruiker?var=${row.gebruikersnaam}'">`;
-            for (let field of fields) {
-                html += `<td>${row[field.name]}</td>`;
-            }
-            html += '</tr>';
-        }
-        html += '</table>';
-        res.render(path.join(__dirname, 'views', 'gebruikers', 'home_gebruikers'), { gebruikerslijst: html });
+        console.log(results);
+        res.render(path.join(__dirname, 'views', 'gebruikers', 'home_gebruikers'), { gebruikers: results });
     });
 });
 router.get('/nieuwe_gebruiker.html', (req, res) => {
@@ -60,7 +47,7 @@ router.get('/nieuwe_gebruiker.html', (req, res) => {
 });
 router.get('/details_aanpassen_gebruiker', (req, res) => {
     const id = req.query.var;
-    connection.query('SELECT gebruikersnaam, GEBRUIKERS.functienr, voornaam, achternaam ,emailadres, functienaam FROM GEBRUIKERS JOIN FUNCTIES ON GEBRUIKERS.functienr = FUNCTIES.functienr WHERE GEBRUIKERS.gebruikersnaam = ?', [id], (error, results) => {
+    connection.query('SELECT gebruikersnaam, GEBRUIKERS.functienr, voornaam, achternaam ,emailadres, functienaam, idnr FROM GEBRUIKERS JOIN FUNCTIES ON GEBRUIKERS.functienr = FUNCTIES.functienr WHERE GEBRUIKERS.idnr = ?', [id], (error, results) => {
         console.log(results)
         connection.query('SELECT * FROM FUNCTIES', (error, functies) => {
             functies.sort((a, b) => {
@@ -117,21 +104,16 @@ router.get('/home_levFacturen', (req, res) => {
 
 
 
-// Handle form submissions
+// -----------------Handle form submissions-----------------------------------------------------------
 router.post('/submit-form-nieuw-project', registreerNieuwProject);
 router.post('/submit-form-nieuwe-gebruiker', registreerGebruiker);
 
 //gebruikers aanpassen
-router.post('/submit-form-aanpassen-gebruiker', (req, res) => {
-    const { gebruikersnaam, functienummer, voornaam, achternaam, emailadres, wachtwoord} = req.body;
-    console.log (gebruikersnaam, functienummer, voornaam, achternaam, emailadres, wachtwoord);
-    const query = `UPDATE GEBRUIKERS SET gebruikersnaam = ?, functienummer = ?, voornaam = ?, achternaam = ?, emailadres = ?  , wachtwoord = ?
-    WHERE gebruikersnaam = ?`;
-    connection.query(query, [gebruikersnaam, functienummer, voornaam, achternaam, emailadres, wachtwoord], (err, results) => {
-        if (err) throw err;
-        res.send('Data inserted successfully!');
-    });
-});
+router.post('/submit-form-aanpassen-gebruiker', gebruikerAanpassen);
+   
+
+
+
 // Handle login
 router.post('/login', userLogin);
 
