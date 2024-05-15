@@ -12,8 +12,6 @@ app.use(bodyParser.json());
 //check de gebruikers in de db
 const getGebruikerByGebruikersnaam = async (gebruikersnaam) => {
     try {
-        
-        
         const query = 'SELECT * FROM GEBRUIKERS WHERE gebruikersnaam = ?';
         const [rows] = await connection.query(query, [gebruikersnaam]);
 
@@ -33,7 +31,7 @@ const getGebruikerByGebruikersnaam = async (gebruikersnaam) => {
 // Function to insert a new user into the database
 const insertGebruiker = async (gebruikersnaam,functienr,voornaam,achternaam,emailadres,hashedWachtwoord) => {
     try {
-        const functienr = 1;
+        // const functienr = 1;
         const query = 'INSERT INTO GEBRUIKERS (gebruikersnaam,functienr,voornaam,achternaam,emailadres,wachtwoord) VALUES (?,?,?,?,?,?)';
         const [result] = await connection.query(query, [gebruikersnaam,functienr,voornaam,achternaam,emailadres,hashedWachtwoord]);
         return result.insertId; // Return the ID of the inserted user

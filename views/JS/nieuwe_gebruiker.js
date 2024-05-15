@@ -16,7 +16,6 @@ document.getElementById('form_gebruiker').addEventListener('submit', async funct
         achternaam: document.getElementById('achternaam').value,
         emailadres: document.getElementById('emailadres').value,
         
-
     };
 
     const json = JSON.stringify(formData);
