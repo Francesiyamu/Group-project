@@ -16,43 +16,41 @@
         <div class="inputs">
             
             <div class="form_group">
-                <label for="idnr">ID-nummer:</label>
-                <input type="text" id="idnr" placeholder="123456" disabled> <br>
+                <input type="hidden" id="idnr" name="idnr" Value="{{result.idnr}}" disabled> <br>
             </div>
 
             <div class="form_group">
                 <label for="gebruikersnaam">Gebruikersnaam:</label>
-                <input type="text" id="gebruikersnaam" value="{{result.gebruikersnaam}}" disabled> <br>
+                <input type="text" id="gebruikersnaam" name="gebruikersnaam" value="{{result.gebruikersnaam}}" disabled> <br>
             </div>
 
             <div class="form_group">
                 <label for="wachtwoord">Wachtwoord:</label>
-                <input type="password" id="wachtwoord" disabled> <br>
+                <input type="password" id="wachtwoord" name="wachtwoord" value="test" disabled> <br>
             </div>
 
-            <div class="form_group">
-                <label for="functie">Functie:</label>
-                <select name="functie" id="functie" disabled>
-                    {{#each functies}}
-                    <option value="{{functienr}}">{{functienaam}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            
+<div class="form_group">
+    <label for="functienr">Functie:</label>
+    <select name="functienr" id="functie" disabled>
+        {{#each functies}}
+                <option value="{{functienr}}">{{functienaam}}</option>
+        {{/each}}
+    </select>
+</div>
             <div class="form_group">
                 <label for="voornaam">Voornaam:</label>
-                <input type="text" id="voornaam" value="{{result.voornaam}}" disabled> <br>
+                <input type="text" id="voornaam" name="voornaam" value="{{result.voornaam}}" disabled> <br>
             </div>
 
             <div class="form_group">
                 <label for="achternaam">Achternaam:</label>
-                <input type="text" id="achternaam" value="{{result.achternaam}}" disabled> <br>
+                <input type="text" id="achternaam" name="achternaam" value="{{result.achternaam}}" disabled> <br>
             </div>
     
     
             <div class="form_group">
                 <label for="emailadres">E-mail adres:</label>
-                <input type="email" id="emailadres" value="{{result.emailadres}}" disabled> <br>
+                <input type="email" id="emailadres" name="emailadres" value="{{result.emailadres}}" disabled> <br>
             </div>
 
             <div class="btns_details visible">
@@ -65,7 +63,7 @@
 
             <div class="btns hidden">
                 <a href="#" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
-                <input type="submit" id="submitbtn" value="Save" class="btn_bottom" disabled>
+                <input type="Submit" id="submitbtn" value="Save" class="btn_bottom" disabled>
             </div>
         </div>
     </form>
