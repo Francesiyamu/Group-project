@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const handlebars = require('express-handlebars');
+const bcrypt = require('bcrypt');
+
 
 const app = express();
 const port = 3000;
