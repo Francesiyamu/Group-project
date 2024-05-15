@@ -19,7 +19,11 @@ router.get('/login', userLogin);
 
 
 // Toegang voor ingelogde gebruikers
-router.get('/home', authenticateToken, (req, res) => {
+/* router.get('/home', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));    
+}); */
+
+router.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));    
 });
 /* router.get('/protected-route', authenticateToken, (req, res) => {

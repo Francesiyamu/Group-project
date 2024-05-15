@@ -19,7 +19,7 @@ document.getElementById('form_gebruiker').addEventListener('submit', async funct
     
     const formData = {
         //id : document.getElementById('idnr').value,
-        //funtienr : getFunctieNr(document.getElementById('functie').value),
+        functienr : getFunctieNr(document.getElementById('functie').value),
         gebruikersnaam: document.getElementById('gebruikersnaam').value,
         wachtwoord: document.getElementById('wachtwoord').value,
         voornaam: document.getElementById('voornaam').value,
@@ -32,7 +32,6 @@ document.getElementById('form_gebruiker').addEventListener('submit', async funct
         telefoonnummer: document.getElementById('gebrtelefoon').value,
         emailadres: document.getElementById('emailadres').value,
         
-
     };
 
     const json = JSON.stringify(formData);

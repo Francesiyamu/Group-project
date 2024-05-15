@@ -2,6 +2,7 @@ const express = require('express');
 const connection = require('../config/db_connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const userLogin = async (req, res) => {

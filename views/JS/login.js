@@ -18,7 +18,7 @@ wrapper.classList.add('active');
 }); */
 
 
-loginLink.addEventListener('click', ()=> {
+/* loginLink.addEventListener('click', ()=> {
   wrapper.classList.remove('active');
 });
 
@@ -29,4 +29,4 @@ btnPopUp.addEventListener('click', ()=> {
 
 iconClose.addEventListener('click', ()=> {
   wrapper.classList.remove('active-popup');
-})/*
+})/* */
