@@ -9,18 +9,24 @@ const bcrypt = require('bcrypt');
 
 
 const gebruikerAanpassen = async (req, res) => {
-try {
-    const { gebruikersnaam, functienr, voornaam, achternaam, emailadres, wachtwoord, idnr} = req.body;
+    try {
+        const { gebruikersnaam, functienr, voornaam, achternaam, emailadres, wachtwoord, idnr } = req.body;
+        const [rows] = await connection.promise().query('SELECT wachtwoord FROM GEBRUIKERS WHERE idnr = ?', [idnr]);
+        const oudWachtwoord = rows[0].wachtwoord;
+        let hashedPassword = oudWachtwoord;
 
-    console.log(req.body);
+        // Check if the password has changed and needs to be hashed
+        const isSamePassword = await bcrypt.compare(wachtwoord, oudWachtwoord);
+        if (!isSamePassword) {
+            hashedPassword = await bcrypt.hash(wachtwoord, 10);
+        }
 
-    const hashedPassword = await bcrypt.hash(wachtwoord, 10);
-
-    const query = `
-        UPDATE GEBRUIKERS 
-        SET gebruikersnaam = ?, functienr = ?, voornaam = ?, achternaam = ?, emailadres = ?, wachtwoord = ?
-        WHERE idnr = ?`;
-    const [results] = await connection.query(query, [gebruikersnaam, functienr, voornaam, achternaam, emailadres, hashedPassword, idnr]);
+        const query = `
+            UPDATE GEBRUIKERS 
+            SET gebruikersnaam = ?, functienr = ?, voornaam = ?, achternaam = ?, emailadres = ?, wachtwoord = ?
+            WHERE idnr = ?
+        `;
+        await connection.promise().query(query, [gebruikersnaam, functienr, voornaam, achternaam, emailadres, hashedPassword, idnr]);
 
     res.redirect('/home_gebruikers.html');
 

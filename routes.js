@@ -72,6 +72,7 @@ router.get('/details_aanpassen_gebruiker', (req, res) => {
         });
     });
 });
+
 // -----------------KLANTEN---------------------------------------------------------------
 router.get('/home_klant', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'home_klant.html'));
@@ -110,7 +111,13 @@ router.post('/submit-form-nieuwe-gebruiker', registreerGebruiker);
 
 //gebruikers aanpassen
 router.post('/submit-form-aanpassen-gebruiker', gebruikerAanpassen);
-   
+//delete gebruiker
+router.get('/delete_gebruiker', (req, res) => {
+    const id = req.query.iddel;
+    connection.query('DELETE FROM GEBRUIKERS WHERE idnr = ?', [id], (error, results) => {  
+    });
+    res.redirect('/home_gebruikers.html');
+});   
 
 
 
