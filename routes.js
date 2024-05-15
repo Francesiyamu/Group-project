@@ -1,24 +1,38 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const fs = require('fs');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-
-
-const connection = require('./db_connection');
+const connection = require('./config/db_connection');
 const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
+const authenticateToken = require('./middleware/authenticateToken');
 const { gebruikerAanpassen } = require('./controllers/gebruikerAanpassen');
 
 
 
-
-//---------ROOT -- LOGINPAGINA-------------------------------------------------------------
+// Toegang voor iedereen
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'login','login.html'));
+    res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
 });
+
+router.get('/login', userLogin);
+
+
+// Toegang voor ingelogde gebruikers
+router.get('/home', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));    
+});
+/* router.get('/protected-route', authenticateToken, (req, res) => {
+    const { gebruikersnaam, functienr } = req.user;
+    if (functienr === 1 || functienr === 2 || functienr === 3) {
+        res.send('This is a protected route');
+    } else {
+        res.status(403).json({ status: 'error', message: 'Forbidden' });
+    }
+}); */
+/* router.get('/home_klantFacturen,', (req, res) => {
+        res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));
+}); */
 
 // -------------PROJECTEN---------------------------------------------------
 router.get('/home_project', (req, res) => {
@@ -41,9 +55,8 @@ router.get('/home_gebruikers.html', (req, res) => {
         res.render(path.join(__dirname, 'views', 'gebruikers', 'home_gebruikers'), { gebruikers: results });
     });
 });
-router.get('/nieuwe_gebruiker.html', (req, res) => {
+router.get('/nieuwe_gebruiker', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'gebruikers', 'nieuwe_gebruiker.html'));
-
 });
 router.get('/details_aanpassen_gebruiker', (req, res) => {
     const id = req.query.var;
@@ -70,37 +83,24 @@ router.get('/aanpassen_klant,', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
 });
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
-router.get('/home_klantFacturen,', (req, res) => {
+
+
+/* router.get('/home_klantFacturen', (req, res) => {
+    // This route is accessible for all users
     res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));
 });
-router.get('/nieuw_KlantFactuur,', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.html'));
-});
-router.get('/aanpassen_KlantFactuur,', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'aanpassen_KlantFactuur.html'));
-});
 
-
-//-------------------LEVERANCIERS---------------------------------------------------------
-router.get('/home_leveranciers', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'leverancier', 'home_leveranciers.html'));
-});
-router.get('/nieuwe_leveranciers', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'leverancier', 'nieuwe_leveranciers.html'));
-});
-router.get('/aanpassen_leveranciers', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'leverancier', 'aanpassen_leveranciers.html'));
-});
-//-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
-router.get('/fact-lev-aanpassen', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
-});
-router.get('/factuur_lev_toe', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.html'));
-});
 router.get('/home_levFacturen', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'home_levFacturen.html'));
+    const { functienr } = req.user;
+    // Check if the user has access to this route based on functienr
+    if (functienr === 1 || functienr === 2 || functienr === 3) {
+        res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'home_levFacturen.html'));
+    } else {
+        res.status(403).json({ status: 'error', message: 'Forbidden' });
+    }
 });
+ */
+// Routes accessible for medewerkers and manager
 
 
 

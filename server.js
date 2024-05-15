@@ -22,9 +22,13 @@ app.set('view engine', 'hbs');
 app.set("views", __dirname + '/views');
 
 
+// Exempt favicon.ico from authentication
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 // Routes
 app.use('/', routes);
+
+
 
 // Start server
 app.listen(port, () => {
