@@ -1,15 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const fs = require('fs');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-
-
-const connection = require('./db_connection');
+const connection = require('./config/db_connection');
 const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
+const authenticateToken = require('./middleware/authenticateToken');
 
 
 
@@ -18,6 +14,25 @@ const { userLogin } = require('./controllers/authController');
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
 });
+
+router.get('/login', userLogin);
+
+
+// Toegang voor ingelogde gebruikers
+router.get('/home', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));    
+});
+/* router.get('/protected-route', authenticateToken, (req, res) => {
+    const { gebruikersnaam, functienr } = req.user;
+    if (functienr === 1 || functienr === 2 || functienr === 3) {
+        res.send('This is a protected route');
+    } else {
+        res.status(403).json({ status: 'error', message: 'Forbidden' });
+    }
+}); */
+/* router.get('/home_klantFacturen,', (req, res) => {
+        res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));
+}); */
 
 // -------------PROJECTEN---------------------------------------------------
 router.get('/home_project', (req, res) => {
@@ -33,7 +48,7 @@ router.get('/subpaginas_projecten', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'subpaginas_projecten.html'));
 });
 // ----------------GEBRUIKERS -------------------------------------------------------------
-router.get('/home_gebruikers.html', (req, res) => {
+router.get('/home_gebruikers', (req, res) => {
     connection.query('SELECT gebruikersnaam, functienr, voornaam, achternaam ,emailadres FROM GEBRUIKERS', (error, results, fields) => {
         if (error) throw error;
 
@@ -53,9 +68,8 @@ router.get('/home_gebruikers.html', (req, res) => {
         res.render(path.join(__dirname, 'views', 'gebruikers', 'home_gebruikers'), { gebruikerslijst: html });
     });
 });
-router.get('/nieuwe_gebruiker.html', (req, res) => {
+router.get('/nieuwe_gebruiker', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'gebruikers', 'nieuwe_gebruiker.html'));
-
 });
 router.get('/details_aanpassen_gebruiker', (req, res) => {
     const id = req.query.var;
@@ -82,9 +96,7 @@ router.get('/aanpassen_klant,', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
 });
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
-router.get('/home_klantFacturen,', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));
-});
+
 
 /* router.get('/home_klantFacturen', (req, res) => {
     // This route is accessible for all users

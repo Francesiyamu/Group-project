@@ -1,0 +1,22 @@
+Both JWT (JSON Web Tokens) and session-based authentication have their own advantages and use cases. The choice between them depends on various factors, including the specific requirements of your application, security considerations, and scalability needs.
+
+Here's a comparison between JWT and session-based authentication in the context of your scenario:
+
+JWT (JSON Web Tokens)
+Stateless: JWTs are stateless, meaning the server does not need to store session data. This makes JWTs scalable and easy to implement in a distributed system or microservices architecture.
+Self-contained: JWTs contain all necessary user information and are cryptographically signed. This allows servers to verify the integrity of tokens without needing to access a database.
+Mobile-Friendly: JWTs are commonly used in mobile applications where there might be limited session storage options.
+Custom Claims: You can include custom claims in JWTs to represent user roles or permissions, making it easy to implement role-based access control.
+Session-Based Authentication
+Server-Side State: Session-based authentication relies on server-side storage to maintain session state. This can simplify certain aspects of authentication, such as session expiration and revocation.
+Built-In Mechanisms: Many web frameworks provide built-in support for session management, making it easy to implement features like session expiration, CSRF protection, and session invalidation.
+Security: Session-based authentication can provide additional security benefits, such as protection against certain types of attacks like XSS (Cross-Site Scripting) and CSRF (Cross-Site Request Forgery).
+Recommendation
+For your scenario, where you have different types of users with varying levels of access permissions (manager, medewerker, boekhouder), JWT might be a more suitable choice:
+
+JWTs allow you to include custom claims representing user roles or permissions, making it straightforward to implement role-based access control.
+Since your application requires access control based on user roles, JWT's stateless nature and custom claims make it a good fit for implementing this requirement.
+JWTs can be easily validated by multiple services or APIs in a distributed system without the need for shared session storage.
+However, if your application requires features like session invalidation, CSRF protection, or server-side session management, session-based authentication might be a better choice.
+
+Ultimately, consider your specific requirements, scalability needs, and security considerations when choosing between JWT and session-based authentication. Both approaches have their strengths, and the best choice depends on the specific use case and architecture of your application.

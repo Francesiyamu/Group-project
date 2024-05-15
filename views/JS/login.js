@@ -1,6 +1,7 @@
-/*console.log('Hello from the login script!');
+console.log('Hello from the login script!');
 
-const wrapper = document.querySelector('.wrapper');
+
+/* const wrapper = document.querySelector('.wrapper');
 
 const loginLink = document.querySelector('.login-link')
 
@@ -14,7 +15,7 @@ const iconClose = document.querySelector('.icon-close');
 
 registerLink.addEventListener('click', ()=> {
 wrapper.classList.add('active');
-});
+}); */
 
 
 loginLink.addEventListener('click', ()=> {
