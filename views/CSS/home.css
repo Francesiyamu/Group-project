@@ -119,19 +119,47 @@ a.menu.active::after {
     padding-left: 1rem;
 }
 
-/* ------------- h1 -------------*/
+/* ------------- HEADING -------------*/
+#heading_small_screen {
+    display: none;
+}
+
+#searchbar_small {
+    display: none;
+}
+
+#heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 .content h1 {
     color: #ff9992;
-    padding: 1rem 0rem;
-    text-align: center;
-    text-transform: uppercase;    
+    padding: 1rem 1rem;
+    text-transform: uppercase;
 }
 
+#searchbar {
+    margin-right: 1.5rem;
+}
 
+#searchbtn {
+    padding: 10px 20px;
+    color:#ffffff;
+    background-color: #161538;
+    outline: none;
+    border: none;
+    border-radius: 0 0.3rem 0.3rem 0;
+    cursor: pointer;
+}
 
-
-
+#searchBox {
+    padding: 10px 20px;
+    outline: none;
+    border: 1px solid #029bcf;
+    border-radius: 0.3rem  0 0 0.3rem;
+}
 
 
 /* ------------- BUTTONS -------------*/
@@ -420,5 +448,62 @@ a.menu.active::after {
     .button {
         margin: auto auto 0 auto;
     }
-}
 
+    /* ------------- HEADING -------------*/
+    #heading {
+        display: none;
+    }
+
+    #heading_small_screen {
+        display: initial;
+        position: relative;
+    }
+
+    #heading_small_screen h1 {
+        width: fit-content;
+    }
+
+    #search_icon_btn1 {
+        background: none;
+        border: none;
+        padding: 0.2rem 0.2rem;
+        display: block;
+        margin: -55px 0.5rem 0 auto;
+    }
+
+    #search_icon {
+        color: #161538;
+    }
+
+    #searchbar_small {
+        display: none; /* Initially none, change with JS when click button */
+        position: absolute;
+        bottom: -40px; /* With respect to heading_small_screen */
+        right: 0.4rem;
+        z-index: 5;
+    }
+
+    #searchbar_small #searchBox {
+        padding: 0.2rem 0.5rem;
+        /*width: 150px;*/
+        outline: none;
+        border: 1px solid #029bcf;
+        border-radius: 0.3rem  0 0 0.3rem;
+    }
+
+    #searchbar_small #searchbtn {
+        color:#ffffff;
+        background-color: #161538;
+        outline: none;
+        border: solid 1px #161538;
+        border-radius: 0 0.3rem 0.3rem 0;
+        cursor: pointer;
+        padding: 0.2rem 10px;
+
+    }
+
+    #search_icon_btn2 {
+        color: #c7c7ca;
+    }
+
+}
