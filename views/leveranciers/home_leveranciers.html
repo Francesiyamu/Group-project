@@ -72,12 +72,7 @@
     <!-- ------------- HEADING ------------- -->
            <div id="heading">
                 <h1>Leveranciers</h1>
-                <input class="searchBox" id="searchBox" type="text" onkeyup="myFunction" placeholder="Zoek... ">
-            </div>
-            
-            <div id="heading_small_screen">
-                <h1>Leveranciers</h1>
-                <input class="searchBox" type="text" onkeyup="myFunction" placeholder="Zoek... ">
+                <input id="searchBox" type="text" onkeyup="tableSearch()" placeholder="Zoek... ">
             </div>
 
     <!-- ------------- TABLE ------------- -->
@@ -85,8 +80,8 @@
                 <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
                   <thead>
                     <tr>
-                        <th>Leveranciersnummer</th>
                         <th>Naam</th>
+                        <th>Gemeente</th>
                         <th>Telefoonnummer</th>
                         <th>E-mailadres</th>
                     </tr>
