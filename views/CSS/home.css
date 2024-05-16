@@ -134,7 +134,7 @@ a.menu.active::after {
     text-transform: uppercase;
 }
 
-.searchBox {
+#searchBox {
     padding: 10px 20px 10px 35px;
     outline: none;
     border: 1px solid #029bcf;
@@ -184,7 +184,7 @@ a.menu.active::after {
     /*margin-bottom: 9px;*/
 }
 
-/* ------------- Oplijsting -------------*/
+/* ------------- TABLE -------------*/
 
 .Search{
     padding: 10px 20px;
@@ -441,33 +441,21 @@ a.menu.active::after {
 
     /* ------------- HEADING -------------*/
         #heading {
-            display: none;
-        }
-    
-        #heading_small_screen {
             display: initial;
            /* position: relative; */
         }
     
-        #heading_small_screen h1 {
+        #heading h1 {
             width: fit-content;
             margin: auto;
             padding-bottom: 0.5rem;
         }
     
-        #heading_small_screen .searchBox {
+        #searchBox {
             display: block;
             margin: auto;
             margin-bottom: 1rem;
             padding: 0.2rem 0.5rem 0.2rem 34px;
             /*width: 150px;*/
-            outline: none;
-            border: 1px solid #029bcf;
-            border-radius: 0.3rem;
-
-            background-image: url(../../assests/images/magnifying-glass-solid.svg);
-            background-repeat: no-repeat;
-            background-size: 15px;
-            background-position: 10px center;  
         }
 }
