@@ -14,7 +14,7 @@ window.onload = () => {
             visible = false;
         }
     })
-    
+}
 
     function tableSearch() {
         let input, filter, table, tr, td, i, j, txtValue;
@@ -41,4 +41,4 @@ window.onload = () => {
             }
         }
     }
-}
+
