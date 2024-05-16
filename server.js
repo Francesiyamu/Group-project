@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes');
 const handlebars = require('express-handlebars');
 const bcrypt = require('bcrypt');
+const path = require('path');
 
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(bodyParser.json());
 // Static file middleware
 app.use('/CSS', express.static(__dirname + '/views/CSS'));
 app.use('/JS', express.static(__dirname + '/views/JS'));
-app.use('/assests/images', express.static('assests/images'))
+app.use('/assests/images', express.static(path.join(__dirname, 'assests', 'images')))
 
 // Use handlebars
 app.engine('handlebars', handlebars.engine());
