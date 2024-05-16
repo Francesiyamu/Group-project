@@ -36,16 +36,16 @@ router.get('/home', authenticateToken, (req, res) => {
 }); */
 
 // -------------PROJECTEN---------------------------------------------------
-router.get('/home_project', (req, res) => {
+router.get('/home_project.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'home_project.html'));
 });
-router.get('/nieuw_project', (req, res) => {
+router.get('/nieuw_project.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
 });
-router.get('/aanpassen_project', (req, res) => {
+router.get('/aanpassen_project.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'aanpassen_project.html'));
 });
-router.get('/subpaginas_projecten', (req, res) => {
+router.get('/subpaginas_projecten.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'subpaginas_projecten.html'));
 });
 // ----------------GEBRUIKERS -------------------------------------------------------------
@@ -126,13 +126,13 @@ router.get('/delete_gebruiker', (req, res) => {
 
 
 // -----------------KLANTEN---------------------------------------------------------------
-router.get('/home_klant', (req, res) => {
+router.get('/home_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'home_klant.html'));
 });
-router.get('/nieuwe_klant', (req, res) => {
+router.get('/nieuwe_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'nieuwe_klant.html'));
 });
-router.get('/aanpassen_klant,', (req, res) => {
+router.get('/aanpassen_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
 });
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
