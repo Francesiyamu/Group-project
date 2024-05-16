@@ -89,7 +89,7 @@ form label {
     border-radius: 3px;
 }
 
-#functie:disabled {
+#functie:disabled, input[type="text"]:disabled, input[type="password"]:disabled, input[type="email"]:disabled, input[type="tel"]:disabled {
     background-color: #e9e6e6;
 }
 

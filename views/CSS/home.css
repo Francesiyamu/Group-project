@@ -77,7 +77,7 @@ a.menu.active::after {
 }
 
 #logout {
-    font-size:24px;
+    font-size:22px;
 }
 
 .medium_screen_nav {
@@ -109,8 +109,6 @@ a.menu.active::after {
     flex-direction: column;
 }
 
-
-
 .contentLijnen{
     width: 100%;
     /* border-bottom: black 1px solid;
@@ -121,10 +119,6 @@ a.menu.active::after {
 
 /* ------------- HEADING -------------*/
 #heading_small_screen {
-    display: none;
-}
-
-#searchbar_small {
     display: none;
 }
 
@@ -140,27 +134,19 @@ a.menu.active::after {
     text-transform: uppercase;
 }
 
-#searchbar {
-    margin-right: 1.5rem;
-}
-
-#searchbtn {
-    padding: 10px 20px;
-    color:#ffffff;
-    background-color: #161538;
-    outline: none;
-    border: none;
-    border-radius: 0 0.3rem 0.3rem 0;
-    cursor: pointer;
-}
-
-#searchBox {
-    padding: 10px 20px;
+.searchBox {
+    padding: 10px 20px 10px 35px;
     outline: none;
     border: 1px solid #029bcf;
-    border-radius: 0.3rem  0 0 0.3rem;
-}
+    border-radius: 0.3rem;
+    margin-right: 1rem;
 
+    /* https://dev.to/urstrulyvishwak/simple-search-box-with-icon-274l */
+    background-image: url(../../assests/images/magnifying-glass-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position: 10px center;    
+}
 
 /* ------------- BUTTONS -------------*/
 
@@ -391,6 +377,7 @@ a.menu.active::after {
 
     #small_screen_nav {
         display: flex; /* Heeft zelfde effect als block */
+        z-index: 10; /* Zodat navbar expanded boven tabel */
     }
 
     #toggle {
@@ -448,62 +435,39 @@ a.menu.active::after {
     .button {
         margin: auto auto 0 auto;
     }
+}
+
+@media screen and (max-width:630px) { /* Past voor gebruikers & leveranciers. Rest? */
 
     /* ------------- HEADING -------------*/
-    #heading {
-        display: none;
-    }
+        #heading {
+            display: none;
+        }
+    
+        #heading_small_screen {
+            display: initial;
+           /* position: relative; */
+        }
+    
+        #heading_small_screen h1 {
+            width: fit-content;
+            margin: auto;
+            padding-bottom: 0.5rem;
+        }
+    
+        #heading_small_screen .searchBox {
+            display: block;
+            margin: auto;
+            margin-bottom: 1rem;
+            padding: 0.2rem 0.5rem 0.2rem 34px;
+            /*width: 150px;*/
+            outline: none;
+            border: 1px solid #029bcf;
+            border-radius: 0.3rem;
 
-    #heading_small_screen {
-        display: initial;
-        position: relative;
-    }
-
-    #heading_small_screen h1 {
-        width: fit-content;
-    }
-
-    #search_icon_btn1 {
-        background: none;
-        border: none;
-        padding: 0.2rem 0.2rem;
-        display: block;
-        margin: -55px 0.5rem 0 auto;
-    }
-
-    #search_icon {
-        color: #161538;
-    }
-
-    #searchbar_small {
-        display: none; /* Initially none, change with JS when click button */
-        position: absolute;
-        bottom: -40px; /* With respect to heading_small_screen */
-        right: 0.4rem;
-        z-index: 5;
-    }
-
-    #searchbar_small #searchBox {
-        padding: 0.2rem 0.5rem;
-        /*width: 150px;*/
-        outline: none;
-        border: 1px solid #029bcf;
-        border-radius: 0.3rem  0 0 0.3rem;
-    }
-
-    #searchbar_small #searchbtn {
-        color:#ffffff;
-        background-color: #161538;
-        outline: none;
-        border: solid 1px #161538;
-        border-radius: 0 0.3rem 0.3rem 0;
-        cursor: pointer;
-        padding: 0.2rem 10px;
-
-    }
-
-    #search_icon_btn2 {
-        color: #c7c7ca;
-    }
-
+            background-image: url(../../assests/images/magnifying-glass-solid.svg);
+            background-repeat: no-repeat;
+            background-size: 15px;
+            background-position: 10px center;  
+        }
 }
