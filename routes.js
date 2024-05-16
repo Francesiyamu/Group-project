@@ -36,20 +36,20 @@ router.get('/home', authenticateToken, (req, res) => {
 }); */
 
 // -------------PROJECTEN---------------------------------------------------
-router.get('/home_project.html', (req, res) => {
+router.get('/projecten/home_project.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'home_project.html'));
 });
-router.get('/nieuw_project.html', (req, res) => {
+router.get('/projecten/nieuw_project.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
 });
-router.get('/aanpassen_project.html', (req, res) => {
+router.get('/projecten/aanpassen_project.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'aanpassen_project.html'));
 });
-router.get('/subpaginas_projecten.html', (req, res) => {
+router.get('/projecten/subpaginas_projecten.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'subpaginas_projecten.html'));
 });
 // ----------------GEBRUIKERS -------------------------------------------------------------
-router.get('/home_gebruikers.html', (req, res) => {
+router.get('/gebruikers/home_gebruikers.html', (req, res) => {
     connection.query('SELECT gebruikersnaam, voornaam, achternaam ,emailadres, idnr FROM GEBRUIKERS', (error, results, fields) => {
         if (error) throw error;
         console.log(results);
@@ -107,7 +107,7 @@ router.post('/submit-form-aanpassen-gebruiker', [
             WHERE idnr = ?
         `;
         await connection.promise().query(query, [gebruikersnaam, functienr, voornaam, achternaam, emailadres, hashedPassword, idnr]);
-        res.redirect('/home_gebruikers.html');
+        res.redirect('/gebruikers/home_gebruikers.html');
 
     } catch (err) {
         console.error(err);
@@ -119,20 +119,20 @@ router.get('/delete_gebruiker', (req, res) => {
     const id = req.query.iddel;
     connection.query('DELETE FROM GEBRUIKERS WHERE idnr = ?', [id], (error, results) => {  
     });
-    res.redirect('/home_gebruikers.html');
+    res.redirect('/gebruikers/home_gebruikers.html');
 });   
 
 
 
 
 // -----------------KLANTEN---------------------------------------------------------------
-router.get('/home_klant.html', (req, res) => {
+router.get('/klant/home_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'home_klant.html'));
 });
-router.get('/nieuwe_klant.html', (req, res) => {
+router.get('/klant/nieuwe_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'nieuwe_klant.html'));
 });
-router.get('/aanpassen_klant.html', (req, res) => {
+router.get('/klant/aanpassen_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
 });
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
