@@ -72,32 +72,23 @@
     <!-- ------------- HEADING ------------- -->
             <div id="heading">
                 <h1>Gebruikers</h1>
-                <div id="searchbar">
-                    <input id="searchBox" type="text" onkeyup="myFunction" placeholder="Zoek... ">
-                    <button id="searchbtn">Zoek</button>
-                </div>
+                <input id="searchBox" class="searchBox" type="text" onkeyup="tableSearch()" placeholder="Zoek... ">
             </div>
             
             <div id="heading_small_screen">
                 <h1>Gebruikers</h1>
-                <button id="search_icon_btn1">
-                    <i id="search_icon" class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <div id="searchbar_small">
-                    <input id="searchBox" type="text" onkeyup="myFunction" placeholder="Zoek... ">
-                    <button id="searchbtn"><i id="search_icon_btn2" class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
+                <input class="searchBox" type="text" onkeyup="myFunction" placeholder="Zoek... ">
             </div>
 
     <!-- ------------- TABLE ------------- -->
-            <div id="table" class="table-section">
+            <div id="table" class="table-section" data-url="/data">
                 <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
                     <thead>
                         <tr>
                             <th>Gebruikersnaam</th>
                             <th>Voornaam</th>
                             <th>Achternaam</th>
-                            <th>Emailadres</th>
+                            <th>E-mailadres</th>
                             </a>
                         </tr>
                     </thead>
