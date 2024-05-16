@@ -135,6 +135,28 @@ router.get('/klant/nieuwe_klant.html', (req, res) => {
 router.get('/klant/aanpassen_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
 });
+
+// ----------------------------------- LEVERANCIERS -----------------------------------
+
+// Toon bestaande leveranciers op home pagina
+router.get('/leveranciers/home_leveranciers.html', (req, res) => {
+    connection.query('SELECT naam, gemeente, telefoonnr ,emailadres, levnr FROM LEVERANCIERS', (error, results) => {
+        console.log(results);
+        if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'leveranciers', 'home_leveranciers'), {leveranciers: results});
+    });
+});
+
+// Details - aanpassen leverancier
+router.get('/leveranciers/details_aanpassen_leverancier.html', (req,res) => {
+    console.log('details_aanpassen');
+    const id = req.query.nr;
+    connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
+        console.log(results[0]);
+        res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0]});
+    })
+})
+
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
 
 
