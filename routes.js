@@ -57,7 +57,7 @@ router.get('/gebruikers/home_gebruikers.html', (req, res) => {
     });
 });
 //nieuwe gebruiker
-router.get('/nieuwe_gebruiker.html', (req, res) => {
+router.get('/gebruikers/nieuwe_gebruiker.html', (req, res) => {
     connection.query('SELECT * FROM FUNCTIES', (error, functies) => {
     res.render(path.join(__dirname, 'views', 'gebruikers', 'nieuwe_gebruiker'), { functies: functies });
     });

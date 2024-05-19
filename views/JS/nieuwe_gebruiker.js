@@ -38,7 +38,7 @@ document.getElementById('form_gebruiker').addEventListener('submit', async funct
     })
     .then(data => {
         console.log('Data sent:', data);
-        window.location.href = "/home_gebruikers.html";
+        window.location.href = "/gebruikers/home_gebruikers.html";
     })
     .catch(error => {
         console.error('Problem with fetching form data:', error);
