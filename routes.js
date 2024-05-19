@@ -5,10 +5,10 @@ const connection = require('./config/db_connection');
 const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
+const {validationRulesLev} = require('./controllers/validatorChain');
 const authenticateToken = require('./middleware/authenticateToken');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
-
 
 
 // Toegang voor iedereen
@@ -123,8 +123,6 @@ router.get('/delete_gebruiker', (req, res) => {
 });   
 
 
-
-
 // -----------------KLANTEN---------------------------------------------------------------
 router.get('/klant/home_klant.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'home_klant.html'));
@@ -147,15 +145,74 @@ router.get('/leveranciers/home_leveranciers.html', (req, res) => {
     });
 });
 
-// Details - aanpassen leverancier
+// Details leverancier
 router.get('/leveranciers/details_aanpassen_leverancier.html', (req,res) => {
-    console.log('details_aanpassen');
+    console.log('details leverancier');
     const id = req.query.nr;
     connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
         console.log(results[0]);
         res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0]});
     })
 })
+
+// Verwijderen leverancier
+router.get('/leveranciers/verwijderen_leverancier', (req,res) => {
+    console.log('verwijderen');
+    const id = req.query.idnr;
+    connection.query('DELETE FROM LEVERANCIERS WHERE levnr = ?',[id], (error,results) => {
+        res.redirect('/leveranciers/home_leveranciers.html');
+    })
+})
+
+// Toevoegen leverancier
+router.get('/leveranciers/nieuwe_leverancier.html', (req,res) => {
+    console.log('toevoegen');
+    res.sendFile(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier.html'));
+})
+
+router.post('/leveranciers/submission_nieuwe_leverancier_form', validationRulesLev(), async (req, res) => {
+    console.log('nieuwe leverancier');
+    console.log(req.body);
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    } else {
+        try {
+            const {levnr, levnaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email, BTWnr} = req.body;
+            let query = 'INSERT INTO LEVERANCIERS (levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            await connection.promise().query(query,[levnr, levnaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email, BTWnr]); 
+            res.redirect('/leveranciers/home_leveranciers.html');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while adding data.');
+        }
+    }
+})
+
+// Aanpassen leverancier
+router.post('/leveranciers/submission_update_leverancier_form', validationRulesLev(), async (req, res) => {
+    console.log('aanpassen leverancier');
+    console.log(req.body);
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    } else {
+        try {
+            const {levnr, levnaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email, BTWnr} = req.body;
+            let query = 'UPDATE LEVERANCIERS SET naam = ?, straatnaam = ?, huisnr = ?, gemeente = ?, postcode = ?, land = ?, telefoonnr = ?, emailadres = ?, BTWnr = ? WHERE levnr = ?';
+            await connection.promise().query(query,[levnaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email, BTWnr, levnr]); 
+            res.redirect('details_aanpassen_leverancier.html?nr=' + levnr);
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while adding data.');
+        }
+    }
+})
+
 
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
 
@@ -189,6 +246,6 @@ router.post('/submit-form-nieuwe-gebruiker', registreerGebruiker);
 
 // Handle login
 router.post('/login', userLogin);
-
+    
 
 module.exports = router;
