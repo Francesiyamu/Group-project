@@ -69,7 +69,7 @@ btn_modify.addEventListener('click', function() {
 let cancelbtn = document.getElementById('cancelbtn');
 cancelbtn.addEventListener('click', function(){
     event.preventDefault();
-    switchToDetails();
+    location.reload()
 });
 
 }
