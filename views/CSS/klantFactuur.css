@@ -251,6 +251,80 @@ iframe{
 }
 
 
+
+/*voorstel */
+  input{
+    padding: 10px 20px;
+    margin: 0 10px;
+    outline: none;
+    border: 1px solid #029bcf;
+    border-radius: 0.3rem  0 0 0.3rem;
+  }
+  
+  .table-section{
+    overflow: scroll;
+    height: 500px;
+  }
+  
+  table{
+    width: 100%;
+    table-layout: fixed;
+    min-width: 1000px;
+    border-collapse: collapse;
+    position: relative;
+    text-align: left;
+  }
+  
+  thead th{
+    position: sticky;
+    top: 0;
+    background-color: #161538;
+    color: #ffffff;
+  }
+  
+  th,td{
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 20px;
+    word-break: break-all;
+  }
+  
+  tr:hover td{
+    cursor: pointer;
+    background-color: #75737a;
+  }
+  
+  
+  .table-section__refresh{
+    float: right;
+    margin-right: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .refresh_button{
+    background: #dddddd;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .refresh_button--refreshing{
+    animation: 10s rotate infinite linear;
+  }
+  
+  @keyframes rotate{
+    to{
+      transform: rotate(1turn);
+    }
+  }
+  
+  .table-refresh-label{
+    font-size: 0.8em;
+    color: #999;
+  }
+
+
+
 @media screen and (max-width:1050px) {
     
     form{

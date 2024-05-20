@@ -1,4 +1,4 @@
-const connection = require('../db_connection').promise();
+const connection = require('../config/db_connection').promise();
 const express = require('express');
 const bodyParser = require('body-parser'); //nodig om de res en req.body te kunnen gebruiken
 const bcrypt = require('bcrypt');
@@ -68,8 +68,8 @@ const registreerGebruiker = async (req, res) => {
         console.error(`Fout bij registreren gebruiker: ${error.message}`);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
 
+}
 
 
 

@@ -1,4 +1,4 @@
-const connection = require('../db_connection');
+const connection = require('../config/db_connection');
 
 const registreerNieuwProject = async (req, res) => {
     // Extract data from request body
