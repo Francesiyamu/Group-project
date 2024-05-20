@@ -67,27 +67,35 @@
     </nav>
 
 
-<!-- ------------- CONTENT PAGE ------------- -->
-<div id="body_without_navbar">
-    <div class="content">
-        <h1>Projecten</h1>
-        <!-- Hier komt een overzicht van alle toegevoegde projecten -->
-        <p  class="contentLijnen">Project 1</p>
-        <p class="contentLijnen">Project 2</p>
-        <p class="contentLijnen">Project 3</p>
-        <p class="contentLijnen">Project 4</p>
-        <p class="contentLijnen">Project 5</p>
-        <p class="contentLijnen">Project 6</p>
-        <p  class="contentLijnen">Project 7</p>
-        <p class="contentLijnen">Project 8</p>
-        <p class="contentLijnen">Project 9</p>
-        <p class="contentLijnen">Project 10</p>
-        <p class="contentLijnen">Project 11</p>
-        <p class="contentLijnen">Project 12</p>
-        <div class="button">
-            <a href="nieuw_project.html" id="btn_new" class="btn_bottom">Nieuwe project</a>
+    <!-- ------------- CONTENT PAGE ------------- -->
+    <div id="body_without_navbar">
+        <div class="content">
+
+            <!-- ------------- HEADING ------------- -->
+            <div id="heading">
+                <h1>Projecten</h1>
+                <input id="searchBox" type="text" onkeyup="tableSearch()" placeholder="Zoek... ">
+            </div>
+
+            <!-- ------------- TABLE ------------- -->
+            <div id="table" class="table-section" data-url="/data">
+                <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
+                <thead>
+                    <tr>
+                        <th>Projectnummer</th>
+                        <th>Klantnummer</th>
+                        <th>Status</th>
+                        <th>Gemeente</th>
+                    </tr>
+                </thead>
+                </table>
+            </div>
+
+            <!-- ------------- BUTTON ------------- -->
+            <div class="button">
+                <a href="nieuw_project.html" id="btn_new">Project toevoegen</a>
+            </div>
         </div>
-    </div>
 </div>
 </body>
 
