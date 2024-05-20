@@ -121,9 +121,6 @@ a.menu.active::after {
   text-transform: uppercase;    
 }
 
-
-/*voorstel */
-
  
  
 
@@ -150,6 +147,7 @@ input{
   overflow: scroll;
   height: 500px;
 }
+
 table{
   width: 100%;
   table-layout: fixed;
@@ -159,21 +157,27 @@ table{
   text-align: left;
 }
 
+.table-filter {
+  border-radius: 5px;
+}
 
+
+              
 thead th{
   position: sticky;
   top: 0;
   background-color: #161538;
   color: #ffffff;
-  
  
 }
+
+
+
 
 th,td{
   border-bottom: 1px solid #dddddd;
   padding: 10px 20px;
   word-break: break-all;
-  
 
 }
 
