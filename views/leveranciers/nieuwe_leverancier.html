@@ -10,13 +10,12 @@
 </head> 
 <body>
 
-    <form id="form_leverancier" method="post" action="/leveranciers/submission_nieuwe_leverancier_form">
+    <form id="form_leverancier" class="toevoegen" method="post" action="/leveranciers/submission_nieuwe_leverancier_form">
         <h1>Nieuwe leverancier toevoegen</h1>
 
         <div class="inputs">
-            <div class="form_group toev">
-                <label for="levnr">Leveranciersnummer:</label>
-                <input type="text" id="levnr" name="levnr" placeholder="123456"> <br>
+            <div id="nr" class="form_group toev">
+                <input type="hidden" id="levnr" name="levnr" placeholder="123456"> <br>
             </div>
     
             <div class="form_group toev">
@@ -45,8 +44,8 @@
             </div>
 
             <div class="form_group toev">
-                <label for="levland">Land:</label>
-                <input type="text" id="levland" name="land" placeholder="België"> <br>
+                <label for="levland">Landcode:</label>
+                <input type="text" id="levland" name="land" placeholder="Tweeletterige ISO landcode"> <br>
             </div>
     
             <div class="form_group toev">
