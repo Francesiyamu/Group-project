@@ -20,9 +20,7 @@ function replaceClasses() {
 function toggleAttributes() {
     let inputs = document.getElementsByTagName('input');
     for(let input of inputs) {
-        if(input.id != 'levnr') {
-            input.toggleAttribute('disabled');
-        }
+        input.toggleAttribute('disabled');
     }
 
     let selects = document.getElementsByTagName('select');
