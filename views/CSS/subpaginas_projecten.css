@@ -193,28 +193,39 @@ a.menu.active::after {
     display: block;
 }
 
-/* ------------- BUTTON -------------*/
+/* ------------- BUTTONs -------------*/
 
-#btn_back {
+.btns a {
+    width: 200px;
     background-color: #161538;
     border-style: solid;
-    border-color: #c7c7ca;
-    border-width: 1px;
+    border-color: #838287;
+    border-width: 1.5px;
     border-radius: 4em;
-    padding: 1rem;
+    padding: 1rem 2.5rem;
     color: #c7c7ca;
     font-weight: 400;
     text-decoration: none;
-    width: 170px;
     text-align: center;
-    margin: auto 1rem 1rem auto;
+   /* margin: auto 1rem 1rem auto;*/
+}
+
+.btns {
+    display: flex;
+    margin: auto 1rem 1rem 0;
+    align-items: flex-end;
+    justify-content: space-between;
 }
 
 #btn_back {
+    margin-left: 1rem;
+}
+
+.btn_bottom {
     transition: transform 0.7s;
 }
 
-#btn_back:hover {
+.btn_bottom:hover {
     transform: scale(1.1);
     color: #ff9992;
     border-color: #ff9992;
@@ -446,13 +457,19 @@ a.menu.active::after {
         margin-right: 0.5rem;
         font-size: 15px;   
     }
-}
 
-@media screen and (max-width:425px) {
+/* ------------- BUTTONS -------------*/
+    .btns {
+        flex-direction: column-reverse;
+        margin: auto auto 10px auto;
+    }
 
-/* ------------- BUTTON -------------*/
+    #btn_details {
+        margin-bottom: 10px;
+    }
 
     #btn_back {
-        margin: auto auto 1rem auto;
+        margin-left: 0;
     }
 }
+
