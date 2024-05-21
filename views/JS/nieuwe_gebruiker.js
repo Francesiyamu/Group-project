@@ -7,15 +7,6 @@ const serverUrl = 'http://localhost:3000';
 document.getElementById('form_gebruiker').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    function getFunctieNr(functie){
-        if(functie === "manager"){
-            return 1;
-        }else if(functie === "medewerker"){
-            return 2;
-        }else if(functie === "boekhouder"){
-            return 3;
-        }
-    }
     
     const formData = {
         //id : document.getElementById('idnr').value,
@@ -24,12 +15,6 @@ document.getElementById('form_gebruiker').addEventListener('submit', async funct
         wachtwoord: document.getElementById('wachtwoord').value,
         voornaam: document.getElementById('voornaam').value,
         achternaam: document.getElementById('achternaam').value,
-        straat: document.getElementById('gebrstraat').value,
-        huisnummer: document.getElementById('gebrhuisnr').value,
-        postcode: document.getElementById('gebrpostcode').value,
-        gemeente: document.getElementById('gebrgemeente').value,
-        land : document.getElementById('gebrland').value,
-        telefoonnummer: document.getElementById('gebrtelefoon').value,
         emailadres: document.getElementById('emailadres').value,
         
     };
@@ -53,8 +38,10 @@ document.getElementById('form_gebruiker').addEventListener('submit', async funct
     })
     .then(data => {
         console.log('Data sent:', data);
+        window.location.href = "/gebruikers/home_gebruikers.html";
     })
     .catch(error => {
         console.error('Problem with fetching form data:', error);
     });
+   
 });

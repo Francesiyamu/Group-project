@@ -66,8 +66,8 @@ const registreerGebruiker = async (req, res) => {
         console.error(`Fout bij registreren gebruiker: ${error.message}`);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
 
+}
 
 
 

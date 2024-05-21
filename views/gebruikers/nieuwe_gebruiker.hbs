@@ -15,43 +15,39 @@
         <h1>Nieuwe gebruiker toevoegen</h1>
 
         <div class="inputs">
-            <div class="form_group toev">
-                <label for="idnr">ID-nummer:</label>
-                <input type="text" id="idnr" placeholder="123456"> <br>
-            </div>
-            
+
             <div class="form_group toev">
                 <label for="gebruikersnaam">Gebruikersnaam:</label>
-                <input type="text" id="gebruikersnaam" placeholder="PeterPan1"> <br>
+                <input type="text" id="gebruikersnaam" name="gebruikersnaam" placeholder="PeterPan1"> <br>
             </div>
 
             <div class="form_group toev">
                 <label for="wachtwoord">Wachtwoord:</label>
-                <input type="password" id="wachtwoord"> <br>
+                <input type="password" name="wachtwoord" id="wachtwoord"> <br>
             </div>
 
             <div class="form_group toev">
                 <label for="functie">Functie:</label>
-                <select name="functie" id="functie">
-                    <option value="1">Medewerker</option>
-                    <option value="2">Boekhouder</option>
-                    <option value="3">Manager</option>
+                <select name="functienr" id="functie">
+                    {{#each functies}}
+                        <option value="{{functienr}}">{{functienaam}}</option>
+                    {{/each}}
                 </select>
             </div>
     
             <div class="form_group toev">
                 <label for="voornaam">Voornaam:</label>
-                <input type="text" id="voornaam" placeholder="Jane"> <br>
+                <input type="text" id="voornaam" name="voornaam" placeholder="Jane"> <br>
             </div>
 
             <div class="form_group toev">
                 <label for="achternaam">Achternaam:</label>
-                <input type="text" id="achternaam" placeholder="Doe"> <br>
+                <input type="text" id="achternaam" name="achternaam" placeholder="Doe"> <br>
             </div>
-
+    
             <div class="form_group toev">
                 <label for="emailadres">E-mail adres:</label>
-                <input type="email" id="emailadres" placeholder="janedoe@example.com"> <br>
+                <input type="email" id="emailadres" name="emailadres" placeholder="janedoe@example.com"> <br>
             </div>
 
             <div class="btns">
