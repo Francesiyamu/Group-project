@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klanten</title>
-    <link rel="stylesheet" href="../CSS/home.css">
+    <title>Factuur leveranciers</title>
+    <link rel="stylesheet" href="../CSS/home_factuur_lev.css">
     <script src="https://kit.fontawesome.com/f89a7f5c8c.js" crossorigin="anonymous"></script> <!--https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-sign-out-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head> 
@@ -71,33 +72,87 @@
 
     <!-- ------------- HEADING ------------- -->
             <div id="heading">
-                <h1>Klanten</h1>
+                <h1>Factuur leveranciers</h1>
                 <input id="searchBox" type="text" onkeyup="tableSearch()" placeholder="Zoek... ">
             </div>
     
     <!-- ------------- TABLE ------------- -->
-            <div id="table" class="table-section" data-url="/data">
-                <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
+            <div  class="table-section" data-url="/data">
+                <table id="table" class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
                   <thead>
-                    <tr>
-                        <th>Klantnr</th>
-                        <th>Voornaam</th>
-                        <th>Achternaam</th>
-                        <th>E-mailadres</th>
-                        <th>BTW nr</th>
-                    </tr>
+                        <th col-index = 1>Factuur <br>nummer </th> 
+                        <th col-index = 2>Factuur Datum <br>
+                          <select class="table-filter" onchange="filter_rows()" >
+                            <option value ="all"></option>
+                          </select>
+                        </th>
+                        <th col-index = 3>Status <br>
+                          <select class="table-filter" onchange="filter_rows()">
+                            <option value="all"></option>
+                          </select>
+                        </th>
+                        <th col-index = 4>Terugbetaald <br>
+                          <select class="table-filter" onchange="filter_rows()">
+                            <option value="all"></option>
+                          </select>
+                        </th>
+                        <th col-index = 5>BTW % <br>
+                          <select class="table-filter" onchange="filter_rows()">
+                            <option value="all"></option>
+                          </select>
+                        </th>
+                        <th col-index = 6>Verstuurd <br>boekhouder <br>
+                          <select class="table-filter" onchange="filter_rows()">
+                            <option value="all"></option>
+                          </select>
+                        </th>
+                    
                   </thead>
+
+                  <tbody>
+                    <tr data-href="">
+                      <td>12345</td>
+                      <td>jan</td>
+                      <td>betaald</td>
+                      <td>ja</td>
+                      <td>10%</td>
+                      <td>ja</td>
+                    </tr>
+                    <tr>
+                      <td>369845</td>
+                      <td>feb</td>
+                      <td>niet betaald</td>
+                      <td>nee</td>
+                      <td>20%</td>
+                      <td>ja</td>
+                    </tr>
+                    <tr>
+                      <td>435356</td>
+                      <td>maart</td>
+                      <td>betaald</td>
+                      <td>nee</td>
+                      <td>20%</td>
+                      <td>nee</td>
+                    </tr>
+                  </tbody>
                 </table>
             </div>
 
     <!-- ------------- BUTTON ------------- -->
             <div class="button">
-                <a href="nieuwe_klant.html" id="btn_new">Klant toevoegen</a>
+                <a href="factuur_lev_toe.html" id="btn_new">Factuur toevoegen</a>
             </div>
         </div>
     </div>
 
-    <script src="../JS/home_gebruikers.js"></script>
+    <script src="/views/JS/fact_lev_home.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+    
+    
+    </script>
+
+
 </body>
 </html>
