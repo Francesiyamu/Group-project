@@ -20,9 +20,7 @@ function replaceClasses() {
 function toggleAttributes() {
     let inputs = document.getElementsByTagName('input');
     for(let input of inputs) {
-        if(input.id != 'levnr') {
-            input.toggleAttribute('disabled');
-        }
+        input.toggleAttribute('disabled');
     }
 
     let selects = document.getElementsByTagName('select');
@@ -69,7 +67,7 @@ btn_modify.addEventListener('click', function() {
 let cancelbtn = document.getElementById('cancelbtn');
 cancelbtn.addEventListener('click', function(){
     event.preventDefault();
-    switchToDetails();
+    location.reload()
 });
 
 }

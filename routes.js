@@ -167,7 +167,11 @@ router.get('/leveranciers/verwijderen_leverancier', (req,res) => {
 // Toevoegen leverancier
 router.get('/leveranciers/nieuwe_leverancier.html', (req,res) => {
     console.log('toevoegen');
-    res.sendFile(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier.html'));
+    connection.query('SELECT levnr FROM LEVERANCIERS ORDER BY levnr DESC LIMIT 1', (errors, result) => { // Select last registerd levnr
+        console.log(result[0].levnr);
+        let next_id = {levnr: result[0].levnr + 1};
+        res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {leverancier: next_id});
+    })
 })
 
 router.post('/leveranciers/submission_nieuwe_leverancier_form', validationRulesLev(), async (req, res) => {

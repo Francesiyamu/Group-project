@@ -13,9 +13,10 @@
     <form id="form_leverancier" class="toevoegen" method="post" action="/leveranciers/submission_nieuwe_leverancier_form">
         <h1>Nieuwe leverancier toevoegen</h1>
 
+        {{#with leverancier}}
         <div class="inputs">
             <div id="nr" class="form_group toev">
-                <input type="hidden" id="levnr" name="levnr" placeholder="123456"> <br>
+                <input type="hidden" id="levnr" name="levnr" placeholder="123456" value="{{levnr}}"> <br>
             </div>
     
             <div class="form_group toev">
@@ -67,6 +68,9 @@
                 <a href="home_leveranciers.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
                 <input type="submit" id="submitbtn" value="Toevoegen" class="btn_bottom">
             </div>
+
+            {{/with}}
+
         </div>
     </form>
 

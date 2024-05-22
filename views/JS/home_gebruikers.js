@@ -1,5 +1,18 @@
 window.onload = () => {
     console.log('loaded');
+
+  /*  let thead = document.getElementById('thead');
+    let theadOffsetTop = thead.offsetTop;
+
+    window.onscroll = function() {
+        if(window.scrollY > theadOffsetTop) {
+            thead.classList.add('sticky');
+        } else {
+            thead.classList.remove('sticky');
+        }
+    }
+    https://www.tutorialspoint.com/how-to-create-a-fixed-sticky-header-on-scroll-with-css-and-javascript
+    */
 }
 
 function tableSearch() {
