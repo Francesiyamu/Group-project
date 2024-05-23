@@ -86,6 +86,12 @@
 
             {{/with}}
 
+            <div id="errorMsgs">
+                {{#each errors}}
+                    <p class="errorMsg">{{this}}</p>
+                {{/each}}
+            </div>
+
         </div>
     </form>
    <script src="../JS/details_aanpassen.js"></script>
