@@ -7,53 +7,45 @@ const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
 const {validationRulesLev} = require('./controllers/validatorChain');
 const authenticateToken = require('./middleware/authenticateToken');
+const authenticateToken1 = require('./middleware/authenticateToken1');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const session = require('express-session');
+const countries = require('./config/Countries');
+
+router.use(session({
+    secret: 'd831bf80b82841618a885b9a93280e5ca9e0bcbe4de61e2de8b3f31170e2395cdb24966f286130e3a8b94faddebd97ea6ddc0fccccb10407feb9047b95ab609f',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Set to true if using HTTPS
+    expires: 3600000
+}));
 
 
 // Toegang voor iedereen
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
 });
+router.use(express.json());
 
-router.get('/login', userLogin);
-
-
-// Toegang voor ingelogde gebruikers
-/* router.get('/home', authenticateToken, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));    
-}); */
-
-router.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));    
-});
-/* router.get('/protected-route', authenticateToken, (req, res) => {
-    const { gebruikersnaam, functienr } = req.user;
-    if (functienr === 1 || functienr === 2 || functienr === 3) {
-        res.send('This is a protected route');
-    } else {
-        res.status(403).json({ status: 'error', message: 'Forbidden' });
-    }
-}); */
-/* router.get('/home_klantFacturen,', (req, res) => {
-        res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));
-}); */
 
 // -------------PROJECTEN---------------------------------------------------
-router.get('/projecten/home_project.html', (req, res) => {
+router.get('/projecten/home_project.html',authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'home_project.html'));
 });
-router.get('/projecten/nieuw_project.html', (req, res) => {
+router.get('/projecten/nieuw_project.html', authenticateToken , (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
 });
-router.get('/projecten/aanpassen_project.html', (req, res) => {
+router.get('/projecten/aanpassen_project.html', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'aanpassen_project.html'));
 });
-router.get('/projecten/subpaginas_projecten.html', (req, res) => {
+router.get('/projecten/subpaginas_projecten.html', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'subpaginas_projecten.html'));
 });
 // ----------------GEBRUIKERS -------------------------------------------------------------
-router.get('/gebruikers/home_gebruikers.html', (req, res) => {
+router.get('/gebruikers/home_gebruikers.html', authenticateToken1 , (req, res) => {
     connection.query('SELECT gebruikersnaam, voornaam, achternaam ,emailadres, idnr FROM GEBRUIKERS', (error, results, fields) => {
         if (error) throw error;
         console.log(results);
@@ -61,13 +53,13 @@ router.get('/gebruikers/home_gebruikers.html', (req, res) => {
     });
 });
 //nieuwe gebruiker
-router.get('/gebruikers/nieuwe_gebruiker.html', (req, res) => {
+router.get('/gebruikers/nieuwe_gebruiker.html', authenticateToken1 , (req, res) => {
     connection.query('SELECT * FROM FUNCTIES', (error, functies) => {
     res.render(path.join(__dirname, 'views', 'gebruikers', 'nieuwe_gebruiker'), { functies: functies });
     });
 });
 //gebruiker aanpassen
-router.get('/details_aanpassen_gebruiker', (req, res) => {
+router.get('/details_aanpassen_gebruiker',authenticateToken1 , (req, res) => {
     const id = req.query.var;
     connection.query('SELECT gebruikersnaam, GEBRUIKERS.functienr, voornaam, achternaam ,emailadres, functienaam, idnr FROM GEBRUIKERS JOIN FUNCTIES ON GEBRUIKERS.functienr = FUNCTIES.functienr WHERE GEBRUIKERS.idnr = ?', [id], (error, results) => {
         console.log(results)
@@ -82,7 +74,7 @@ router.get('/details_aanpassen_gebruiker', (req, res) => {
     });
 });
 //gebruikers aanpassen retour
-router.post('/submit-form-aanpassen-gebruiker', [
+router.post('/submit-form-aanpassen-gebruiker', authenticateToken1 , [
     body('gebruikersnaam').isString().notEmpty().withMessage('Gebruikersnaam is required'),
     body('functienr').isNumeric().withMessage('Functienr must be a number'),
     body('voornaam').isString().notEmpty().withMessage('Voornaam is required'),
@@ -111,7 +103,7 @@ router.post('/submit-form-aanpassen-gebruiker', [
             WHERE idnr = ?
         `;
         await connection.promise().query(query, [gebruikersnaam, functienr, voornaam, achternaam, emailadres, hashedPassword, idnr]);
-        res.redirect('/gebruikers/home_gebruikers.html');
+        res.redirect('/details_aanpassen_gebruiker?var='+idnr);
 
     } catch (err) {
         console.error(err);
@@ -119,7 +111,7 @@ router.post('/submit-form-aanpassen-gebruiker', [
     }
 });
 //delete gebruiker
-router.get('/delete_gebruiker', (req, res) => {
+router.get('/delete_gebruiker', authenticateToken1 , (req, res) => {
     const id = req.query.iddel;
     connection.query('DELETE FROM GEBRUIKERS WHERE idnr = ?', [id], (error, results) => {  
     });
@@ -128,20 +120,20 @@ router.get('/delete_gebruiker', (req, res) => {
 
 
 // -----------------KLANTEN---------------------------------------------------------------
-router.get('/klant/home_klant.html', (req, res) => {
+router.get('/klant/home_klant.html', authenticateToken,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'home_klant.html'));
 });
-router.get('/klant/nieuwe_klant.html', (req, res) => {
+router.get('/klant/nieuwe_klant.html', authenticateToken,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'nieuwe_klant.html'));
 });
-router.get('/klant/aanpassen_klant.html', (req, res) => {
+router.get('/klant/aanpassen_klant.html', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
 });
 
 // ----------------------------------- LEVERANCIERS -----------------------------------
 
 // Toon bestaande leveranciers op home pagina
-router.get('/leveranciers/home_leveranciers.html', (req, res) => {
+router.get('/leveranciers/home_leveranciers.html', authenticateToken,(req, res) => {
     connection.query('SELECT naam, gemeente, telefoonnr ,emailadres, levnr FROM LEVERANCIERS', (error, results) => {
         console.log(results);
         if (error) throw error;
@@ -149,8 +141,18 @@ router.get('/leveranciers/home_leveranciers.html', (req, res) => {
     });
 });
 
+// Details leverancier
+router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken,(req,res) => {
+    console.log('details leverancier');
+    const id = req.query.nr;
+    connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
+        console.log(results[0]);
+        res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries});
+    })
+})
+
 // Verwijderen leverancier
-router.get('/leveranciers/verwijderen_leverancier', (req,res) => {
+router.get('/leveranciers/verwijderen_leverancier', authenticateToken,(req,res) => {
     console.log('verwijderen');
     const id = req.query.idnr;
     connection.query('DELETE FROM LEVERANCIERS WHERE levnr = ?',[id], (error,results) => {
@@ -158,40 +160,14 @@ router.get('/leveranciers/verwijderen_leverancier', (req,res) => {
     })
 })
 
+
 // Toevoegen leverancier
-router.get('/leveranciers/nieuwe_leverancier.html', (req,res) => {
-    console.log('toevoegen');
-    
-    // Select & save next levnr
-    let next_id;
-    connection.query('SELECT levnr FROM LEVERANCIERS ORDER BY levnr DESC LIMIT 1', (errors, result) => { // Select last registerd levnr
-        if(result != undefined) {
-            console.log(result[0].levnr);
-            next_id = {levnr: result[0].levnr + 1};
-        } else {
-            next_id = {levnr: 1};
-        }
-
-        // Check if errors from previous submission
-        let errorMsg;
-        let submittedData;
-        if(req.query.errorsSubmission){ 
-            const errorsSubmission = req.query.errorsSubmission;
-            errorMsg = JSON.parse(errorsSubmission);
-
-            submittedData = JSON.parse(decodeURIComponent(req.query.submittedData));
-        }
-
-    // Render page
-        if(errorMsg) {
-            res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {leverancier: next_id, errors: errorMsg, data: submittedData});
-        } else {
-            res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {leverancier: next_id});
-        }
+router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken,(req,res) => {
+          res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {countries : countries,});
     })
-})
 
-router.post('/leveranciers/submission_nieuwe_leverancier_form', validationRulesLev(), async (req, res) => {
+
+router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken, validationRulesLev(), async (req, res) => {
     console.log('nieuwe leverancier');
     console.log(req.body);
 
@@ -210,8 +186,8 @@ router.post('/leveranciers/submission_nieuwe_leverancier_form', validationRulesL
     } else {
         try {
             const {levnr, levnaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email, BTWnr} = req.body;
-            let query = 'INSERT INTO LEVERANCIERS (levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-            await connection.promise().query(query,[levnr, levnaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email, BTWnr]); 
+            let query = 'INSERT INTO LEVERANCIERS (naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            await connection.promise().query(query,[levnaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email, BTWnr]); 
             res.redirect('/leveranciers/home_leveranciers.html');
         } catch (err) {
             console.error(err);
@@ -244,7 +220,7 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', (req,res) => {
 })
 
 // Aanpassen leverancier
-router.post('/leveranciers/submission_update_leverancier_form', validationRulesLev(), async (req, res) => {
+router.post('/leveranciers/submission_update_leverancier_form', authenticateToken, validationRulesLev(), async (req, res) => {
     console.log('aanpassen leverancier');
     console.log(req.body);
 
@@ -277,28 +253,14 @@ router.post('/leveranciers/submission_update_leverancier_form', validationRulesL
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
 
 
-/* router.get('/home_klantFacturen', (req, res) => {
-    // This route is accessible for all users
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen.html'));
-});
 
-router.get('/home_levFacturen', (req, res) => {
-    const { functienr } = req.user;
-    // Check if the user has access to this route based on functienr
-    if (functienr === 1 || functienr === 2 || functienr === 3) {
-        res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'home_levFacturen.html'));
-    } else {
-        res.status(403).json({ status: 'error', message: 'Forbidden' });
-    }
-});
- */
-// Routes accessible for medewerkers and manager
+//-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 
 
 
 // -----------------Handle form submissions-----------------------------------------------------------
-router.post('/submit-form-nieuw-project', registreerNieuwProject);
-router.post('/submit-form-nieuwe-gebruiker', registreerGebruiker);
+router.post('/submit-form-nieuw-project', authenticateToken, registreerNieuwProject);
+router.post('/submit-form-nieuwe-gebruiker', authenticateToken, registreerGebruiker);
 
 
 
@@ -306,6 +268,26 @@ router.post('/submit-form-nieuwe-gebruiker', registreerGebruiker);
 
 // Handle login
 router.post('/login', userLogin);
-    
+router.get('/set-token', (req, res) => {
+    const token = req.query.token;
+    const level = req.query.level;
+    if (!token) {
+        return res.status(400).json({ status: 'error', message: 'Token is required' });
+    }
+    req.session.token = token;
+    req.session.level = level;
+    res.redirect('/klant/home_klant.html');
+});
+// Route to logout and end the session
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ status: 'error', message: 'Failed to end session' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.redirect('/');
+    });
+});    
+
 
 module.exports = router;

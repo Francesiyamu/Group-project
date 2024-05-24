@@ -1,6 +1,4 @@
-const { body } = require('express-validator');
-
-const countryCodes3 = [
+const countries = [
     "AFG", "ALB", "DZA", "ASM", "AND", "AGO", "AIA", "ATA", "ATG", "ARG", "ARM", "ABW",
     "AUS", "AUT", "AZE", "BHS", "BHR", "BGD", "BRB", "BLR", "BEL", "BLZ", "BEN", "BMU",
     "BTN", "BOL", "BES", "BIH", "BWA", "BVT", "BRA", "IOT", "BRN", "BGR", "BFA", "BDI",
@@ -22,23 +20,7 @@ const countryCodes3 = [
     "TWN", "TJK", "TZA", "THA", "TLS", "TGO", "TKL", "TON", "TTO", "TUN", "TUR", "TKM",
     "TCA", "TUV", "UGA", "UKR", "ARE", "GBR", "USA", "URY", "UZB", "VUT", "VEN", "VNM",
     "VGB", "VIR", "WLF", "ESH", "YEM", "ZMB", "ZWE"
-  ];
+];
 
 
-
-// Validator chain
-const validationRulesLev = () => {
-    return [
-        body('levnaam').notEmpty().withMessage('Leveranciersnaam is required').isString(),
-        body('straatnaam').notEmpty().withMessage('Straatnaam is required').isString(),
-        body('huisnr').notEmpty().withMessage('Huisnummer is required').isString(),
-        body('postcode').notEmpty().withMessage('Postcode is required').isString(),
-        body('gemeente').notEmpty().withMessage('Gemeente is required').isString(),
-        body('land').notEmpty().withMessage('Land is required').isIn(countryCodes3).withMessage('Land must be a 3 lettre country code'),
-        body('telefoonnr').notEmpty().withMessage('Telefoonnummer is required').withMessage('Telefoonnumber must be enterd'),
-        body('email').notEmpty().withMessage('E-mailadres is required').isEmail().withMessage('Must be a valid E-mailadres'),
-        body('BTWnr').notEmpty().withMessage('BTW-nummer is required').isString()
-    ];
-}
-
-module.exports = {validationRulesLev};
+module.exports = countries;

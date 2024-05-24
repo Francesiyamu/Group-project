@@ -2,6 +2,7 @@ const express = require('express');
 const connection = require('../config/db_connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
@@ -27,7 +28,8 @@ const userLogin = async (req, res) => {
             return res.status(401).json({ status: 'error', message: 'Foute gebruikersnaam of wachtwoord' });
         }
 
-   
+      const level = user.functienr
+
         // Create a JWT token       
         const accessToken = jwt.sign(user,
             process.env.ACCESS_TOKEN_SECRET,
@@ -36,7 +38,9 @@ const userLogin = async (req, res) => {
         
         console.log('Access token:', accessToken);
         // res.set('Authorization', `Bearer ${accessToken}`)
-        res.json({ status: 'success', accessToken: accessToken });
+        res.json({ status: 'success', accessToken , level });
+       
+        
 
     } catch (error) {
         console.error('Error in userLogin:', error);

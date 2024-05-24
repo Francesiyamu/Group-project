@@ -3,8 +3,9 @@ require('dotenv').config();
 
 const authenticateToken = (req, res, next) => {
     const token = req.session.token;
-    if (!token) {
-        return res.status(401).json({ status: 'error', message: 'Unauthorized: No token provided' });
+    const level = req.session.level;
+    if (!token || level !== '1') {
+        return res.status(401).json({ status: 'error', message: 'Unauthorized: No token provided or level not high enough' });
     }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
