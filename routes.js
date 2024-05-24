@@ -102,7 +102,7 @@ router.post('/submit-form-aanpassen-gebruiker', authenticateToken1 , [
             WHERE idnr = ?
         `;
         await connection.promise().query(query, [gebruikersnaam, functienr, voornaam, achternaam, emailadres, hashedPassword, idnr]);
-        res.redirect('/gebruikers/home_gebruikers.html');
+        res.redirect('/details_aanpassen_gebruiker?var='+idnr);
 
     } catch (err) {
         console.error(err);
@@ -215,6 +215,10 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 
 
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
+
+
+
+//-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 
 
 
