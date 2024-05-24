@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const userLogin = async (req, res) => {
