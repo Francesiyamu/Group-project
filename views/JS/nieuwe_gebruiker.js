@@ -9,7 +9,8 @@ document.getElementById('form_gebruiker').addEventListener('submit', async funct
 
     
     const formData = {
-        funtienr: document.getElementById('functie').value,
+        //id : document.getElementById('idnr').value,
+        functienr : getFunctieNr(document.getElementById('functie').value),
         gebruikersnaam: document.getElementById('gebruikersnaam').value,
         wachtwoord: document.getElementById('wachtwoord').value,
         voornaam: document.getElementById('voornaam').value,
