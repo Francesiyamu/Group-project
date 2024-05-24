@@ -45,11 +45,17 @@
                 <input type="text" id="levgemeente" name="gemeente" placeholder="Brussel" value="{{gemeente}}" disabled> <br>
             </div>
 
-            <div class="form_group">
-                <label for="levland">Landcode:</label>
-                <input type="text" id="levland" name="land" placeholder="Tweeletterige ISO landcode" value="{{land}}" disabled> <br>
+
+            <div class="form_group toev">
+                <label for="levLand">Landcode:</label>
+                <select name="land" id="functie" value="{{land}}" disabled>
+                    <option value="{{land}}">{{land}}</option>
+                    {{#each ../countries}}
+                         <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
             </div>
-    
+
             <div class="form_group">
                 <label for="levtelefoon">Telefoonnummer:</label>
                 <input type="tel" id="levtelefoon" name="telefoonnr" placeholder="+32345678903" value="{{telefoonnr}}" disabled> <br>
@@ -82,7 +88,6 @@
 
         </div>
     </form>
-
    <script src="../JS/details_aanpassen.js"></script>
 </body>
 </html>

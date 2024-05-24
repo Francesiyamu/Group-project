@@ -13,6 +13,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const session = require('express-session');
+const countries = require('./config/Countries');
 
 router.use(session({
     secret: 'd831bf80b82841618a885b9a93280e5ca9e0bcbe4de61e2de8b3f31170e2395cdb24966f286130e3a8b94faddebd97ea6ddc0fccccb10407feb9047b95ab609f',
@@ -146,7 +147,7 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken
     const id = req.query.nr;
     connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
         console.log(results[0]);
-        res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0]});
+        res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries});
     })
 })
 
@@ -162,13 +163,9 @@ router.get('/leveranciers/verwijderen_leverancier', authenticateToken,(req,res) 
 
 // Toevoegen leverancier
 router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken,(req,res) => {
-    console.log('toevoegen');
-    connection.query('SELECT levnr FROM LEVERANCIERS ORDER BY levnr DESC LIMIT 1', (errors, result) => { // Select last registerd levnr
-        console.log(result[0].levnr);
-        let next_id = {levnr: result[0].levnr + 1};
-        res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {leverancier: next_id});
+          res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {countries : countries,});
     })
-})
+
 
 router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken, validationRulesLev(), async (req, res) => {
     console.log('nieuwe leverancier');
@@ -181,8 +178,8 @@ router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToke
     } else {
         try {
             const {levnr, levnaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email, BTWnr} = req.body;
-            let query = 'INSERT INTO LEVERANCIERS (levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-            await connection.promise().query(query,[levnr, levnaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email, BTWnr]); 
+            let query = 'INSERT INTO LEVERANCIERS (naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            await connection.promise().query(query,[levnaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email, BTWnr]); 
             res.redirect('/leveranciers/home_leveranciers.html');
         } catch (err) {
             console.error(err);
