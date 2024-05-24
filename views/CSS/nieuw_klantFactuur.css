@@ -264,6 +264,14 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
     #factuurUploaden{
         display: none;
     }
+
+    #bestandenLijst {
+        width: 200px;
+    }
+
+    #file1_box, #file2_box, #file3_box{
+        display: flex;
+    }
     
     /* ------------- BUTTONS -------------*/
 
