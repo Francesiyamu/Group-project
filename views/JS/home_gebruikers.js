@@ -13,6 +13,7 @@ window.onload = () => {
     }
     https://www.tutorialspoint.com/how-to-create-a-fixed-sticky-header-on-scroll-with-css-and-javascript
     */
+    console.log(localStorage.level)
 }
 
 function tableSearch() {
