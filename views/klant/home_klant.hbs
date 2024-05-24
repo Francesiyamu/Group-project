@@ -87,6 +87,17 @@
                         <th>BTW nr</th>
                     </tr>
                   </thead>
+                  <tbody>
+                        {{#each Klanten}}
+                        <tr onclick="window.location='/details_aanpassen_gebruiker?var={{idnr}}'">
+                            <td>{{Klntnr}}</td>
+                            <td>{{voornaam}}</td>
+                            <td>{{achternaam}}</td>
+                            <td>{{emailadres}}</td>
+                            <td>{{BTW nr}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
                 </table>
             </div>
 

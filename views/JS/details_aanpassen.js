@@ -1,7 +1,8 @@
 window.onload = () => {
 console.log('loaded');
+window.scrollTo(0,0);
 
-// hidden bij details weg, toevoegen bij rest
+/* ----------------------------------- SWITCH DETAILS - AANPASSEN ----------------------------------- */
 
 function replaceClasses() {
     let hidden_elements = Array.from(document.getElementsByClassName('hidden'));
@@ -16,13 +17,10 @@ function replaceClasses() {
     }
 }
 
-
 function toggleAttributes() {
     let inputs = document.getElementsByTagName('input');
     for(let input of inputs) {
-        if(input.id != 'levnr') {
-            input.toggleAttribute('disabled');
-        }
+        input.toggleAttribute('disabled');
     }
 
     let selects = document.getElementsByTagName('select');
@@ -49,13 +47,13 @@ function switchToModify() {
     inputs.style.alignItems = 'initial';
 }
 
-function switchToDetails() {
+/*function switchToDetails() {
     replaceClasses();
     document.title = 'Details'
     toggleAttributes();
     window.scrollTo(0,0);
     inputs.style.alignItems = 'center';
-} 
+} */
 
 let inputs = Array.from(document.getElementsByClassName('inputs'))[0];
 inputs.style.alignItems = 'center';
@@ -69,7 +67,25 @@ btn_modify.addEventListener('click', function() {
 let cancelbtn = document.getElementById('cancelbtn');
 cancelbtn.addEventListener('click', function(){
     event.preventDefault();
-    location.reload()
+    location.reload();
 });
+
+/* ----------------------------------- TREAT ERROR MESSAGES ----------------------------------- */
+
+let message = "";
+let counter = 1;
+let errorMsgs = document.getElementsByClassName('errorMsg');
+
+for(let error of errorMsgs) {
+    message += `${counter}. ${error.textContent}. \n`;
+    counter++
+}
+
+console.log(message);
+
+if(message) {
+    switchToModify();
+    setTimeout(() => {alert(message)},5); //Nodig want GET method rendert naar details_aanpassen_xx --> je bent weer op details pagina
+}
 
 }

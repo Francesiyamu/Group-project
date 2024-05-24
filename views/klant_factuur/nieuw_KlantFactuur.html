@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klantenfactuur toevoegen</title>
-    <link rel="stylesheet" href="../CSS/klantFactuur.css">
+    <link rel="stylesheet" href="../CSS/nieuw_klantFactuur.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-sign-out-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="../JS/fileNames.js"></script>
 </head>
 <body>
 
@@ -80,25 +82,47 @@
             </div>
                         
             <div id="factuurUploaden_box">
-                <h2>Factuur</h2>
-                <div id="factuurUploaden">
-                    <iframe src="../../assests/WE - HC1 Overzicht & HTML basis.pdf" frameborder="0"   height="100%"></iframe><br>
-                </div>
-
+                <h2>Factuur</h2>  
                 <div id="huidigBestand_box">
-                    <label for="filesInput" id="filesLabel">Huidige bestand(en):</label>
-                    <input list="filesList" id="filesInput" placeholder="Selecteer het bestand">
-                    <datalist id="filesList">
-                        <option value="WE - HC2 CSS Basis, Kleuren & Tekst.pdf"></option>
-                        <option value="WE - HC4-Tabellen Formulieren AudioVideo.pdf"></option>
-                        <option value="Samenvatting Web essentials.docx"></option>
-                    </datalist>
-                </div>
+                    <p id="filesP">Huidige bestand(en):</p>
+                   
+                    <div id="bestandenLijst">
+                        <div id="file1_box" class="fileBoxen">
+                            <input type="file" id="addFile1" multiple onchange="showName1()" >
+                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px; text-decoration: none; cursor: pointer;"></i>
+                            </input>
 
+                            <a type="button" id="deleteFile1" onclick="deleteName1()">
+                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px;text-decoration: none;"></i>
+                            </a>
 
-                <div id="nieuwBestand_box">
-                    <input type="file" id="selector" multiple></input>
-                    <label for="selector" id="fileSelect" class="hidden" hidden> <span>Nieuw bestand selecteren</span> &#128194; </label> 
+                            <a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= file1 target="_blank">Voeg een factuur toe</a>   
+                        </div>
+
+                        <div id="file2_box" class="fileBoxen">
+                            <input type="file" id="addFile2" multiple style="background-color: yellow;" onchange="showName2()">
+                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px; text-decoration: none; cursor: pointer;"></i>
+                            </input>
+
+                            <a type="button" id="deleteFile2" onclick="deleteName2()">
+                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px;text-decoration:none;"></i>
+                            </a>
+
+                            <a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= file2 target="_blank">Voeg een factuur toe</a>
+                        </div>
+
+                        <div id="file3_box" class="fileBoxen">
+                            <input type="file" id="addFile3" multiple onchange="showName3()" >
+                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px;text-decoration: none; cursor: pointer;"></i>
+                            </input>
+
+                            <a type="button" id="deleteFile3"  onclick="deleteName3()">
+                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px; text-decoration: none;"></i>
+                            </a>
+
+                            <a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= file3 target="_blank">Voeg een factuur toe</a>
+                        </div>
+                    </div>
                 </div>
                 
             </div>

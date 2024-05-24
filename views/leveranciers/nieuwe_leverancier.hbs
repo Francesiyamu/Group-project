@@ -13,62 +13,71 @@
     <form id="form_leverancier" class="toevoegen" method="post" action="/leveranciers/submission_nieuwe_leverancier_form">
         <h1>Nieuwe leverancier toevoegen</h1>
 
+        {{#with leverancier}}
         <div class="inputs">
             <div id="nr" class="form_group toev">
-                <input type="hidden" id="levnr" name="levnr" placeholder="123456"> <br>
+                <input type="hidden" id="levnr" name="levnr" placeholder="123456" value="{{levnr}}"> <br>
             </div>
+        {{/with}}
     
             <div class="form_group toev">
                 <label for="levnaam">Naam:</label>
-                <input type="text" id="levnaam" name="levnaam" placeholder="Leverancier XYZ"> <br>
+                <input type="text" id="levnaam" name="levnaam" placeholder="Leverancier XYZ" value="{{#if data}}{{data.levnaam}}{{/if}}"> <br>
             </div>
     
             <div class="form_group toev">
                 <label for="levstraat">Straat:</label>
-                <input type="text" id="levstraat" name="straatnaam" placeholder="Main Street"> <br>
+                <input type="text" id="levstraat" name="straatnaam" placeholder="Main Street" value="{{#if data}}{{data.straatnaam}}{{/if}}"> <br>
             </div>
     
             <div class="form_group toev">
                 <label for="levhuisnr">Huisnummer:</label>
-                <input type="text" id="levhuisnr" name="huisnr" placeholder="12B"> <br>
+                <input type="text" id="levhuisnr" name="huisnr" placeholder="12B" value="{{#if data}}{{data.huisnr}}{{/if}}"> <br>
             </div>
     
             <div class="form_group toev">
                 <label for="levpostcode">Postcode:</label>
-                <input type="text" id="levpostcode" name="postcode" placeholder="1000"> <br>
+                <input type="text" id="levpostcode" name="postcode" placeholder="1000" value="{{#if data}}{{data.postcode}}{{/if}}"> <br>
             </div>
     
             <div class="form_group toev">
                 <label for="levgemeente">Gemeente:</label>
-                <input type="text" id="levgemeente" name="gemeente" placeholder="Brussel"> <br>
+                <input type="text" id="levgemeente" name="gemeente" placeholder="Brussel" value="{{#if data}}{{data.gemeente}}{{/if}}"> <br>
             </div>
 
             <div class="form_group toev">
                 <label for="levland">Landcode:</label>
-                <input type="text" id="levland" name="land" placeholder="Tweeletterige ISO landcode"> <br>
+                <input type="text" id="levland" name="land" placeholder="Tweeletterige ISO landcode" value="{{#if data}}{{data.land}}{{/if}}"> <br>
             </div>
     
             <div class="form_group toev">
                 <label for="levtelefoon">Telefoonnummer:</label>
-                <input type="tel" id="levtelefoon" name="telefoonnr" placeholder="+32345678903"> <br>
+                <input type="tel" id="levtelefoon" name="telefoonnr" placeholder="+32345678903" value="{{#if data}}{{data.telefoonnr}}{{/if}}"> <br>
             </div>
     
             <div class="form_group toev">
                 <label for="levmail">E-mail adres:</label>
-                <input type="email" id="levmail" name="email" placeholder="johndoe@example.com"> <br>
+                <input type="email" id="levmail" name="email" placeholder="johndoe@example.com" value="{{#if data}}{{data.email}}{{/if}}"> <br>
             </div>
     
             <div class="form_group toev">
                 <label for="levBTWnr">BTW-nummer:</label>
-                <input type="text" id="levBTWnr" name="BTWnr" placeholder="BE0123456789">
+                <input type="text" id="levBTWnr" name="BTWnr" placeholder="BE0123456789" value="{{#if data}}{{data.BTWnr}}{{/if}}">
             </div>
 
             <div class="btns">
                 <a href="home_leveranciers.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
                 <input type="submit" id="submitbtn" value="Toevoegen" class="btn_bottom">
             </div>
+
+            <div class="hidden">
+                {{#each errors}}
+                    <p class="errorMsg">{{this}}</p>
+                {{/each}}
+            </div>
+
         </div>
     </form>
-
+<script src="../JS/nieuwe_leverancier.js"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ body {
     align-items: center;
 }
 
-div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overschreven door rest (niet nodig als helemaal onderaan */
+div.hidden, h1.hidden, div#errorMsgs { /* Div erbij om specificiteit te verhogen --> niet overschreven door rest (niet nodig als helemaal onderaan */
     display: none;
 }
 
@@ -93,6 +93,10 @@ form label {
     background-color: #e9e6e6;
 }
 
+#nr {
+    position: absolute;
+}
+
 /* ------------- FORM BUTTONS -------------*/
 
 .btns input, .btns a, .btns_details a, .btns_details button {
@@ -169,7 +173,7 @@ form label {
 
 /* ------------- RESPONSIVE WEB DESIGN -------------*/
 
-@media screen and (max-width:1200px) {
+@media screen and (max-width:900px) { /*1200px*/
 
 /* ------------- FORM -------------*/
 
@@ -193,7 +197,6 @@ form label {
         display: block;
         padding-bottom: 0.5rem;
         align-self: center;
-
     }
 
     .form_group label {
@@ -204,9 +207,17 @@ form label {
     }
 
     form h1 {
-        width: 450px;
+        /*width: 450px;*/
         font-size: 2.5rem;
         /*margin: 0 auto 1rem auto;*/
+    }
+
+    .toevoegen h1 {
+        width: 450px;
+    }
+
+    .details_aanpassen .inputs {
+        margin: 0 5rem;
     }
 
 /* ------------- BUTTONS -------------*/
@@ -248,8 +259,6 @@ form label {
         align-items: center;
         margin: 0.5rem 0 2rem 0;
     }
-
-
 }
 
 @media screen and (max-width:540px) { /*767*/ /*519*/
@@ -263,19 +272,27 @@ form label {
     form h1 {
         width: min-content;
         font-size: 2rem;
-        margin: 1rem 2rem;
+        margin: 1rem auto;
     }
 
     #form_leverancier h1, #form_gebruiker h1 {
         padding: 0;
     }
     
+    .toevoegen h1 {
+        width: 330px;
+    }
+
     .form_group input, #functie {
         width: 230px;
     }
 
     .form_group label {
         text-align: start;
+    }
+
+    .details_aanpassen .inputs {
+        margin: 0 3rem;
     }
 
 /* ------------- BUTTONS -------------*/
@@ -294,3 +311,29 @@ form label {
         margin-bottom: 2.5rem;
     }
 }
+
+@media screen and (max-width:374px) {
+
+/* ------------- FORM -------------*/
+    .toevoegen h1 {
+        width: 298px;
+        font-size: 1.8rem;
+    }
+
+    .details_aanpassen .inputs {
+        margin: 0 2rem;
+    }
+} 
+
+@media screen and (max-width:320px) {
+
+/* ------------- FORM -------------*/
+    .toevoegen h1 {
+        width: 288px;
+        font-size: 1.6rem;
+    }
+
+    .details_aanpassen .inputs {
+        margin: 0 1.5rem;
+    }
+} 

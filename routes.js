@@ -149,16 +149,6 @@ router.get('/leveranciers/home_leveranciers.html', (req, res) => {
     });
 });
 
-// Details leverancier
-router.get('/leveranciers/details_aanpassen_leverancier.html', (req,res) => {
-    console.log('details leverancier');
-    const id = req.query.nr;
-    connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
-        console.log(results[0]);
-        res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0]});
-    })
-})
-
 // Verwijderen leverancier
 router.get('/leveranciers/verwijderen_leverancier', (req,res) => {
     console.log('verwijderen');
@@ -171,7 +161,34 @@ router.get('/leveranciers/verwijderen_leverancier', (req,res) => {
 // Toevoegen leverancier
 router.get('/leveranciers/nieuwe_leverancier.html', (req,res) => {
     console.log('toevoegen');
-    res.sendFile(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier.html'));
+    
+    // Select & save next levnr
+    let next_id;
+    connection.query('SELECT levnr FROM LEVERANCIERS ORDER BY levnr DESC LIMIT 1', (errors, result) => { // Select last registerd levnr
+        if(result != undefined) {
+            console.log(result[0].levnr);
+            next_id = {levnr: result[0].levnr + 1};
+        } else {
+            next_id = {levnr: 1};
+        }
+
+        // Check if errors from previous submission
+        let errorMsg;
+        let submittedData;
+        if(req.query.errorsSubmission){ 
+            const errorsSubmission = req.query.errorsSubmission;
+            errorMsg = JSON.parse(errorsSubmission);
+
+            submittedData = JSON.parse(decodeURIComponent(req.query.submittedData));
+        }
+
+    // Render page
+        if(errorMsg) {
+            res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {leverancier: next_id, errors: errorMsg, data: submittedData});
+        } else {
+            res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {leverancier: next_id});
+        }
+    })
 })
 
 router.post('/leveranciers/submission_nieuwe_leverancier_form', validationRulesLev(), async (req, res) => {
@@ -181,7 +198,15 @@ router.post('/leveranciers/submission_nieuwe_leverancier_form', validationRulesL
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        let errorMsg = [];
+        for(let error of errors.array()) {
+            errorMsg.push(error.msg);
+        }
+    
+        StringifiedErrorMsg = JSON.stringify(errorMsg);
+        StringifiedSubmittedData = encodeURIComponent(JSON.stringify(req.body)); // Necessary to recognize + of telefoonnr, expects string
+        res.redirect(`/leveranciers/nieuwe_leverancier.html?errorsSubmission=${StringifiedErrorMsg}&submittedData=${StringifiedSubmittedData}`);
+        //return res.status(400).json({ errors: errors.array() });
     } else {
         try {
             const {levnr, levnaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email, BTWnr} = req.body;
@@ -195,6 +220,29 @@ router.post('/leveranciers/submission_nieuwe_leverancier_form', validationRulesL
     }
 })
 
+// Details leverancier
+router.get('/leveranciers/details_aanpassen_leverancier.html', (req,res) => {
+    console.log('details leverancier');
+    const id = req.query.nr;
+    connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
+        console.log(results[0]);
+
+    // Check if errors from previous submission
+        let errorMsg;
+        if(req.query.errorsSubmission){ 
+            const errorsSubmission = req.query.errorsSubmission;
+            errorMsg = JSON.parse(errorsSubmission);
+        }
+
+    // Render page
+        if(errorMsg) {
+            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], errors: errorMsg});
+        } else {
+            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0]});
+        }
+    })
+})
+
 // Aanpassen leverancier
 router.post('/leveranciers/submission_update_leverancier_form', validationRulesLev(), async (req, res) => {
     console.log('aanpassen leverancier');
@@ -203,7 +251,15 @@ router.post('/leveranciers/submission_update_leverancier_form', validationRulesL
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        let errorMsg = [];
+        for(let error of errors.array()) {
+            errorMsg.push(error.msg);
+        }
+        
+        let nr = req.body.levnr;
+        StringifiedErrorMsg = JSON.stringify(errorMsg);
+        res.redirect(`/leveranciers/details_aanpassen_leverancier.html?nr=${nr}&errorsSubmission=${StringifiedErrorMsg}`);
+        //return res.status(400).json({ errors: errors.array() });
     } else {
         try {
             const {levnr, levnaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email, BTWnr} = req.body;
