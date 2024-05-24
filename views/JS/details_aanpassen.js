@@ -15,6 +15,11 @@ function replaceClasses() {
     for(let element of visible_elements) {
         element.classList.replace('visible','hidden');
     }
+
+    let ATags = Array.from(document.getElementsByClassName('file_A_Tag'));
+    for(let ATag of ATags) {
+        ATag.toggleAttribute('hidden');
+    }
 }
 
 function toggleAttributes() {
@@ -37,6 +42,17 @@ function toggleAttributes() {
     if(label) {
         label.toggleAttribute('hidden');
     }
+
+    let iTags = document.getElementsByTagName('i');
+    for(let iTag of iTags) {
+        iTag.toggleAttribute('hidden');
+    }
+
+    let fileInput = document.getElementById('fileInput');
+    if(fileInput) {
+        fileInput.toggleAttribute('disabled');
+    }
+
 }
 
 function switchToModify() {
