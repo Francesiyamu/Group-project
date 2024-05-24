@@ -33,26 +33,21 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 // Routes
 app.use('/', routes);
 
-/*-------------https:---------------------- please do not touch nor the certifcates folder
+
 const options = {
-key: fs.readFileSync((__dirname + '/certificates/privkey.pem')),
-cert: fs.readFileSync((__dirname + '/certificates/fullchain.pem'))
-};
+    key: fs.readFileSync((__dirname + '/certificates/privkey.pem')),
+    cert: fs.readFileSync((__dirname + '/certificates/fullchain.pem'))
+  };
   
-https.createServer(options, app).listen(port, () => {
- console.log('HTTPS server running on port ' + port);
- });
+ // https.createServer(options, app).listen(port, () => {
+ //   console.log('HTTPS server running on port ' + port);
+ // });
 
 
 const http = require('http');
 
-http.createServer((req, res) => {
-res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url  });
-res.end();
+http.createServer((options, app) => {
+// http.createServer((req, res) => { 
+//  res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url  });
+//  res.end();
 }).listen(3000);
-*/
-
-//-----------------development server:---------------------- Disable on 
-app.listen(3000, () => {
-  console.log(`Server listening at http://localhost:3000}`);
-});
