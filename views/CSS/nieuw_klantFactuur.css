@@ -104,6 +104,10 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
         padding: 0;
         text-align: left;
     }
+
+    .fileBoxen{
+        margin-bottom: 0.5rem;
+    }
 /* +++++++++++++++++++++++++++++++ */
 
 
