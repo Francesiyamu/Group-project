@@ -141,16 +141,6 @@ router.get('/leveranciers/home_leveranciers.html', authenticateToken,(req, res) 
     });
 });
 
-// Details leverancier
-router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken,(req,res) => {
-    console.log('details leverancier');
-    const id = req.query.nr;
-    connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
-        console.log(results[0]);
-        res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries});
-    })
-})
-
 // Verwijderen leverancier
 router.get('/leveranciers/verwijderen_leverancier', authenticateToken,(req,res) => {
     console.log('verwijderen');
@@ -160,11 +150,28 @@ router.get('/leveranciers/verwijderen_leverancier', authenticateToken,(req,res) 
     })
 })
 
-
 // Toevoegen leverancier
 router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken,(req,res) => {
-          res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {countries : countries,});
-    })
+    // Check if errors from previous submission
+    let errorMsg;
+    let submittedData;
+    if(req.query.errorsSubmission){ 
+        const errorsSubmission = req.query.errorsSubmission;
+        errorMsg = JSON.parse(errorsSubmission);
+
+        submittedData = JSON.parse(decodeURIComponent(req.query.submittedData));
+
+        console.log(errorMsg);
+        console.log(submittedData);
+    }
+
+    // Render page
+    if(errorMsg) {
+        res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {countries : countries, errors: errorMsg, data: submittedData});
+    } else {
+        res.render(path.join(__dirname,'views', 'leveranciers', 'nieuwe_leverancier'), {countries : countries});
+    }
+})
 
 
 router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken, validationRulesLev(), async (req, res) => {
@@ -197,7 +204,7 @@ router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToke
 })
 
 // Details leverancier
-router.get('/leveranciers/details_aanpassen_leverancier.html', (req,res) => {
+router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken, (req,res) => {
     console.log('details leverancier');
     const id = req.query.nr;
     connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
@@ -212,9 +219,9 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', (req,res) => {
 
     // Render page
         if(errorMsg) {
-            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], errors: errorMsg});
+            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries, errors: errorMsg});
         } else {
-            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0]});
+            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries});
         }
     })
 })
