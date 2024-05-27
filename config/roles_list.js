@@ -4,4 +4,5 @@ const ROLES_LIST = {
     "Boekhouder": 3
 }
 
+
 module.exports = ROLES_LIST;

@@ -15,6 +15,11 @@ function replaceClasses() {
     for(let element of visible_elements) {
         element.classList.replace('visible','hidden');
     }
+
+    let ATags = Array.from(document.getElementsByClassName('file_A_Tag'));
+    for(let ATag of ATags) {
+        ATag.toggleAttribute('hidden');
+    }
 }
 
 function toggleAttributes() {
@@ -37,6 +42,17 @@ function toggleAttributes() {
     if(label) {
         label.toggleAttribute('hidden');
     }
+
+    let iTags = document.getElementsByTagName('i');
+    for(let iTag of iTags) {
+        iTag.toggleAttribute('hidden');
+    }
+
+    let fileInput = document.getElementById('fileInput');
+    if(fileInput) {
+        fileInput.toggleAttribute('disabled');
+    }
+
 }
 
 function switchToModify() {
@@ -85,7 +101,7 @@ console.log(message);
 
 if(message) {
     switchToModify();
-    setTimeout(() => {alert(message)},5); //Nodig want GET method rendert naar details_aanpassen_xx --> je bent weer op details pagina
+    setTimeout(() => {alert(message)},10); //Nodig want GET method rendert naar details_aanpassen_xx --> je bent weer op details pagina
 }
 
 }

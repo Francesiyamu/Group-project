@@ -43,10 +43,13 @@
                 <label for="levgemeente">Gemeente:</label>
                 <input type="text" id="levgemeente" placeholder="Brussel" disabled> <br>
             </div>
-
-            <div class="form_group">
-                <label for="levland">Landcode:</label>
-                <input type="text" id="levland" placeholder="Tweeletterige ISO landcode" disabled> <br>
+   <div class="form_group toev">
+                <label for="functie">Functie:</label>
+                <select name="functienr" id="functie">
+                    {{#each functies}}
+                        <option value="{{functienr}}">{{functienaam}}</option>
+                    {{/each}}
+                </select>
             </div>
     
             <div class="form_group">

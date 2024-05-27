@@ -284,6 +284,9 @@ a.menu.active::after {
 @media screen and (max-width:1197px){
 
     /* ------------- NAVBAR -------------*/
+  /*  nav ul {
+        justify-content: space-between;
+    } */
 
     .large_screen_nav li {
         width: min-content; /* Wanneer menu items wrappen op 2 lijnen, zorgen nog steeds goed geplaatst*/
@@ -308,13 +311,7 @@ a.menu.active::after {
     }
 }
 
-@media screen and (max-width:1030px) { /* Om geen problemen te hebben met scroll bij overgang */
-    .large_screen_nav ul {
-        justify-content: center;
-    }
-}
-
-@media screen and (max-width:1000px) {
+@media screen and (max-width:950px) {
 
 /* ------------- NAVBAR -------------*/
 
@@ -352,25 +349,7 @@ a.menu.active::after {
     }
 }
 
-@media screen and (max-width:845px) { /* Check waarde zodanig overgang niet te plots */
-
-/* ------------- NAVBAR -------------*/
-
-    #nav_lower li {
-        margin: 0.5rem 0.5rem;
-    }
-
-    #logo {
-        width: 60px;
-        margin-right: 0.3rem;
-    }
-
-    .bg-custom.navbar {
-        background-color: #161538;
-    }
-}
-
-@media screen and (max-width:767px) { /* Waarde volgens bootstrap */
+@media screen and (max-width:712px) { /*767*/
 
 /* ------------- NAVBAR -------------*/
 

@@ -1,5 +1,18 @@
 window.onload = () => {
     console.log('loaded');
+
+    let gebruikers_items = document.getElementsByClassName('gebruikers_item');
+    let level = localStorage.getItem('level');
+
+    console.log(gebruikers_items)
+    console.log(level);
+    if(level != 1) {
+        console.log(level);
+        for(let gebruikers_item of gebruikers_items) {
+            gebruikers_item.style.display = "none";
+        }
+    }
+
 }
 
 function tableSearch() {

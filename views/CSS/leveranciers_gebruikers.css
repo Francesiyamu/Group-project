@@ -56,7 +56,7 @@ form label {
     padding: 1rem;
     margin-right: 1rem;
     display: inline-block;
-    width: 195px; /*200px;*/
+    width: 170px; /*200px;*/
     text-align: right;
     font-weight: bold;
 }
@@ -80,7 +80,7 @@ form label {
     justify-content: center;
 }
 
-.form_group input, #functie {
+.form_group input, #functie, #levLand {
     padding: 0.5rem;
     width: 300px;
     border-style: solid;
@@ -89,7 +89,7 @@ form label {
     border-radius: 3px;
 }
 
-#functie:disabled, input[type="text"]:disabled, input[type="password"]:disabled, input[type="email"]:disabled, input[type="tel"]:disabled {
+#levLand:disabled, #functie:disabled, input[type="text"]:disabled, input[type="password"]:disabled, input[type="email"]:disabled, input[type="tel"]:disabled {
     background-color: #e9e6e6;
 }
 
@@ -283,7 +283,7 @@ form label {
         width: 330px;
     }
 
-    .form_group input, #functie {
+    .form_group input, #functie, #levLand {
         width: 230px;
     }
 

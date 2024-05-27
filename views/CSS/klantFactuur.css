@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
@@ -21,457 +17,352 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
 
 /* ------------- FORM -------------*/
 
-form {
-    width: 1000px;
-    margin: 1.5rem auto;
-    color: #161538;
-    background-color: #e9e6e6;
-    border-style: solid;
-    border-color: #838287;
-    border-radius: 5px;  
-}
-
-#form_klantFactuur{
-    height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
-}
-
-form h1 {
-    color: #ff9992;
-    padding: 2rem 0rem 1rem 0rem;
-    text-align: center;
-    text-transform: uppercase;
-    margin: 0 2rem 0 2rem;
-}
-
-form h2 {
-    color: #ff9992;
-    text-align: center;
-}
-
-.form_group {
-    display: flex;
-    align-items: center;
-}
-
-form label {
-    padding: 1rem 0 1rem 0;
-    margin-right: 1rem;
-    display: inline-block;
-    width: 150px;
-    text-align: right;
-    font-weight: bold;
-}
-
-.form_group input , .form_group select, .form_group textarea{
-    padding: 0.5rem;
-    margin: 0.5rem;
-    width: 230px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #161538;
-    border-radius: 3px;
-}
-
-.inputs {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#beschrijving{
-    resize: none;
-}
-
-/* ++++++++ FACTUUR PDF WEERGAVEN VELD ++++++++ */
-#factuurUploaden_box{
-    align-self: flex-start;
-    margin-left: auto;
-    margin-right: 1rem;  
-    width: 55%;
-    /* height: fit-content; */
-} 
-
-#factuurUploaden {
-    margin-top: 1rem;
-    height: 500px;
-    background-color: gainsboro;
-}
-
-iframe{
-    height: 100%;
-    width: 100%;
-}
-/* +++++++++++++++++++++++++++++++++++++++++++++ */
-
-
-/* ++++++++ HUIDIG BESTAND ++++++++ */
-#huidigBestand_box{
-    display: flex;
-    flex-direction: column;
-}
-
-#huidigBestand_box p, #huidigBestand_box label{
-    margin: 1rem 1rem 0 0 ;
-    font-weight: bold;
-    padding: 0;
-    text-align: left;
-    width: fit-content;
-}
-
-#huidigBestand_box p{
-    font-weight: normal;
-}
-
-#selectBestand{
-    width: 200px;
-    text-align: left;
-}
-
-
-#filesInput{
-    background-color: #e9e6e6;
-    border-color: black;
-    text-decoration: underline;
-    border-width: 0;
-    margin-top: 1rem;
-    font-weight:500;
-
-    width: 100%;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    margin-top: 0;
-}
-
-#filesLabel{
-    width:100%;
-}
-/* +++++++++++++++++++++++++++++++ */
-
-
-
-/* ------------- FORM BUTTONS -------------*/
-
-.btns input, .btns a, .btns_details a, .btns_details button {
-    width: 170px;
-    background-color: #161538;
-    border-style: solid;
-    border-color: #838287;
-    border-width: 1.5px;
-    border-radius: 4em;
-    padding: 1rem 2.5rem;
-    color: #c7c7ca;
-    font-weight: 400;
-    text-decoration: none;
-    text-align: center;
-}
-
-.btns, .btns_details {
-    display: flex;
-    margin: 2rem 1.5rem 0 0;
-    height: 80px;   
-    align-items: flex-end;
-}
-
-.btns_details {
-    flex-direction: row-reverse;
-    margin: 2rem 0 0 0;
-}
-
-#btn_modify, #btn_remove {
-    display: inline-block;
-    height: fit-content;
-    width: 220px;
-    padding: 1rem;
-    margin: 0 1.5rem 0.8rem 1rem;
-}
-
-#btn_remove {
-    margin-left: 1rem;
-    margin-right: auto;
-}
-
-#btn_back {
-    display: inline-block;
-    width: 220px;
-}
-
-#submitbtn {
-    margin-left: auto;
-    height: fit-content;
-    margin-bottom: 0.8rem;
-}
-
-#cancelbtn {
-    margin-left: 1.5rem;
-    display: inline-block; 
-    height: fit-content;
-    margin-bottom: 0.8rem;
-}
-
-.btn_bottom {
-    transition: transform 0.7s;
-}
-
-.btn_bottom:hover, .btns_details .btn_bottom:hover {
-    transform: scale(1.1);
-    color: #ff9992;
-    border-color: #ff9992;
-    border-width: 2.3px;
-    font-weight: bold;
-}
-
-#kruisje{
-    background-color: #e9e6e6;
-    border: 0;
-    padding: 0;
-}
-
- #selector {
-    opacity: 0;
-    width: 0.1px;
-    height: 0.1px;
-    position: absolute;
-} 
-
-#fileSelect{
-    font-size: 20px;
-    text-align: left;
-    width: fit-content;
-    cursor: pointer;
-    margin-right: 0;
-    padding: 0;
-}
-
-#fileSelect span{
-    font-size: medium;
-    text-decoration: underline;
-}
-
-#nieuwBestand_box{
-    display: block;
-}
-
-
-
-/*voorstel */
-  input{
-    padding: 10px 20px;
-    margin: 0 10px;
-    outline: none;
-    border: 1px solid #029bcf;
-    border-radius: 0.3rem  0 0 0.3rem;
-  }
-  
-  .table-section{
-    overflow: scroll;
-    height: 500px;
-  }
-  
-  table{
-    width: 100%;
-    table-layout: fixed;
-    min-width: 1000px;
-    border-collapse: collapse;
-    position: relative;
-    text-align: left;
-  }
-  
-  thead th{
-    position: sticky;
-    top: 0;
-    background-color: #161538;
-    color: #ffffff;
-  }
-  
-  th,td{
-    border-bottom: 1px solid #dddddd;
-    padding: 10px 20px;
-    word-break: break-all;
-  }
-  
-  tr:hover td{
-    cursor: pointer;
-    background-color: #75737a;
-  }
-  
-  
-  .table-section__refresh{
-    float: right;
-    margin-right: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .refresh_button{
-    background: #dddddd;
-    border: none;
-    outline: none;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  
-  .refresh_button--refreshing{
-    animation: 10s rotate infinite linear;
-  }
-  
-  @keyframes rotate{
-    to{
-      transform: rotate(1turn);
-    }
-  }
-  
-  .table-refresh-label{
-    font-size: 0.8em;
-    color: #999;
-  }
-
-
-
-@media screen and (max-width:1050px) {
-    
-    form{
-        width: fit-content;
-    }
-    
-    form h1 {
-        padding: 0;
-        padding-top: 1rem; 
-    }
-
-    
-    .inputs{
-        flex-direction: column;
-        align-items: center;
-        padding-right: 1rem;
-    }
-
-    .form_group{
-        display: flex;
-    }
- 
-    #factuurUploaden_box{
-        width: 500px;
-        height: max-content;
-       margin: 2rem 2rem 0 2rem;
-    } 
-
-    #factuurUploaden_box{
-        align-self: center;
+    form {
+        width: 1000px;
+        margin: 1.5rem auto;
+        color: #161538;
+        background-color: #e9e6e6;
+        border-style: solid;
+        border-color: #838287;
+        border-radius: 5px;  
     }
 
     #form_klantFactuur{
         height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
     }
 
+    form h1 {
+        color: #ff9992;
+        padding: 2rem 0rem 1rem 0rem;
+        text-align: center;
+        text-transform: uppercase;
+        margin: 0 2rem 0 2rem;
+    }
+
+    form h2 {
+        color: #ff9992;
+        text-align: center;
+    }
+
+    .form_group {
+        display: flex;
+        align-items: center;
+    }
+
+    form label {
+        padding: 1rem 0 1rem 0;
+        margin-right: 1rem;
+        display: inline-block;
+        width: 150px;
+        text-align: right;
+        font-weight: bold;
+    }
+
+    .form_group input , .form_group select, .form_group textarea{
+        padding: 0.5rem;
+        margin: 0.5rem;
+        width: 230px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #161538;
+        border-radius: 3px;
+    }
+
+    .inputs {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #beschrijving{
+        resize: none;
+    }
+
+/* ++++++++ FACTUUR PDF WEERGAVEN VELD ++++++++ */
+    #factuurUploaden_box{
+        align-self: flex-start;
+        margin-left: auto;
+        margin-right: 1rem;  
+        width: 55%;
+    } 
+
+    #factuurUploaden {
+        margin-top: 1rem;
+        height: 500px;
+    }
+
+    iframe{
+        height: 100%;
+        width: 100%;
+    }
+/* +++++++++++++++++++++++++++++++++++++++++++++ */
 
 
-/* ------------- BUTTONS -------------*/
+/* ++++++++ HUIDIG BESTAND ++++++++ */
 
-.btns {
-    margin-right: 1rem;
-}
+    #huidigBestand_box{
+        display: flex;
+        flex-direction: column;
+        margin-top: 0.5rem;
+    }
 
-#submitbtn {
-    margin-right: 0;
-}
+    #huidigBestand_box p{
+        margin: 1rem 0 0.5rem 0 ;
+        font-weight: bold;
+        padding: 0;
+        text-align: left;
+    }
 
-#cancelbtn {
-    margin-left: 1rem;
-}
+    .fileBoxen{
+        margin-bottom: 0.5rem;
+    }
 
-#btn_back, #btn_modify, #btn_remove {
-    margin: 0;
-}
+/* +++++++++++++++++++++++++++++++ */
 
-#btn_modify {
-    margin-bottom: 7px;
-    margin-top: 5rem;
-}
 
-#btn_remove {
-    margin-bottom: 10px;
-}
 
-.btns_details {
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    height: auto;
-}
+/* ------------- FORM BUTTONS -------------*/
 
-.modify_back_btns {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    margin: 0.5rem 0 2rem 0;
-}
+    .btns input, .btns a, .btns_details a, .btns_details button {
+        width: 170px;
+        background-color: #161538;
+        border-style: solid;
+        border-color: #838287;
+        border-width: 1.5px;
+        border-radius: 4em;
+        padding: 1rem 2.5rem;
+        color: #c7c7ca;
+        font-weight: 400;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btns, .btns_details {
+        display: flex;
+        margin: 2rem 1.5rem 0 0;
+        height: 80px;   
+        align-items: flex-end;
+    }
+
+    .btns_details {
+        flex-direction: row-reverse;
+        margin: 2rem 0 0 0;
+    }
+
+    #btn_modify, #btn_remove {
+        display: inline-block;
+        height: fit-content;
+        width: 220px;
+        padding: 1rem;
+        margin: 0 1.5rem 0.8rem 1rem;
+    }
+
+    #btn_remove {
+        margin-left: 1rem;
+        margin-right: auto;
+    }
+
+    #btn_back {
+        display: inline-block;
+        width: 220px;
+    }
+
+    #submitbtn {
+        margin-left: auto;
+        height: fit-content;
+        margin-bottom: 0.8rem;
+    }
+
+    #cancelbtn {
+        margin-left: 1.5rem;
+        display: inline-block; 
+        height: fit-content;
+        margin-bottom: 0.8rem;
+    }
+
+    .btn_bottom:hover, .btns_details .btn_bottom:hover {
+        transform: scale(1.1);
+        color: #ff9992;
+        border-color: #ff9992;
+        border-width: 2.3px;
+        font-weight: bold;
+        transition: transform 0.7s;
+    }
+
+    #addFile1, #addFile2, #addFile3 {
+        opacity: 0;
+        width: 2px;
+        height: 4px;
+        position: absolute;
+        padding: 8px 20px;
+    } 
+
+    #deleteFile1, #addFile1, #deleteFile2, #addFile2, #deleteFile3, #addFile3{
+        padding-left: 0.25rem;
+        padding-right: 0.75rem;
+    }
+
+    #file1, #file2, #file3{
+        text-decoration: none;
+    }
+
+    #file1_box :hover, #file2_box :hover, #file3_box :hover{
+        text-decoration: underline;
+    }
+
+@media screen and (max-width:1050px) {
+    /* ------------- FORM -------------*/  
+        form{
+            width: fit-content;
+        }
+        
+        form h1 {
+            padding: 0;
+            padding-top: 1rem; 
+        }
+
+        
+        .inputs{
+            flex-direction: column;
+        }
+
+        .form_group{
+            display: flex;
+        }
+
+        #factuurgegevens_box{
+            align-self: center;
+        }
+    
+        #factuurUploaden_box{
+            width: 500px;
+            height: max-content;
+        margin: 2rem 2rem 0 2rem;
+        align-self: center;
+        } 
+
+        #factuurUploaden_box{
+            align-self: center;
+        }
+
+        #form_klantFactuur{
+            height: 100%; /*Ofwel 100% --> zeker altijd past, maar dan beweegt het iets naar beneden bij hover doordat size buttons stijgt */
+        }
+
+
+    /* ------------- BUTTONS -------------*/
+
+        .btns {
+            margin-right: 1rem;
+        }
+
+        #submitbtn {
+            margin-right: 0;
+        }
+
+        #cancelbtn {
+            margin-left: 1rem;
+        }
+
+        #btn_back, #btn_modify, #btn_remove {
+            margin: 0;
+        }
+
+        #btn_modify {
+            margin-bottom: 7px;
+        }
+
+        #btn_remove {
+            margin-bottom: 10px;
+        }
+
+        .btns_details {
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            height: auto;
+        }
+
+        .modify_back_btns {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            margin: 0.5rem 0 2rem 0;
+        }
 }
 
 
 @media screen and (max-width:600px) { 
 
-/* ------------- FORM -------------*/
+    /* ------------- FORM -------------*/
 
-    #form_klantFactuur {
-        height: 100%;
-        width: fit-content;
-    }
+        #factuurUploaden{
+            display: none;
+        }
 
-    form h1 {
-        width: 60%;
-        font-size: 2rem;
-        margin: 1rem 0 1rem 20%;
-    }
+        #form_klantFactuur {
+            height: 100%;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+        }
 
-    #factuurgegevens_box h2{
-        margin-bottom: 1rem;
-    }
+        form h1 {
+            width: 250px;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            align-self: center;
+        }
+        
+        #factuurgegevens_box{
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+        }
 
-    #form_klantFactuur h1 {
-        padding: 0;
-    }
-    
-    #factuurgegevens_box{
-        display: flex;
-        flex-direction: column;
-    }
+        .form_group{
+            display: block;
+            align-self: center;
+        }
 
-    .form_group{
-        display: block;
-        align-self: center;
-    }
+        .form_group label {
+            text-align: start;
+            margin-right: 0;
+            display: block;
+            padding-bottom: 0;
+            padding-top: 1rem;
+        }
 
-    .form_group label {
-        text-align: start;
-        margin-right: 0;
-        display: block;
-        padding-bottom: 0;
-        padding-top: 1rem;
-    }
+        #bestandenLijst {
+            width: 200px;
+        }
 
+        .form_group input , .form_group select, .form_group textarea{
+            width: 200px;
+            margin-left: 0;
+        }
 
-    .form_group input , .form_group select, .form_group textarea{
-        width: 200px;
-        margin-left: 0;
-    }
+        #factuurUploaden_box{
+            width: fit-content; 
+            margin-top: 1rem;
+        } 
 
-    #factuurUploaden_box{
-        width: 85%; 
-        margin: 2rem 2rem 0 2rem;
-    } 
-    
-/* ------------- BUTTONS -------------*/
+        #file1_box, #file2_box, #file3_box{
+            display: flex;
+        }
+        
+    /* ------------- BUTTONS -------------*/
 
-    .btns {
-        flex-direction: column-reverse;
-        margin: 1.5rem 0 1rem 0;
-        height: fit-content;
-    }
-    
-    #submitbtn, #cancelbtn {
-        margin: auto;
-    }
-    
-    #submitbtn {
-        margin-bottom: 2.5rem;
-        margin-top: 2.5rem;
-    }
-}
+        .btns {
+            flex-direction: column-reverse;
+            margin: 1.5rem 0 1rem 0;
+            height: fit-content;
+        }
+        
+        #submitbtn, #cancelbtn {
+            margin: auto;
+        }
+        
+        #submitbtn {
+            margin-bottom: 2.5rem;
+        }
+} 
