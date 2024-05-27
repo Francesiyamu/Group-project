@@ -199,6 +199,32 @@ select:disabled {
     margin-top: 3.5em;
 }
 
+/*file upload*/
+
+.hidden {
+  display: none;
+}
+
+.file-item {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.file-name {
+	margin-right: 10px;
+}
+
+.delete-icon {
+	cursor: pointer;
+	color: red;
+	font-weight: bolder;
+}
+
+
+
+
+
 /*
 
 .floating{
