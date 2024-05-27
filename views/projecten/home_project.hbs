@@ -88,6 +88,16 @@
                         <th>Gemeente</th>
                     </tr>
                 </thead>
+                <tbody>
+                    {{#each Projecten}}
+                    <tr onclick="window.location='/details_aanpassen_project?var={{projectnr}}"></tr>
+                        <td>{{projectnr}}</td>
+                        <td>{{klantnr}}</td>
+                        <td>{{status}}</td>
+                        <td>{{gemeente}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
                 </table>
             </div>
 

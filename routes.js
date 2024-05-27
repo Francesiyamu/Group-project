@@ -40,8 +40,12 @@ router.get('/home', (req, res) => {
 }); */
 
 // -------------PROJECTEN---------------------------------------------------
-router.get('/projecten/home_project.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'projecten', 'home_project.html'));
+router.get('/projecten/home_project', (req, res) => {
+    connection.query('SELECT projectnr klantnr status, straatnaam gemeente FROM PROJECTEN', (error, results) => {
+        console.log(results);
+        if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'projecten', 'home_project'), { projecten: results });
+    });
 });
 router.get('/projecten/nieuw_project.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
