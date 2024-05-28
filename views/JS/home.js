@@ -5,8 +5,6 @@ window.onload = () => {
     let no_boekhouder_items = document.getElementsByClassName('no_boekhouder');
     let level = localStorage.getItem('level');
 
-    level = 3;
-
     console.log(no_boekhouder_items);
     console.log(gebruikers_items)
     console.log(level);
