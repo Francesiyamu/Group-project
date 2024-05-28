@@ -2,11 +2,20 @@ window.onload = () => {
     console.log('loaded');
 
     let gebruikers_items = document.getElementsByClassName('gebruikers_item');
+    let no_boekhouder_items = document.getElementsByClassName('no_boekhouder');
     let level = localStorage.getItem('level');
 
+    level = 3;
+
+    console.log(no_boekhouder_items);
     console.log(gebruikers_items)
     console.log(level);
-    if(level != 1) {
+    if(level == 3) {
+        for(let no_boekhouder_item of no_boekhouder_items) {
+            no_boekhouder_item.style.display = "none";
+        }
+        document.getElementById('fact_lev_menu').style.width = "max-content";
+    } else if(level != 1) {
         console.log(level);
         for(let gebruikers_item of gebruikers_items) {
             gebruikers_item.style.display = "none";
