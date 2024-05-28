@@ -292,7 +292,7 @@ router.get('/set-token', (req, res) => {
     }
     req.session.token = token;
     req.session.level = level;
-    res.redirect('/klant_factuur/home_klantFacturen');
+    res.redirect('/klant_factuur/home_klantFacturen.html');
 });
 // Route to logout and end the session
 router.get('/logout', (req, res) => {
