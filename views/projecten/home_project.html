@@ -84,7 +84,11 @@
                     <tr>
                         <th>Projectnummer</th>
                         <th>Klantnummer</th>
-                        <th>Status</th>
+                        <th col-index = 3>Status <br>
+                            <select class="table-filter" onchange="filter_rows()">
+                              <option value="all"></option>
+                            </select>
+                        </th>
                         <th>Gemeente</th>
                     </tr>
                 </thead>

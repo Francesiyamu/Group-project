@@ -85,7 +85,11 @@
                         <th>Factuurnummer</th>
                         <th>Klantnaam</th>
                         <th>Totaal bedrag</th>
-                        <th>Status betaling</th>
+                        <th col-index = 3>Status <br>
+                            <select class="table-filter" onchange="filter_rows()">
+                              <option value="all"></option>
+                            </select>
+                        </th>
                     </tr>
                 </thead>
                 </table>

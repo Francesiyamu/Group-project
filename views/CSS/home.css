@@ -242,8 +242,29 @@ a.menu.active::after {
     cursor: pointer;
     background-color: #75737a;
   }
+
+  .table-filter{
+    border-radius: 5px;
+    width: 100px;
+    margin-top: 10px;
+  }
   
+
+  .search-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem;} /*Optional: add margin to adjust spacing*/
+
+
+
+
+
+
+
+
+
   
+  /*
   .table-section__refresh{
     float: right;
     margin-right: 2rem;
@@ -273,11 +294,8 @@ a.menu.active::after {
     color: #999;
   }
   
-  .search-container {
-    display: flex;
-    justify-content: flex-end;
-    margin: 1rem; /* Optional: add margin to adjust spacing */
-}
+   */
+
 
 /* ------------- RESPONSIVE WEB DESIGN -------------*/
 
