@@ -265,7 +265,7 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
 router.get('/klant_factuur/home_klantFacturen.html',authenticateToken, (req, res) => {
     connection.query('SELECT FACTUREN.factuurid, FACTUREN.factuurnr, KLANTEN.achternaam, KLANTEN.voornaam, FACTUREN.bedragNoBTW, FACTUREN.statusBetaling FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid= FACTUREN_KLANTEN.factuurid JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr', (error, results) => {
-        console.log(results);
+        if (error) console.log(error);
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen'), { Facturen: results });
     });
