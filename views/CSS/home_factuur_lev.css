@@ -228,11 +228,12 @@ thead th{
   background-color: #161538;
   color: #ffffff;
   text-align:center;
-  align-items: auto; 
+  
 }
 
 th,td{
   padding: 10px 15px;
+  text-align: center;
 }
 
 
