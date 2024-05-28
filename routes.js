@@ -30,7 +30,8 @@ router.get('/', (req, res) => {
 });
 router.use(express.json());
 
-
+// Handle login
+router.post('/login', userLogin);
 // -------------PROJECTEN---------------------------------------------------
 router.get('/projecten/home_project.html', authenticateToken, (req, res) => {
     connection.query('SELECT projectnr, klantnr, status, gemeente FROM PROJECTEN', (error, results) => {
@@ -263,7 +264,7 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 
 
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
-router.get('/klant_factuur/home_klantFacturen', (req, res) => {
+router.get('/klant_factuur/home_klantFacturen.html', (req, res) => {
     connection.query('SELECT factuurid, klantnaam, totaalbedrag, status FROM FACTUREN_KLANTEN ', (error, results) => {
         console.log(results);
         if (error) throw error;
@@ -283,8 +284,7 @@ router.post('/submit-form-nieuwe-gebruiker', authenticateToken, registreerGebrui
 
 
 
-// Handle login
-router.post('/login', userLogin);
+
 router.get('/set-token', (req, res) => {
     const token = req.query.token;
     const level = req.query.level;
