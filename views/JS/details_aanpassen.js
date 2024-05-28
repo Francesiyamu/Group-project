@@ -81,9 +81,18 @@ btn_modify.addEventListener('click', function() {
 });
 
 let cancelbtn = document.getElementById('cancelbtn');
-cancelbtn.addEventListener('click', function(){
+cancelbtn.addEventListener('click', function(event){
     event.preventDefault();
-    location.reload();
+    console.log("click")
+
+    const url = new URL(window.location.href); // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/delete
+    const searchParams = new URLSearchParams(url.search);
+    searchParams.delete("errorsSubmission");
+    url.search = searchParams.toString();
+    console.log(url);
+    window.location.href = url.toString();
+
+    //location.reload();
 });
 
 /* ----------------------------------- TREAT ERROR MESSAGES ----------------------------------- */
@@ -101,7 +110,7 @@ console.log(message);
 
 if(message) {
     switchToModify();
-    setTimeout(() => {alert(message)},10); //Nodig want GET method rendert naar details_aanpassen_xx --> je bent weer op details pagina
+    setTimeout(() => {alert(message)},100); //Nodig want GET method rendert naar details_aanpassen_xx --> je bent weer op details pagina
 }
 
 }
