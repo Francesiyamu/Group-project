@@ -81,21 +81,21 @@
                     <tr>
                         <th>Factuurnummer</th>
                         <th>Klantnaam</th>
-                        <th>Totaal bedrag</th>
+                        <th>Totaal excl.BTW</th>
                         <th>Status betaling</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each Facturen}}
-                    <tr onclick="window.location='/details_aanpassen_project?var={{factuurid}}"></tr>
-                        <td>{{factuurid}}</td>
-                        <td>{{klantnaam}}</td>
-                        <td>{{totaalbedrag}}</td>
-                        <td>{{status}}</td>
+                    <tr onclick="window.location='/details_aanpassen_klantFactuur?var={{factuurid}}'">
+                        <td>{{factuurnr}}</td>
+                        <td>{{achternaam}}, {{voornaam}}</td>
+                        <td>{{bedragNoBTW}}</td>
+                        <td>{{statusBetaling}}</td>
                     </tr>
                     {{/each}}
 
-                    factuurid, klantnaam, totaalbedrag, status
+                  
                 </tbody>
                 </table>
             </div>
