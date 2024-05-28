@@ -30,11 +30,17 @@ router.get('/', (req, res) => {
 });
 router.use(express.json());
 
-
+// Handle login
+router.post('/login', userLogin);
 // -------------PROJECTEN---------------------------------------------------
-router.get('/projecten/home_project.html',authenticateToken, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'projecten', 'home_project.html'));
+router.get('/projecten/home_project.html', authenticateToken, (req, res) => {
+    connection.query('SELECT projectnr, klantnr, status, gemeente FROM PROJECTEN', (error, results) => {
+        console.log(results);
+        if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'projecten', 'home_project'), { Projecten: results });
+    });
 });
+
 router.get('/projecten/nieuw_project.html', authenticateToken , (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
 });
@@ -258,8 +264,13 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 
 
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
-
-
+router.get('/klant_factuur/home_klantFacturen.html', (req, res) => {
+    connection.query('SELECT factuurid, klantnaam, totaalbedrag, status FROM FACTUREN_KLANTEN ', (error, results) => {
+        console.log(results);
+        if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen'), { Facturen: results });
+    });
+});
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 
@@ -273,8 +284,7 @@ router.post('/submit-form-nieuwe-gebruiker', authenticateToken, registreerGebrui
 
 
 
-// Handle login
-router.post('/login', userLogin);
+
 router.get('/set-token', (req, res) => {
     const token = req.query.token;
     const level = req.query.level;
@@ -283,7 +293,7 @@ router.get('/set-token', (req, res) => {
     }
     req.session.token = token;
     req.session.level = level;
-    res.redirect('/klant/home_klant.html');
+    res.redirect('/klant_factuur/home_klantFacturen.html');
 });
 // Route to logout and end the session
 router.get('/logout', (req, res) => {

@@ -16,13 +16,12 @@
     <nav class="large_screen_nav" id="top">
         <ul>
             <li><img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo"></li>
-            <!-- <li><a href="#" class="menu">Home</a></li> -->
             <li><a href="../klant/home_klant.html" class="menu">Klanten</a></li>
             <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
             <li><a  href="#top" class="menu active">Projecten</a></li>
-            <li><a href="../lev_Factuur/home_levFacturen.html" class="menu" id="fact_lev_menu">Facturen Leveranciers</a></li>
+            <li><a href="../lev_Factuur/home_fact_lev.html" class="menu" id="fact_lev_menu">Facturen Leveranciers</a></li>
             <li><a href="../klant_factuur/home_klantFacturen.html" class="menu" id="fact_klant_menu">Facturen Klanten</a></li>
-            <li><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
+            <li class="gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
             <li><a href="../logout" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a></li>
         </ul>
     </nav>
@@ -31,15 +30,14 @@
         <img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo">
         <ul>
             <div class="part_nav" id="nav_upper">
-                <!-- <li><a href="#" class="menu">Home</a></li> -->
                 <li><a href="../klant/home_klant.html" class="menu">Klanten</a></li>
                 <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
+                <li><a href="#top" class="menu active">Projecten</a></li>
             </div>
             <div class="part_nav" id="nav_lower">
-                <li><a href="#top" class="menu active">Projecten</a></li>
-                <li><a href="../Factuur-lev/factuur-lev.html" class="menu">Facturen Leveranciers</a></li> 
-                <li><a href="../facturen/HTML/home_klantFacturen.html" class="menu">Facturen Klanten</a></li>
-                <li><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
+                <li><a href="../lev_Factuur/home_fact_lev.html" class="menu">Facturen Leveranciers</a></li> 
+                <li><a href="../klant_factuur/home_klantFacturen.html" class="menu">Facturen Klanten</a></li>
+                <li class="gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
             </div>
         </ul>
         <a href="../logout" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a>
@@ -53,13 +51,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!-- <li class="nav-item"><a href="../home/alt.html" class="menu nav-link">Home</a></li> -->
                     <li class="nav-item"><a href="../klant/klanten-toevoeg.html" class="menu nav-link">Klanten</a></li> 
                     <li class="nav-item"><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
                     <li class="nav-item"><a href="#top" class="menu active">Projecten</a></li>
-                    <li class="nav-item"><a href="../klant/factuur-lev.html" class="menu nav-link">Facturen Leveranciers</a></li>
-                    <li class="nav-item"><a href="#" class="menu nav-link">Facturen Klanten</a></li> 
-                    <li class="nav-item"><a href="../gebruikers/home_gebruikers.html" class="menu nav-link">Gebruikers</a></li>
+                    <li class="nav-item"><a href="../lev_Factuur/home_fact_lev.html" class="menu nav-link">Facturen Leveranciers</a></li>
+                    <li class="nav-item"><a href="../klant_factuur/home_klantFacturen.html" class="menu nav-link">Facturen Klanten</a></li> 
+                    <li class="nav-item gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu nav-link">Gebruikers</a></li>
                     <li id="li_logout"><a href="../logout" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i>Log out</a></li>
                 </ul>
             </div>
@@ -92,6 +89,16 @@
                         <th>Gemeente</th>
                     </tr>
                 </thead>
+                <tbody>
+                    {{#each Projecten}}
+                    <tr onclick="window.location='/details_aanpassen_project?var={{projectnr}}"></tr>
+                        <td>{{projectnr}}</td>
+                        <td>{{klantnr}}</td>
+                        <td>{{status}}</td>
+                        <td>{{gemeente}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
                 </table>
             </div>
 
@@ -103,6 +110,6 @@
 </div>
 </body>
 
-<script src="../JS/home_projecten.js"></script>
+<script src="../JS/home.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

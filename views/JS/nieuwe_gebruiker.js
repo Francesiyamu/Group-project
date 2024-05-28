@@ -6,11 +6,11 @@ const serverUrl = 'http://localhost:3000';
 
 document.getElementById('form_gebruiker').addEventListener('submit', async function(e) {
     e.preventDefault();
-
+    
     
     const formData = {
         //id : document.getElementById('idnr').value,
-        functienr : getFunctieNr(document.getElementById('functie').value),
+        functienr : document.getElementById('functie').value,
         gebruikersnaam: document.getElementById('gebruikersnaam').value,
         wachtwoord: document.getElementById('wachtwoord').value,
         voornaam: document.getElementById('voornaam').value,

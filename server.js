@@ -8,7 +8,7 @@ const https = require('https');
 const fs = require('fs');
 
 const app = express();
-const port = 4000;
+const port = process.env.port || 4000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -54,5 +54,5 @@ res.end();
 
 //-----------------development server:---------------------- Disable on 
 app.listen(3000, () => {
-  console.log(`Server listening at http://localhost:3000}`);
+  console.log(`Server listening at http://localhost:3000`);
 });

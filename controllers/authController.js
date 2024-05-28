@@ -8,10 +8,13 @@ require('dotenv').config();
 
 const userLogin = async (req, res) => {
     try {
+        console.log('User login request body... :', req.body);
         const { gebruikersnaam, wachtwoord } = req.body;
         const query = 'SELECT * FROM GEBRUIKERS WHERE gebruikersnaam = ?';
 
         const [rows, fields] = await connection.promise().query(query, [gebruikersnaam]);
+        console.log('Gebruikersnaam :', gebruikersnaam);
+        console.log('Rows:', rows);
 
         if (rows.length === 0) {
             return res.status(401).json({ status: 'error', message: 'Foute gebruikersnaam of wachtwoord' });

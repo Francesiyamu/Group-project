@@ -1,6 +1,6 @@
 const ROLES_LIST = {
     "Manager": 1,
-    "Medewerker": 2,
+    "Gebruiker": 2,
     "Boekhouder": 3
 }
 
