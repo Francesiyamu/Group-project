@@ -34,8 +34,7 @@ router.use(express.json());
 router.post('/login', userLogin);
 // -------------PROJECTEN---------------------------------------------------
 router.get('/projecten/home_project.html', authenticateToken, (req, res) => {
-    connection.query('SELECT projectnr, klantnr, status, gemeente FROM PROJECTEN', (error, results) => {
-        console.log(results);
+    connection.query('SELECT projectnr, projectnaam, KLANTEN.voornaam, KLANTEN.achternaam, status, PROJECTEN.gemeente FROM PROJECTEN JOIN KLANTEN ON KLANTEN.klantnr=PROJECTEN.klantnr ', (error, results) => {
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'projecten', 'home_project'), { Projecten: results });
     });
@@ -54,7 +53,6 @@ router.get('/projecten/subpaginas_projecten.html', authenticateToken, (req, res)
 router.get('/gebruikers/home_gebruikers.html', authenticateToken1 , (req, res) => {
     connection.query('SELECT gebruikersnaam, voornaam, achternaam ,emailadres, idnr FROM GEBRUIKERS', (error, results, fields) => {
         if (error) throw error;
-        console.log(results);
         res.render(path.join(__dirname, 'views', 'gebruikers', 'home_gebruikers'), { gebruikers: results });
     });
 });
@@ -68,7 +66,6 @@ router.get('/gebruikers/nieuwe_gebruiker.html', authenticateToken1 , (req, res) 
 router.get('/details_aanpassen_gebruiker',authenticateToken1 , (req, res) => {
     const id = req.query.var;
     connection.query('SELECT gebruikersnaam, GEBRUIKERS.functienr, voornaam, achternaam ,emailadres, functienaam, idnr FROM GEBRUIKERS JOIN FUNCTIES ON GEBRUIKERS.functienr = FUNCTIES.functienr WHERE GEBRUIKERS.idnr = ?', [id], (error, results) => {
-        console.log(results)
         connection.query('SELECT * FROM FUNCTIES', (error, functies) => {
             functies.sort((a, b) => {
                 if (a.functienaam === results[0].functienaam) return -1;
@@ -141,7 +138,6 @@ router.get('/klant/aanpassen_klant.html', authenticateToken, (req, res) => {
 // Toon bestaande leveranciers op home pagina
 router.get('/leveranciers/home_leveranciers.html', authenticateToken,(req, res) => {
     connection.query('SELECT naam, gemeente, telefoonnr ,emailadres, levnr FROM LEVERANCIERS', (error, results) => {
-        console.log(results);
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'leveranciers', 'home_leveranciers'), {leveranciers: results});
     });
@@ -149,7 +145,6 @@ router.get('/leveranciers/home_leveranciers.html', authenticateToken,(req, res) 
 
 // Verwijderen leverancier
 router.get('/leveranciers/verwijderen_leverancier', authenticateToken,(req,res) => {
-    console.log('verwijderen');
     const id = req.query.idnr;
     connection.query('DELETE FROM LEVERANCIERS WHERE levnr = ?',[id], (error,results) => {
         res.redirect('/leveranciers/home_leveranciers.html');
@@ -168,7 +163,6 @@ router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken,(req,res) =
         submittedData = JSON.parse(decodeURIComponent(req.query.submittedData));
 
         console.log(errorMsg);
-        console.log(submittedData);
     }
 
     // Render page
@@ -214,7 +208,6 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken
     console.log('details leverancier');
     const id = req.query.nr;
     connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
-        console.log(results[0]);
 
     // Check if errors from previous submission
         let errorMsg;

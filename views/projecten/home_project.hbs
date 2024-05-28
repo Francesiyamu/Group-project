@@ -79,8 +79,8 @@
                 <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
                 <thead>
                     <tr>
-                        <th>Projectnummer</th>
-                        <th>Klantnummer</th>
+                        <th>Projectnaam</th>
+                        <th>Klantnaam</th>
                         <th col-index = 3>Status <br>
                             <select class="table-filter" onchange="filter_rows()">
                               <option value="all"></option>
@@ -91,9 +91,9 @@
                 </thead>
                 <tbody>
                     {{#each Projecten}}
-                    <tr onclick="window.location='/details_aanpassen_project?var={{projectnr}}"></tr>
-                        <td>{{projectnr}}</td>
-                        <td>{{klantnr}}</td>
+                    <tr onclick="window.location='/details_aanpassen_project?var={{projectnr}}'">
+                        <td>{{projectnaam}}</td>
+                        <td>{{achternaam}}, {{voornaam}}</td>
                         <td>{{status}}</td>
                         <td>{{gemeente}}</td>
                     </tr>
