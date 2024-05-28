@@ -8,7 +8,7 @@ const https = require('https');
 const fs = require('fs');
 
 const app = express();
-const port = 4000;
+const port = process.env.port || 4000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());

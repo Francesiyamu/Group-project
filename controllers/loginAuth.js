@@ -27,7 +27,8 @@ const loginGebruiker = async (gebruikersnaam, wachtwoord) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ gebruikersnaam, wachtwoord })
+            body: JSON.stringify({ gebruikersnaam, wachtwoord });
+            
         });
         const result = await response.json();
         console.log('Result:', result);
@@ -37,4 +38,3 @@ const loginGebruiker = async (gebruikersnaam, wachtwoord) => {
         return { status: 'error', message: 'Internal server error' };
     }
 };
-
