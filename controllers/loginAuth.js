@@ -29,8 +29,7 @@ const loginGebruiker = async (gebruikersnaam, wachtwoord) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ gebruikersnaam, wachtwoord })
-            
-            body: JSON.stringify({ gebruikersnaam, wachtwoord })
+                   
         });
         const result = await response.json();
         console.log('Result:', result);
