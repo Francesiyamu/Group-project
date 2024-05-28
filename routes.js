@@ -262,8 +262,13 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 
 
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
-
-
+router.get('/klant_factuur/home_klantFacturen', (req, res) => {
+    connection.query('SELECT factuurid, klantnaam, totaalbedrag, status FROM FACTUREN_KLANTEN ', (error, results) => {
+        console.log(results);
+        if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen'), { Facturen: results });
+    });
+});
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 
@@ -287,7 +292,7 @@ router.get('/set-token', (req, res) => {
     }
     req.session.token = token;
     req.session.level = level;
-    res.redirect('/klant/home_klant.html');
+    res.redirect('/klant_factuur/home_klantFacturen');
 });
 // Route to logout and end the session
 router.get('/logout', (req, res) => {
