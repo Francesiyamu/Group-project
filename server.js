@@ -26,6 +26,20 @@ app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'hbs');
 app.set("views", __dirname + '/views');
 
+//helper function for handlebars - formatdate
+
+/* // Set up Handlebars and register helper function
+const hbs = handlebars.create({
+  defaultLayout: 'main',
+  helpers: {
+    formatDate: function(dateValue) {
+      let date = new Date(dateValue);
+      return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+    }
+  }
+}); */
+
+
 
 // Exempt favicon.ico from authentication
 app.get('/favicon.ico', (req, res) => res.status(204));

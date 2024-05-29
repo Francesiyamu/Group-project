@@ -110,6 +110,7 @@
                     {{#each LevFacturen}}
                     <tr onclick="window.location='/home_fact_lev?var={{factuurid}}'">
                         <td>{{factuurnr}}</td>
+                        {{!-- <td>{{formatDate factuurDatum}}</td> --}}
                         <td>{{factuurDatum}}</td>
                         <td>{{statusBetaling}}</td>
                         <td>{{terugbetaald}}</td>

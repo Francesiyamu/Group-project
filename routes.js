@@ -24,6 +24,7 @@ router.use(session({
 }));
 
 
+
 // Toegang voor iedereen
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
@@ -256,13 +257,22 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 })
 
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
-router.get('/klant_factuur/home_klantFacturen.html',authenticateToken, (req, res) => {
+
+router.get('/klant_factuur/home_klantFacturen.html', authenticateToken, (req, res) => {
     connection.query('SELECT FACTUREN.factuurid, FACTUREN.factuurnr, KLANTEN.achternaam, KLANTEN.voornaam, FACTUREN.bedragNoBTW, FACTUREN.statusBetaling FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid= FACTUREN_KLANTEN.factuurid JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr', (error, results) => {
         if (error) console.log(error);
         if (error) throw error;
-        res.render(path.join(__dirname, 'views', 'klant_factuur', 'home_klantFacturen'), { Facturen: results });
+        res.render('klant_factuur/home_klantFacturen', { Facturen: results });
     });
 });
+
+/* router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken, (req, res) => {
+    res.render(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur'));
+});
+
+router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken, (req, res) => {
+    res.render(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur'));
+}); */
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken, (req, res) => {
@@ -277,6 +287,10 @@ router.get('/lev_Factuur/home_fact_lev.html',authenticateToken, (req, res) => {
 router.get('/lev_Factuur/factuur_lev_toe.html',authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.html'));
 } );
+
+router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken, (req, res) => {
+    res.render(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen'));
+})
 
 // -----------------Handle form submissions-----------------------------------------------------------
 router.post('/submit-form-nieuw-project', authenticateToken, registreerNieuwProject);
