@@ -295,7 +295,65 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken, (req, res) 
 // -----------------Handle form submissions-----------------------------------------------------------
 router.post('/submit-form-nieuw-project', authenticateToken, registreerNieuwProject);
 router.post('/submit-form-nieuwe-gebruiker', authenticateToken, registreerGebruiker);
+//-------------------route naar chartpage----------------------
+router.get('/chartspage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'chartspage.html'));
+});
+// --------------------API facturen ------------------------
+// Create API endpoint
+/* router.get('/api/facturen', (req, res) => {
+    const factuurdata = 'SELECT statusBetaling FROM FACTUREN'; 
 
+    connection.query(factuurdata, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+        //console.log(results)
+    });
+}); */
+
+//data leveranciers facturen-----------------------------------------------------
+router.get('/api/levfacturen', (req, res) => {
+    const factuurdatalev = 'SELECT FACTUREN.statusBetaling FROM FACTUREN INNER JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid' 
+
+    connection.query(factuurdatalev, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+        //console.log(results)
+    });
+});
+
+//data klanten facturen-----------------------------------------------------
+router.get('/api/klantfacturen', (req, res) => {
+    const factuurdataklanten = 'SELECT FACTUREN.statusBetaling FROM FACTUREN INNER JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid' 
+
+    connection.query(factuurdataklanten, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+        //console.log(results)
+    });
+});
+
+//omzet klanten-----------------------------------------------------
+router.get('/api/omzet-klanten', (req, res) => {
+    connection.query(`
+    SELECT 
+            MONTH(FACTUREN.factuurDatum) AS month,
+            SUM(FACTUREN.bedragNoBTW) AS total
+        FROM FACTUREN 
+        JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid 
+        WHERE YEAR(FACTUREN.factuurDatum) = YEAR(CURDATE())
+        GROUP BY month
+
+    `, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            res.json(results);
+            console.log('resultaat omzet-klanten/maand van huidig jaar : ',results);
+        }
+    });
+});
 
 
 
