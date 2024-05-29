@@ -265,8 +265,18 @@ router.get('/klant_factuur/home_klantFacturen.html',authenticateToken, (req, res
 });
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
+router.get('/lev_Factuur/home_fact_lev.html',authenticateToken, (req, res) => {
+    connection.query('SELECT FACTUREN.factuurnr, FACTUREN.factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc,FACTUREN_LEVERANCIERS.terugbetaald,FACTUREN_LEVERANCIERS.verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid', (error, results) => {
+        if (error) console.log(error);
+        if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'lev_Factuur', 'home_fact_lev'), { LevFacturen: results });
+        console.log('resultaten query lev facturen', results);
+    });
+});
 
-
+router.get('/lev_Factuur/factuur_lev_toe.html',authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.html'));
+} );
 
 // -----------------Handle form submissions-----------------------------------------------------------
 router.post('/submit-form-nieuw-project', authenticateToken, registreerNieuwProject);
