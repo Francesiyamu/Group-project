@@ -44,8 +44,8 @@ router.get('/projecten/home_project.html', authenticateToken, (req, res) => {
 router.get('/projecten/nieuw_project.html', authenticateToken , (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
 });
-router.get('/projecten/aanpassen_project.html', authenticateToken, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'projecten', 'aanpassen_project.html'));
+router.get('/projecten/details_aanpassen_project.html', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project.html'));
 });
 router.get('/projecten/subpaginas_projecten.html', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'subpaginas_projecten.html'));
@@ -266,13 +266,13 @@ router.get('/klant_factuur/home_klantFacturen.html', authenticateToken, (req, re
     });
 });
 
-/* router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken, (req, res) => {
-    res.render(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur'));
+router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur.html'));
 });
 
 router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken, (req, res) => {
-    res.render(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur'));
-}); */
+    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.html'));
+});
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken, (req, res) => {
@@ -280,7 +280,7 @@ router.get('/lev_Factuur/home_fact_lev.html',authenticateToken, (req, res) => {
         if (error) console.log(error);
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'lev_Factuur', 'home_fact_lev'), { LevFacturen: results });
-        console.log('resultaten query lev facturen', results);
+        //console.log('resultaten query lev facturen', results);
     });
 });
 
@@ -289,7 +289,7 @@ router.get('/lev_Factuur/factuur_lev_toe.html',authenticateToken, (req, res) => 
 } );
 
 router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken, (req, res) => {
-    res.render(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen'));
+    res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
 })
 
 // -----------------Handle form submissions-----------------------------------------------------------
@@ -318,7 +318,7 @@ router.get('/api/levfacturen', (req, res) => {
     connection.query(factuurdatalev, (err, results) => {
         if (err) throw err;
         res.json(results);
-        //console.log(results)
+        console.log(results)
     });
 });
 
@@ -329,7 +329,7 @@ router.get('/api/klantfacturen', (req, res) => {
     connection.query(factuurdataklanten, (err, results) => {
         if (err) throw err;
         res.json(results);
-        //console.log(results)
+        console.log(results)
     });
 });
 

@@ -4,12 +4,12 @@ fetch('/api/levfacturen')
     .then(response => response.json())
     .then(data => {
         
-        const facturen = data; 
-        console.log('data uit db facturen:', facturen);
+        const levfacturen = data; 
+        console.log('data uit db facturen:', levfacturen);
         let betaaldTeller = 0;
         let OpenstaandTeller = 0;  
 
-        facturen.forEach(factuur => {
+        levfacturen.forEach(factuur => {
             if (factuur.statusBetaling === 'Betaald') {
                 betaaldTeller++;
             } else if (factuur.statusBetaling === 'Openstaand') {
@@ -44,20 +44,21 @@ fetch('/api/klantfacturen')
 .then(response => response.json())
 .then(data => {
     
-    const facturen = data; 
-    console.log('data uit db klanten:', facturen);
+    const klantfacturen = data; 
+    console.log('data uit db klanten:', klantfacturen);
     let betaaldTeller = 0;
     let OpenstaandTeller = 0;  
 
-    facturen.forEach(factuur => {
-        if (factuur.statusBetaling === 'Betaald') {
+    klantfacturen.forEach(klantfactuur => {
+        if (klantfactuur.statusBetaling === 'Betaald') {
             betaaldTeller++;
-        } else if (factuur.statusBetaling === 'Openstaand') {
+        } else if (klantfactuur.statusBetaling === 'Openstaand') {
             OpenstaandTeller++;
         }
         else {
             console.error('Onbekende status betaling:', factuur.statusBetaling);
         }
+        
     });
 
     // Your chart code here
