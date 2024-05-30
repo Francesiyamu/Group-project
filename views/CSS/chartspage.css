@@ -1,29 +1,95 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import url("home.css");
 
-.body-card{
+.chart-container {
+    color: #161538;
     background-color: #838287;
-}
-
-h1,h5 {
-    text-align: center;
-    color:#161538;
-}
-
-.container {
-    margin: 1em;
-    background-color: yellow;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: beige;
+    margin: 3rem;
+}
+
+.chart-box {
+    background-color: #838287; 
+}
+
+.canvas {
+    background-color: gold;
+}
+
+.row1,
+.row2 {
+    background-color: turquoise;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
     width: 100%;
-    height: 100vh;
+}
+
+.line-chart {
+    flex-basis: calc(33.33% - 4rem);
+    padding: 2rem;
+    margin: 2rem;
+    font-size: 3rem;
+}
+
+.pie-chart {
+    flex-basis: calc(16.66% - 4rem);
+    padding: 2rem;
+    margin: 2rem;
+    font-size: 3rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 1rem 1rem;
+    text-transform: uppercase;
+    text-align: center;
+    color: #161538;
+    font-size: 3rem;
+}
+body h1 {
+    font-size: 4rem;
 }
 
 
+.chart-container h5 {
+    padding: 1rem 1rem;
+    text-transform: uppercase;
+    text-align: center;
+    color: #161538;
+    font-size: 1.5rem;;
+}
 
+p {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+}
 
+@media (max-width: 600px) {
+    .chart-container {
+        flex-direction: column;
+    }
 
-
+    .line-chart,
+    .pie-chart {
+        flex-basis: 100%;
+        margin: 1rem;
+    }
+}
+#cancelbtn {
+    background-color: yellow;
+    
+    height: fit-content;
+    margin-bottom: 0.8rem;
+}

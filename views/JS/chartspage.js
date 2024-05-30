@@ -30,8 +30,26 @@ fetch('/api/levfacturen')
                 datasets: [{
                     label: '',
                     data: [betaaldTeller, OpenstaandTeller],
+                    backgroundColor: ['#ff9992', '#85508b'], // Change these colors
+                    borderColor: ['#161538'], 
                     borderWidth: 1
                 }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                                                    
+                            color: '#161538b',
+                            boxWidth: 60,
+                            boxHeight: 20, 
+                            font: {
+                                size: 20 
+                            }
+                        }
+                    }
+                }
             }
         });
     })
@@ -71,8 +89,25 @@ fetch('/api/klantfacturen')
             datasets: [{
                 label: '',
                 data: [betaaldTeller, OpenstaandTeller],
+                backgroundColor: ['#ff9992', '#85508b'], 
+                borderColor: ['#161538'], 
                 borderWidth: 1
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#161538', 
+                            boxWidth: 60, 
+                            boxHeight: 20, 
+                            font: {
+                                size: 20 
+                            }
+                    }
+                }
+            }
         }
     });
 })
@@ -85,32 +120,137 @@ fetch('/api/klantfacturen')
 fetch('/api/omzet-klanten')
 .then(response => response.json())
 .then(data => {
-    console.log('chartpage binnekomende data omzet dit jaar /:', data);
+    //console.log('chartpage binnekomende data omzet dit jaar /:', data);
     const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
-    let omzet = Array(12).fill(0); // Initialize an array of 12 elements to 0
+    let omzet = Array(12).fill(0); // Initialize an array
     data.forEach(item => {
-        omzet[item.month - 1] = item.total; // Update the elements for which you have data
+        omzet[item.month - 1] = item.total;
     });
     const ctx = document.getElementById('myChart-omzet');
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: months, // Use the months array here
+            labels: months,
             datasets: [{
                 label: 'Omzet',
-                data: omzet, // Use the updated omzet array here
-                borderWidth: 1
+                data: omzet, 
+                borderWidth: 2,
+                borderColor: ['#161538'],
+                fill: true,
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {                   
+                            color: '#161538',
+                            boxWidth: 60,
+                            boxHeight: 20,
+                            font: {
+                                size: 20 
+                            }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#161538', 
+                        font: {
+                            size: 14, 
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#161538', 
+                        font: {
+                            size: 14, 
+                        }
+                    }
+                }
+            }
         }
     });
 
     // Calculate the total of all months
-    const total = omzet.reduce((a, b) => a + b, 0);
+    const totalOmzet = omzet.reduce((a, b) => a + b, 0);
+    console.log('totalOmzet:', totalOmzet);
 
     // Select the total element and set its text content to the total
-    const totalElement = document.getElementById('total');
-    totalElement.textContent +=  `De totale omzet dit jaar bedraagt : ${total} euro`;
+    const totalElement = document.getElementById('totalOmzet');
+    totalElement.textContent = `De totale omzet dit jaar bedraagt: ${totalOmzet} euro`;
+
 })
 .catch(error => {
     console.error('Error:', error);
+});
+
+// Totaal v. kosten dit jaar--------------------------------
+fetch('/api/kosten')
+.then(response => response.json())
+.then(data => {
+    console.log('kosten dit jaar /:', data);
+    const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
+    let kosten = Array(12).fill(0); // Initialize an array
+    data.forEach(item => {
+        kosten[item.month - 1] = item.total;
+    });
+    const ctx = document.getElementById('myChart-kosten');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Kosten',
+                data: kosten, 
+                borderWidth: 2,
+                borderColor: ['#161538'],
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#161538', 
+                        boxWidth: 60, 
+                        boxHeight: 20, 
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#161538', 
+                        font: {
+                            size: 14, 
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#161538', 
+                        font: {
+                            size: 14, 
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Calculate the total of all months
+    const totalKosten = kosten.reduce((a, b) => a + b, 0);
+    console.log('totalKosten:', totalKosten);
+
+    // Select the total element and set its text content to the total
+    const totalElement = document.getElementById('totalKosten');
+    totalElement.textContent +=  `De totale kosten dit jaar bedragen : ${totalKosten} euro`;
+
 });
