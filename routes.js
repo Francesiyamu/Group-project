@@ -6,7 +6,8 @@ const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
 const {validationRulesLev} = require('./controllers/validatorChain');
-const authenticateToken = require('./middleware/authenticateToken');
+const authenticateToken3 = require('./middleware/authenticateToken3');
+const authenticateToken2 = require('./middleware/authenticateToken2');
 const authenticateToken1 = require('./middleware/authenticateToken1');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
@@ -34,20 +35,20 @@ router.use(express.json());
 // Handle login
 router.post('/login', userLogin);
 // -------------PROJECTEN---------------------------------------------------
-router.get('/projecten/home_project.html', authenticateToken, (req, res) => {
+router.get('/projecten/home_project.html', authenticateToken2, (req, res) => {
     connection.query('SELECT projectnr, projectnaam, KLANTEN.voornaam, KLANTEN.achternaam, status, PROJECTEN.gemeente FROM PROJECTEN JOIN KLANTEN ON KLANTEN.klantnr=PROJECTEN.klantnr ', (error, results) => {
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'projecten', 'home_project'), { Projecten: results });
     });
 });
 
-router.get('/projecten/nieuw_project.html', authenticateToken , (req, res) => {
+router.get('/projecten/nieuw_project.html', authenticateToken2 , (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
 });
-router.get('/projecten/details_aanpassen_project.html', authenticateToken, (req, res) => {
+router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project.html'));
 });
-router.get('/projecten/subpaginas_projecten.html', authenticateToken, (req, res) => {
+router.get('/projecten/subpaginas_projecten.html', authenticateToken2, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'projecten', 'subpaginas_projecten.html'));
 });
 // ----------------GEBRUIKERS -------------------------------------------------------------
@@ -124,20 +125,20 @@ router.get('/delete_gebruiker', authenticateToken1 , (req, res) => {
 
 
 // -----------------KLANTEN---------------------------------------------------------------
-router.get('/klant/home_klant.html', authenticateToken,(req, res) => {
+router.get('/klant/home_klant.html', authenticateToken2,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'home_klant.html'));
 });
-router.get('/klant/nieuwe_klant.html', authenticateToken,(req, res) => {
+router.get('/klant/nieuwe_klant.html', authenticateToken2,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'nieuwe_klant.html'));
 });
-router.get('/klant/aanpassen_klant.html', authenticateToken, (req, res) => {
+router.get('/klant/aanpassen_klant.html', authenticateToken2, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
 });
 
 // ----------------------------------- LEVERANCIERS -----------------------------------
 
 // Toon bestaande leveranciers op home pagina
-router.get('/leveranciers/home_leveranciers.html', authenticateToken,(req, res) => {
+router.get('/leveranciers/home_leveranciers.html', authenticateToken2,(req, res) => {
     connection.query('SELECT naam, gemeente, telefoonnr ,emailadres, levnr FROM LEVERANCIERS', (error, results) => {
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'leveranciers', 'home_leveranciers'), {leveranciers: results});
@@ -145,7 +146,7 @@ router.get('/leveranciers/home_leveranciers.html', authenticateToken,(req, res) 
 });
 
 // Verwijderen leverancier
-router.get('/leveranciers/verwijderen_leverancier', authenticateToken,(req,res) => {
+router.get('/leveranciers/verwijderen_leverancier', authenticateToken2,(req,res) => {
     const id = req.query.idnr;
     connection.query('DELETE FROM LEVERANCIERS WHERE levnr = ?',[id], (error,results) => {
         res.redirect('/leveranciers/home_leveranciers.html');
@@ -153,7 +154,7 @@ router.get('/leveranciers/verwijderen_leverancier', authenticateToken,(req,res) 
 })
 
 // Toevoegen leverancier
-router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken,(req,res) => {
+router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken2,(req,res) => {
     // Check if errors from previous submission
     let errorMsg;
     let submittedData;
@@ -175,7 +176,7 @@ router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken,(req,res) =
 })
 
 
-router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken, validationRulesLev(), async (req, res) => {
+router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken2, validationRulesLev(), async (req, res) => {
     console.log('nieuwe leverancier');
     console.log(req.body);
 
@@ -205,7 +206,7 @@ router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToke
 })
 
 // Details leverancier
-router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken, (req,res) => {
+router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken2, (req,res) => {
     
     const id = req.query.nr;
     connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
@@ -227,7 +228,7 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken
 })
 
 // Aanpassen leverancier
-router.post('/leveranciers/submission_update_leverancier_form', authenticateToken, validationRulesLev(), async (req, res) => {
+router.post('/leveranciers/submission_update_leverancier_form', authenticateToken2, validationRulesLev(), async (req, res) => {
     console.log('aanpassen leverancier');
     console.log(req.body);
 
@@ -258,7 +259,7 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
 
-router.get('/klant_factuur/home_klantFacturen.html', authenticateToken, (req, res) => {
+router.get('/klant_factuur/home_klantFacturen.html', authenticateToken3, (req, res) => {
     connection.query('SELECT FACTUREN.factuurid, FACTUREN.factuurnr, KLANTEN.achternaam, KLANTEN.voornaam, FACTUREN.bedragNoBTW, FACTUREN.statusBetaling FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid= FACTUREN_KLANTEN.factuurid JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr', (error, results) => {
         if (error) console.log(error);
         if (error) throw error;
@@ -266,16 +267,16 @@ router.get('/klant_factuur/home_klantFacturen.html', authenticateToken, (req, re
     });
 });
 
-router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken, (req, res) => {
+router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken3, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur.html'));
 });
 
-router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken, (req, res) => {
+router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken3, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.html'));
 });
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
-router.get('/lev_Factuur/home_fact_lev.html',authenticateToken, (req, res) => {
+router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
     connection.query('SELECT FACTUREN.factuurnr, FACTUREN.factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc,FACTUREN_LEVERANCIERS.terugbetaald,FACTUREN_LEVERANCIERS.verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid', (error, results) => {
         if (error) console.log(error);
         if (error) throw error;
@@ -284,17 +285,17 @@ router.get('/lev_Factuur/home_fact_lev.html',authenticateToken, (req, res) => {
     });
 });
 
-router.get('/lev_Factuur/factuur_lev_toe.html',authenticateToken, (req, res) => {
+router.get('/lev_Factuur/factuur_lev_toe.html',authenticateToken3, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.html'));
 } );
 
-router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken, (req, res) => {
+router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
 })
 
 // -----------------Handle form submissions-----------------------------------------------------------
-router.post('/submit-form-nieuw-project', authenticateToken, registreerNieuwProject);
-router.post('/submit-form-nieuwe-gebruiker', authenticateToken, registreerGebruiker);
+router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
+router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
 
 // --------------------API facturen ------------------------
 // Create API endpoint
