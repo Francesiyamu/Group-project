@@ -5,7 +5,7 @@ const connection = require('./config/db_connection');
 const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
-const {validationRulesLev} = require('./controllers/validatorChain');
+const {validationRulesLev, validationRulesKlant, validationRulesProject,validationRulesGebruiker} = require('./controllers/validatorChain');
 const authenticateToken3 = require('./middleware/authenticateToken3');
 const authenticateToken2 = require('./middleware/authenticateToken2');
 const authenticateToken1 = require('./middleware/authenticateToken1');
@@ -34,39 +34,168 @@ router.use(express.json());
 
 // Handle login
 router.post('/login', userLogin);
-// -------------PROJECTEN---------------------------------------------------
-router.get('/projecten/home_project.html', authenticateToken2, (req, res) => {
-    connection.query('SELECT projectnr, projectnaam, KLANTEN.voornaam, KLANTEN.achternaam, status, PROJECTEN.gemeente FROM PROJECTEN JOIN KLANTEN ON KLANTEN.klantnr=PROJECTEN.klantnr ', (error, results) => {
+
+// ----------------------------------- PROJECTEN -----------------------------------
+
+// Toon bestaande projecten op home pagina
+router.get('/projecten/home_projecten.html', authenticateToken2, (req, res) => {
+    connection.query('SELECT projectnr, projectnaam, KLANTEN.voornaam, KLANTEN.achternaam, status, PROJECTEN.gemeente FROM PROJECTEN JOIN KLANTEN ON KLANTEN.klantnr=PROJECTEN.klantnr ORDER BY projectnr', (error, results) => {
         if (error) throw error;
-        res.render(path.join(__dirname, 'views', 'projecten', 'home_project'), { Projecten: results });
+        res.render(path.join(__dirname, 'views', 'projecten', 'home_projecten'), { projecten: results });
     });
 });
 
-router.get('/projecten/nieuw_project.html', authenticateToken2 , (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'projecten', 'nieuw_project.html'));
+// Verwijderen project
+router.get('/projecten/verwijderen_project', authenticateToken2,(req,res) => {
+    console.log('verwijderen project');
+    const id = req.query.id;
+    connection.query('DELETE FROM PROJECTEN WHERE projectnr = ?',[id], (error,results) => {
+        res.redirect('/projecten/home_projecten.html');
+    })
+})
+
+// Toevoegen project
+router.get('/projecten/nieuw_project.html', authenticateToken2,(req,res) => {
+    // Check if errors from previous submission
+    let errorMsg;
+    let submittedData;
+    if(req.query.errorsSubmission){ 
+        const errorsSubmission = req.query.errorsSubmission;
+        errorMsg = JSON.parse(errorsSubmission);
+
+        submittedData = JSON.parse(decodeURIComponent(req.query.submittedData));
+
+        console.log(errorMsg);
+    }
+
+    //Haal klantendata op 
+    connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN',(error,results) => {
+        // Render page
+        if(errorMsg) {
+            res.render(path.join(__dirname,'views', 'projecten', 'nieuw_project'), {countries: countries, klanten: results, errors: errorMsg, data: submittedData});
+        } else {
+            res.render(path.join(__dirname,'views', 'projecten', 'nieuw_project'), {countries: countries, klanten: results});
+        }
+    })
+})
+
+router.post('/projecten/submission_nieuw_project_form', authenticateToken2, validationRulesProject(), async (req, res) => {
+    console.log('nieuw project');
+    console.log(req.body);
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        let errorMsg = [];
+        for(let error of errors.array()) {
+            errorMsg.push(error.msg);
+        }
+    
+        StringifiedErrorMsg = JSON.stringify(errorMsg);
+        StringifiedSubmittedData = encodeURIComponent(JSON.stringify(req.body)); // Necessary to recognize + of telefoonnr, expects string
+        res.redirect(`/projecten/nieuw_project.html?errorsSubmission=${StringifiedErrorMsg}&submittedData=${StringifiedSubmittedData}`);
+    } else {
+        try {
+            const {projectnr, klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land} = req.body;
+            let query = 'INSERT INTO PROJECTEN (klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+            await connection.promise().query(query,[klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land]); 
+            res.redirect('/projecten/home_projecten.html');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while adding data.');
+        }
+    }
+})
+
+// Subpagina's project
+router.get('/projecten/subpaginas_project.html', authenticateToken2, (req, res) => {
+    const id = req.query.id;
+    res.render(path.join(__dirname, 'views', 'projecten', 'subpaginas_project'), {projectnr: id});
 });
-router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project.html'));
-});
-router.get('/projecten/subpaginas_projecten.html', authenticateToken2, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'projecten', 'subpaginas_projecten.html'));
-});
-// ----------------GEBRUIKERS -------------------------------------------------------------
+
+// Details project
+router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req,res) => {
+    console.log('details project');
+    const id = req.query.id;
+    connection.query('SELECT projectnr, klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land FROM PROJECTEN WHERE projectnr = ?', [id], (error, results) => {
+
+    // Check if errors from previous submission
+        let errorMsg;
+        if(req.query.errorsSubmission){ 
+            const errorsSubmission = req.query.errorsSubmission;
+            errorMsg = JSON.parse(errorsSubmission);
+        }
+        console.log(results[0])
+
+        connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN where klantnr = ?', [results[0].klantnr], (error,results_klant) => {
+            connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN', (error, alle_klanten) => { //Kan vervangen worden als eq werkt
+                // Render page
+                if(errorMsg) {
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries, errors: errorMsg});
+                } else {
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries});
+                }
+            })
+        })
+    })
+})
+
+// Aanpassen project
+router.post('/projecten/submission_update_project_form', authenticateToken2, validationRulesProject(), async (req, res) => {
+    console.log('aanpassen project');
+    console.log(req.body);
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        let errorMsg = [];
+        for(let error of errors.array()) {
+            errorMsg.push(error.msg);
+        }
+        
+        let id = req.body.projectnr;
+        StringifiedErrorMsg = JSON.stringify(errorMsg);
+        res.redirect(`/projecten/details_aanpassen_project.html?id=${id}&errorsSubmission=${StringifiedErrorMsg}`);
+    } else {
+        try {
+            const {projectnr, projectnaam, klantnr, status, straatnaam, huisnr, gemeente, postcode, land} = req.body;
+            let query = 'UPDATE PROJECTEN SET projectnaam = ?, klantnr = ?, status = ?, straatnaam = ?, huisnr = ?, gemeente = ?, postcode = ?, land = ? WHERE projectnr = ?';
+            await connection.promise().query(query,[projectnaam, klantnr, status, straatnaam, huisnr, gemeente, postcode, land, projectnr]); 
+            res.redirect('/projecten/details_aanpassen_project.html?id=' + projectnr);
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while adding data.');
+        }
+    }
+})
+
+// ----------------------------------- GEBRUIKERS -----------------------------------
+
 router.get('/gebruikers/home_gebruikers.html', authenticateToken1 , (req, res) => {
     connection.query('SELECT gebruikersnaam, voornaam, achternaam ,emailadres, idnr FROM GEBRUIKERS', (error, results, fields) => {
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'gebruikers', 'home_gebruikers'), { gebruikers: results });
     });
 });
+
 //nieuwe gebruiker
 router.get('/gebruikers/nieuwe_gebruiker.html', authenticateToken1 , (req, res) => {
     connection.query('SELECT * FROM FUNCTIES', (error, functies) => {
     res.render(path.join(__dirname, 'views', 'gebruikers', 'nieuwe_gebruiker'), { functies: functies });
     });
 });
+
 //gebruiker aanpassen
 router.get('/details_aanpassen_gebruiker',authenticateToken1 , (req, res) => {
     const id = req.query.var;
+
+    // Check if errors from previous submission
+    let errorMsg;
+    if(req.query.errorsSubmission){ 
+        const errorsSubmission = req.query.errorsSubmission;
+        errorMsg = JSON.parse(errorsSubmission);
+    }
+
     connection.query('SELECT gebruikersnaam, GEBRUIKERS.functienr, voornaam, achternaam ,emailadres, functienaam, idnr FROM GEBRUIKERS JOIN FUNCTIES ON GEBRUIKERS.functienr = FUNCTIES.functienr WHERE GEBRUIKERS.idnr = ?', [id], (error, results) => {
         connection.query('SELECT * FROM FUNCTIES', (error, functies) => {
             functies.sort((a, b) => {
@@ -74,47 +203,54 @@ router.get('/details_aanpassen_gebruiker',authenticateToken1 , (req, res) => {
                 if (b.functienaam === results[0].functienaam) return 1;
                 return a.functienaam.localeCompare(b.functienaam);
             });
-            res.render(path.join(__dirname, 'views', 'gebruikers', 'details_aanpassen_gebruiker'), { result: results[0], functies: functies });
+
+            if(errorMsg) {
+                res.render(path.join(__dirname, 'views', 'gebruikers', 'details_aanpassen_gebruiker'), { result: results[0], functies: functies, errors: errorMsg });
+            } else {
+                res.render(path.join(__dirname, 'views', 'gebruikers', 'details_aanpassen_gebruiker'), { result: results[0], functies: functies });
+            }    
         });
     });
 });
-//gebruikers aanpassen retour
-router.post('/submit-form-aanpassen-gebruiker', authenticateToken1 , [
-    body('gebruikersnaam').isString().notEmpty().withMessage('Gebruikersnaam is required'),
-    body('functienr').isNumeric().withMessage('Functienr must be a number'),
-    body('voornaam').isString().notEmpty().withMessage('Voornaam is required'),
-    body('achternaam').isString().notEmpty().withMessage('Achternaam is required'),
-    body('emailadres').isEmail().withMessage('Invalid email address'),
-    body('wachtwoord').isString().notEmpty().withMessage('Wachtwoord is required'),
-    body('idnr').isNumeric().withMessage('Idnr must be a number')
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
 
-    try {
-        const { gebruikersnaam, functienr, voornaam, achternaam, emailadres, wachtwoord, idnr } = req.body;
-        const [rows] = await connection.promise().query('SELECT wachtwoord FROM GEBRUIKERS WHERE idnr = ?', [idnr]);
-        const oudWachtwoord = rows[0].wachtwoord;
-        const isSamePassword = await bcrypt.compare(wachtwoord, oudWachtwoord);
-        let hashedPassword = oudWachtwoord;
-        if (!isSamePassword) {
-            hashedPassword = await bcrypt.hash(wachtwoord, 10);
+//gebruikers aanpassen retour
+router.post('/submit-form-aanpassen-gebruiker', authenticateToken1 , validationRulesGebruiker(), async (req, res) => {
+    console.log('submit')
+    const errors = validationResult(req);
+    
+    if(!errors.isEmpty()) {
+        let errorMsg = [];
+        for(let error of errors.array()) {
+            errorMsg.push(error.msg);
         }
-                const query = `
+        
+        const id = req.body.idnr;
+        StringifiedErrorMsg = JSON.stringify(errorMsg);
+        res.redirect(`/details_aanpassen_gebruiker?var=${id}&errorsSubmission=${StringifiedErrorMsg}`);
+    } else {
+        try {
+            const { gebruikersnaam, functienr, voornaam, achternaam, emailadres, wachtwoord, idnr } = req.body;
+            const [rows] = await connection.promise().query('SELECT wachtwoord FROM GEBRUIKERS WHERE idnr = ?', [idnr]);
+            const oudWachtwoord = rows[0].wachtwoord;
+            const isSamePassword = await bcrypt.compare(wachtwoord, oudWachtwoord);
+            let hashedPassword = oudWachtwoord;
+            if (!isSamePassword) {
+                hashedPassword = await bcrypt.hash(wachtwoord, 10);
+            }
+            const query = `
             UPDATE GEBRUIKERS 
             SET gebruikersnaam = ?, functienr = ?, voornaam = ?, achternaam = ?, emailadres = ?, wachtwoord = ?
             WHERE idnr = ?
-        `;
-        await connection.promise().query(query, [gebruikersnaam, functienr, voornaam, achternaam, emailadres, hashedPassword, idnr]);
-        res.redirect('/details_aanpassen_gebruiker?var='+idnr);
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred while updating data.');
+            `;
+            await connection.promise().query(query, [gebruikersnaam, functienr, voornaam, achternaam, emailadres, hashedPassword, idnr]);
+            res.redirect('/details_aanpassen_gebruiker?var='+idnr);
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while updating data.');
+        }
     }
 });
+
 //delete gebruiker
 router.get('/delete_gebruiker', authenticateToken1 , (req, res) => {
     const id = req.query.iddel;
@@ -124,16 +260,124 @@ router.get('/delete_gebruiker', authenticateToken1 , (req, res) => {
 });   
 
 
-// -----------------KLANTEN---------------------------------------------------------------
-router.get('/klant/home_klant.html', authenticateToken2,(req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant', 'home_klant.html'));
+// ----------------------------------- KLANTEN -----------------------------------
+
+// Toon bestaande klanten op home pagina
+router.get('/klanten/home_klanten.html', authenticateToken2,(req, res) => {
+    connection.query('SELECT klantnr, voornaam, achternaam, emailadres, telefoonnr, BTWnr FROM KLANTEN', (error, results) => {
+        if(error) throw error;
+        console.log(results)
+        res.render(path.join(__dirname,'views', 'klanten', 'home_klanten'), {klanten: results})
+    })
 });
-router.get('/klant/nieuwe_klant.html', authenticateToken2,(req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant', 'nieuwe_klant.html'));
-});
-router.get('/klant/aanpassen_klant.html', authenticateToken2, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant', 'aanpassen_klanten.html'));
-});
+
+// Verwijderen klant
+router.get('/klanten/verwijderen_klant', authenticateToken2,(req,res) => {
+    const id = req.query.id;
+    connection.query('DELETE FROM KLANTEN WHERE klantnr = ?',[id], (error,results) => {
+        res.redirect('/klanten/home_klanten.html');
+    })
+})
+
+//Toevoegen klant
+router.get('/klanten/nieuwe_klant.html',authenticateToken2,(req,res) => {
+    // Check if errors from previous submission
+    let errorMsg;
+    let submittedData;
+    if(req.query.errorsSubmission){ 
+        const errorsSubmission = req.query.errorsSubmission;
+        errorMsg = JSON.parse(errorsSubmission);
+
+        submittedData = JSON.parse(decodeURIComponent(req.query.submittedData));
+
+        console.log(errorMsg);
+    }
+
+    // Render page
+    if(errorMsg) {
+        res.render(path.join(__dirname,'views', 'klanten', 'nieuwe_klant'), {countries : countries, errors: errorMsg, data: submittedData});
+    } else {
+        res.render(path.join(__dirname,'views', 'klanten', 'nieuwe_klant'), {countries : countries});
+    }
+})
+
+router.post('/klanten/submission_nieuwe_klant_form', authenticateToken2, validationRulesKlant(), async (req, res) => {
+    console.log('nieuwe klant');
+    console.log(req.body);
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        let errorMsg = [];
+        for(let error of errors.array()) {
+            errorMsg.push(error.msg);
+        }
+    
+        StringifiedErrorMsg = JSON.stringify(errorMsg);
+        StringifiedSubmittedData = encodeURIComponent(JSON.stringify(req.body)); // Necessary to recognize + of telefoonnr, expects string
+        res.redirect(`/klanten/nieuwe_klant.html?errorsSubmission=${StringifiedErrorMsg}&submittedData=${StringifiedSubmittedData}`);
+    } else {
+        try {
+            const {klantnr, voornaam, achternaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email} = req.body;
+            let query = 'INSERT INTO KLANTEN (voornaam, achternaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            await connection.promise().query(query,[voornaam, achternaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email]); 
+            res.redirect('/klanten/home_klanten.html');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while adding data.');
+        }
+    }
+})
+
+// Details klant
+router.get('/klanten/details_aanpassen_klant.html', authenticateToken2, (req,res) => {
+    console.log('details klant');
+    const id = req.query.id;
+    connection.query('SELECT klantnr, voornaam, achternaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres FROM KLANTEN WHERE klantnr = ?', [id], (error, results) => {
+    // Check if errors from previous submission
+        let errorMsg;
+        if(req.query.errorsSubmission){ 
+            const errorsSubmission = req.query.errorsSubmission;
+            errorMsg = JSON.parse(errorsSubmission);
+        }
+        console.log(results[0])
+    // Render page
+        if(errorMsg) {
+            res.render(path.join(__dirname, 'views', 'klanten', 'details_aanpassen_klant'), {countries : countries, klant: results[0], errors: errorMsg});
+        } else {
+            res.render(path.join(__dirname, 'views', 'klanten', 'details_aanpassen_klant'), {countries : countries, klant: results[0]});
+        }
+    })
+})
+
+// Aanpassen klant
+router.post('/klanten/submission_update_klant_form', authenticateToken2, validationRulesKlant(), async (req, res) => {
+    console.log('aanpassen klant');
+    console.log(req.body);
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        let errorMsg = [];
+        for(let error of errors.array()) {
+            errorMsg.push(error.msg);
+        }
+        
+        let id = req.body.klantnr;
+        StringifiedErrorMsg = JSON.stringify(errorMsg);
+        res.redirect(`/klanten/details_aanpassen_klant.html?id=${id}&errorsSubmission=${StringifiedErrorMsg}`);
+    } else {
+        try {
+            const {klantnr, voornaam, achternaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email} = req.body;
+            let query = 'UPDATE KLANTEN SET voornaam = ?, achternaam = ?, straatnaam = ?, huisnr = ?, gemeente = ?, postcode = ?, land = ?, telefoonnr = ?, emailadres = ? WHERE klantnr = ?';
+            await connection.promise().query(query,[voornaam, achternaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, email, klantnr]); 
+            res.redirect('details_aanpassen_klant.html?id=' + klantnr);
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while adding data.');
+        }
+    }
+})
 
 // ----------------------------------- LEVERANCIERS -----------------------------------
 
@@ -294,8 +538,8 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
 })
 
 // -----------------Handle form submissions-----------------------------------------------------------
-router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
-router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
+//router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
+//router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
 
 // --------------------API facturen ------------------------
 // Create API endpoint
