@@ -12,7 +12,7 @@ window.onload = () => {
         for(let no_boekhouder_item of no_boekhouder_items) {
             no_boekhouder_item.style.display = "none";
         }
-        document.getElementById('fact_lev_menu').style.width = "max-content";
+        //document.getElementById('fact_lev_menu').style.width = "max-content";
     } else if(level != 1) {
         console.log(level);
         for(let gebruikers_item of gebruikers_items) {
