@@ -41,7 +41,7 @@ const hbs = handlebars.create({
 
 
 
-// Exempt favicon.ico from authentication
+// Exempt favicon.ico from authentication--- DIt kan toch  gewoon in routes zonder een auth middleware of bij static routes?
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 // Routes
