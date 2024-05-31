@@ -32,6 +32,8 @@ Er zijn twee types servers gedefinieerd in `server.js`. Standaard staat de "deve
     ```
 
 ## Hoe de server in productie starten
+Standaard draait de https server op poort 4000 en de http server op poort 3000. De http server redirect naar poort 4000.(forceert gebruik van https). Indien de server draait op een lokale machine is er een probleem met de URL en zal https een fout geven aangezien de request niet naar de juiste iurl gestuurd werd. Aldus zal de website een melding geven dat de verbinding niet beveiligd is. Enkel wanneer deze draait op de server gelinked aan https://ambart.synology.me zullen de certificaten geldig zijn.
+
 1. Verwijder de development server code uit `server.js` en haal de production server code uit commentaar (verwijder `/*` en `*/`).
 2. Navigeer naar de map waar `pm2Env.config.js` staat:
     ```bash
@@ -42,3 +44,4 @@ Er zijn twee types servers gedefinieerd in `server.js`. Standaard staat de "deve
     pm2 start pm2Env.config.js
     ```
 De `pm2Env.config.js` zorgt ervoor dat de daemon toegang heeft tot het .env-bestand.
+
