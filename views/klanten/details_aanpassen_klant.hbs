@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klant</title>
+    <link rel="stylesheet" href="../CSS/leveranciers_gebruikers.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-sign-out-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head> 
+<body>
+    
+    <form id="form_klanten" class="details_aanpassen" method="post" action="/klanten/submission_update_klant_form">
+        <h1 class="visible">Details</h1>
+        <h1 class="hidden" id="titel">Klant aanpassen</h1>
+
+        {{#with klant}}
+        <div class="inputs">
+            <div id="nr" class="form_group">
+                <input type="hidden" name="klantnr" id="klantnr" value="{{klantnr}}" disabled>
+            </div>
+    
+            <div class="form_group">
+                <label for="voornaam">Voornaam:</label>
+                <input type="text" name="voornaam" id="voornaam" placeholder="XYZ" value="{{voornaam}}" disabled> <br>
+            </div>
+
+            <div class="form_group">
+                <label for="Achternaam">Achternaam:</label>
+                <input type="text" name="achternaam" id="Achternaam" placeholder="XYZ" value="{{achternaam}}" disabled> <br>
+            </div>
+    
+            <div class="form_group">
+                <label for="klantstraat">Straat:</label>
+                <input type="text" name="straatnaam" id="klantstraat" placeholder="Straatnaam" value="{{straatnaam}}" disabled> <br>
+            </div>
+    
+            <div class="form_group">
+                <label for="klanthuisnr">Huisnummer:</label>
+                <input type="text" name="huisnr" id="klanthuisnr" placeholder="12B" value="{{huisnr}}" disabled> <br>
+            </div>
+    
+            <div class="form_group">
+                <label for="klantpostcode">Postcode:</label>
+                <input type="text" name="postcode" id="klantpostcode" placeholder="1000" value="{{postcode}}" disabled> <br>
+            </div>
+    
+            <div class="form_group">
+                <label for="klantgemeente">Gemeente:</label>
+                <input type="text" name="gemeente" id="klantgemeente" placeholder="Brussel" value="{{gemeente}}" disabled> <br>
+            </div>
+
+            <div class="form_group">
+                <label for="land">Landcode:</label>
+                <select name="land" id="land" value="{{land}}" disabled>
+                    <option value="{{land}}">{{land}}</option>
+                    {{#each ../countries}}
+                         <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+    
+            <div class="form_group">
+                <label for="klanttelefoon">Telefoonnummer:</label>
+                <input type="tel" name="telefoonnr" id="klanttelefoon" placeholder="+32345678903" value="{{telefoonnr}}" disabled> <br>
+            </div>
+    
+            <div class="form_group">
+                <label for="klantmail">E-mailadres:</label>
+                <input type="email" name="email" id="klantmail" placeholder="johndoe@example.com" value="{{emailadres}}" disabled> <br>
+            </div>
+    
+             <div class="btns_details visible">
+                <div class="modify_back_btns">
+                    <a href="home_klanten.html" id="btn_back" class="btn_bottom">Back</a>
+                    <button id="btn_modify" class="btn_bottom">Klant aanpassen</button>
+                </div>
+                <a href="/klanten/verwijderen_klant?id={{klantnr}}" id="btn_remove" class="btn_bottom">Klant verwijderen</a>
+            </div>
+
+           <div class="btns hidden">
+                <a href="#" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
+                <input type="submit" id="submitbtn" value="Save" class="btn_bottom" disabled>
+            </div>
+            {{/with}}
+
+            <div id="errorMsgs">
+                {{#each errors}}
+                    <p class="errorMsg">{{this}}</p>
+                {{/each}}
+            </div>
+
+        </div>
+    </form>
+
+    <script src="../JS/details_aanpassen.js"></script>
+</body>
+</html>
