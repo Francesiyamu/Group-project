@@ -8,6 +8,10 @@ body {
     min-height: 100vh;
 }
 
+.hidden {
+    display: none;
+}
+
 /* ------------- FORM -------------*/
 
     form {
@@ -66,6 +70,10 @@ body {
         border-width: 1px;
         border-color: #161538;
         border-radius: 3px;
+    }
+
+    #nr {
+        position: absolute;
     }
 
 /* ------------- FORM BUTTONS -------------*/
