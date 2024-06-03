@@ -79,9 +79,6 @@
                 </ul>
             </div>
 
-            
-
-
             <nav id="subnav_small" class="navbar navbar-expand-lg bg-custom">
                 <div class="container-fluid">
                     <button class="navbar-toggler ml-auto custom-toggler" id="toggle_btn" type="button" data-bs-toggle="collapse" data-bs-target="#subnavbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,10 +122,12 @@
                 <p>Facturen leveranciers</p>
             </div>
             
+            {{#with projectnr}}
             <div class="btns">
-                <a href="./home_projecten.html" id="btn_back" class="btn_bottom">Annuleren</a>
-                <a href="./details_aanpassen_project.html" id="btn_details" class="btn_bottom">Details project</a>
+                <a href="home_projecten.html" id="btn_back" class="btn_bottom">Back</a>
+                <a href="details_aanpassen_project.html?id={{this}}" id="btn_details" class="btn_bottom">Details project</a>
             </div>
+            {{/with}}
         </div>
     </div>
 

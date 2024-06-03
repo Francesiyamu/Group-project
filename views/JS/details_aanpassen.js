@@ -2,6 +2,24 @@ window.onload = () => {
 console.log('loaded');
 window.scrollTo(0,0);
 
+/* ----------------------------------- ADAPT VISIBILITY ----------------------------------- */
+
+let no_boekhouder_items = document.getElementsByClassName('no_boekhouder');
+let level = localStorage.getItem('level');
+
+console.log(level);
+if(level == 3) {
+    for(let no_boekhouder_item of no_boekhouder_items) {
+        no_boekhouder_item.style.display = "none";
+    }
+
+    let backbtn = document.querySelector('#form_klantFactuur #btn_back');
+    if(backbtn) {
+        backbtn.style.marginRight = '1rem';
+        backbtn.style.marginBottom = '1rem';
+    }
+}
+
 /* ----------------------------------- SWITCH DETAILS - AANPASSEN ----------------------------------- */
 
 function replaceClasses() {

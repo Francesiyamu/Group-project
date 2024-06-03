@@ -29,13 +29,14 @@ const loginGebruiker = async (gebruikersnaam, wachtwoord) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ gebruikersnaam, wachtwoord })
-            
+                   
         });
         const result = await response.json();
-        console.log('Result:', result);
+        //console.log('Result:', result);
         return result;
     } catch (error) {
         console.error('Error in login gebruiker:', error);
         return { status: 'error', message: 'Internal server error' };
     }
 };
+

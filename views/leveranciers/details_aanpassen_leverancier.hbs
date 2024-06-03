@@ -47,8 +47,8 @@
 
 
             <div class="form_group">
-                <label for="levLand">Landcode:</label>
-                <select name="land" id="levLand" value="{{land}}" disabled>
+                <label for="land">Landcode:</label>
+                <select name="land" id="land" value="{{land}}" disabled>
                     <option value="{{land}}">{{land}}</option>
                     {{#each ../countries}}
                          <option value="{{this}}">{{this}}</option>
@@ -73,8 +73,9 @@
 
             <div class="btns_details visible">
                 <div class="modify_back_btns">
-                    <a href="home_leveranciers.html" id="btn_back" class="btn_bottom">Back</a>
-                    <button id="btn_modify" class="btn_bottom">Leverancier aanpassen</button>
+                    <a href="./home_leveranciers.html" id="btn_back" class="btn_bottom">Annuleren</a>
+                    <a href="./details_aanpassen_leverancier.html" id="btn_modify" class="btn_bottom">Leverancier aanpassen</a>
+                   
                 </div>
                 <a href="/leveranciers/verwijderen_leverancier?idnr={{levnr}}" id="btn_remove" class="btn_bottom">Leverancier verwijderen</a>
             </div>

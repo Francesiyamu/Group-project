@@ -16,7 +16,7 @@
 
         <div class="inputs">
             <div id="nr" class="form_group toev">
-                <input type="hidden" id="levnr" name="levnr" placeholder="123456"> <br>
+                <input type="hidden" id="levnr" name="levnr"> <br>
             </div>
     
             <div class="form_group toev">
@@ -46,8 +46,8 @@
 
             
             <div class="form_group toev">
-                <label for="levLand">Landcode:</label>
-                <select name="land" id="functie">
+                <label for="land">Landcode:</label>
+                <select name="land" id="land">
                     {{#each countries}}
                         <option value="{{this}}">{{this}}</option>
                     {{/each}}

@@ -2,13 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const handlebars = require('express-handlebars');
+const helpers = require('./config/helpers');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const https = require('https');
 const fs = require('fs');
 
 const app = express();
-const port = process.env.port || 4000;
+const port = 4000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -18,16 +19,37 @@ app.use(bodyParser.json());
 // Static file middleware
 app.use('/CSS', express.static(__dirname + '/views/CSS'));
 app.use('/JS', express.static(__dirname + '/views/JS'));
-app.use('/', express.static(__dirname + '/certificates'));//certificate validation
 app.use('/assests/images', express.static(path.join(__dirname, 'assests', 'images')))
 
 // Use handlebars
+/*const hbs = handlebars.create({
+  helpers: {
+    eq: function(a, b) {
+    return a === b;
+    }
+  }
+});*/
+
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'hbs');
 app.set("views", __dirname + '/views');
 
+//helper function for handlebars - formatdate
 
-// Exempt favicon.ico from authentication
+/* // Set up Handlebars and register helper function
+const hbs = handlebars.create({
+  defaultLayout: 'main',
+  helpers: {
+    formatDate: function(dateValue) {
+      let date = new Date(dateValue);
+      return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+    }
+  }
+}); */
+
+
+
+// Exempt favicon.ico from authentication--- DIt kan toch  gewoon in routes zonder een auth middleware of bij static routes?
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 // Routes

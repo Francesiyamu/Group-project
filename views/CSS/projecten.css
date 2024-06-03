@@ -10,7 +10,7 @@ body {
     align-items: center;
 }
 
-div.hidden, h1.hidden { 
+div.hidden, h1.hidden, div#errorMsgs { 
     display: none;
 }
 
@@ -81,6 +81,10 @@ div.hidden, h1.hidden {
         border-width: 1px;
         border-color: #161538;
         border-radius: 3px;
+    }
+
+    #nr {
+        position: absolute;
     }
 
 /* ------------- FORM BUTTONS -------------*/

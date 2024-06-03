@@ -11,27 +11,30 @@
   </head>
 <body>
   
-  <form id="project_form">
+  <form id="project_form" method="post" action="/projecten/submission_nieuw_project_form">
     <h1>Project toevoegen</h1>
     <div class="inputs">     
         <div id="factuurgegevens_box">
           <h2>Projectgegevens</h2>
-
-
-            <div class="form_group">
-              <label for="projectnr">Projectnummer:</label>
-              <input type="text" class="form-control" id="projectnr" name="projectnr" max="10000" required>
-            </div>
-
-            <div class="form_group">
-              <label for="klantnr">Klantnummer:</label>
-              <input type="number" class="form-control" id="klantnr" name="klantnr" max="10000" required>
+          
+            <div id="nr" class="form_group">
+              <input type="hidden" class="form-control" id="projectnr" name="projectnr" max="10000">
             </div>
 
             <div class="form_group">
               <label for="projectnaam">Projectnaam:</label>
-              <input type="text" class="form-control" id="projectnaam" name="projectnaam" max="255" required>
+              <input type="text" class="form-control" id="projectnaam" name="projectnaam" max="255" value="{{#if data}}{{data.projectnaam}}{{/if}}">
             </div>
+
+            <div class="form_group">
+              <label for="klantnaam">Klantnaam:</label>
+              <select name="klantnr" id="klantnaam">
+                {{#each klanten}}
+                  <option value="{{klantnr}}">{{voornaam}} {{achternaam}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <!-- {{#if ../data}}{{#if (eq this.klantnr data.klantnr)}}selected{{/if}}{{/if}} MOET IN OPTION -->
 
             <div class="form_group">
               <label for="status">Status:</label> 
@@ -43,27 +46,31 @@
 
             <div class="form_group">
               <label for="straatnaam">Straatnaam:</label>
-              <input type="text" class="form-control" id="straatnaam" name="straatnaam" max="255" placeholder="Kerkstraat" required>
+              <input type="text" class="form-control" id="straatnaam" name="straatnaam" max="255" placeholder="Kerkstraat" value="{{#if data}}{{data.straatnaam}}{{/if}}">
             </div>
 
             <div class="form_group">
               <label for="huisnr">Huisnummer:</label>
-              <input type="text" class="form-control" id="huisnr" name="huisnr" max="255" placeholder="14" required>
+              <input type="text" class="form-control" id="huisnr" name="huisnr" max="255" placeholder="14" value="{{#if data}}{{data.huisnr}}{{/if}}">
             </div>
 
             <div class="form_group">
               <label for="gemeente">Gemeente:</label>
-              <input type="text" class="form-control" id="gemeente" name="gemeente" max="255" placeholder="Anderlecht" required>
+              <input type="text" class="form-control" id="gemeente" name="gemeente" max="255" placeholder="Anderlecht" value="{{#if data}}{{data.gemeente}}{{/if}}">
             </div>
 
             <div class="form_group">
               <label for="postcode">Postcode:</label>
-              <input type="text" class="form-control" id="postcode" name="postcode" max="6" placeholder="1070" required>
+              <input type="text" class="form-control" id="postcode" name="postcode" max="6" placeholder="1070" value="{{#if data}}{{data.postcode}}{{/if}}">
             </div>
 
             <div class="form_group">
-              <label for="land">Land:</label>
-              <input type="text" class="form-control" id="land" name="land" max="2" placeholder="België"  required>
+                <label for="land">Landcode:</label>
+                <select name="land" id="land">
+                    {{#each countries}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
             </div>
                         
         </div>
@@ -80,12 +87,19 @@
     </div>
     
     <div class="btns">
-      <a href="../projecten/home_project.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
+      <a href="../projecten/home_projecten.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
       <input type="submit" id="submitbtn" value= "Save" class="btn_bottom">
     </div>
-</form> 
+
+    <div class="hidden">
+      {{#each errors}}
+        <p class="errorMsg">{{this}}</p>
+      {{/each}}
+    </div>    
+  </form> 
  
 
 </body>
-<script src="../JS/nieuw_project.js"></script>
+<!--<script src="../JS/nieuw_project.js"></script>-->
+<script src="../JS/nieuwe_leverancier.js"></script>
 </html>

@@ -16,7 +16,7 @@
         <div class="inputs">
             
             <div id="nr" class="form_group">
-                <input type="hidden" id="idnr" name="idnr" Value="{{result.idnr}}" disabled> <br>
+                <input type="hidden" id="idnr" name="idnr" value="{{result.idnr}}" disabled> <br>
             </div>
             
             <div class="form_group">
@@ -55,7 +55,7 @@
 
             <div class="btns_details visible">
                 <div class="modify_back_btns">
-                    <a href="gebruikers/home_gebruikers.html" id="btn_back" class="btn_bottom">Back</a>
+                    <a href="../gebruikers/home_gebruikers.html" id="btn_back" class="btn_bottom">Annuleren</a>
                     <button id="btn_modify" class="btn_bottom">Gebruiker aanpassen</button>
                 </div>
                 <a href="/delete_gebruiker?iddel={{result.idnr}}" id="btn_remove" class="btn_bottom">Gebruiker verwijderen</a>
@@ -63,7 +63,13 @@
 
             <div class="btns hidden">
                 <a href="#" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
-                <input type="Submit" id="submitbtn" value="Save" class="btn_bottom" disabled>
+                <input type="submit" id="submitbtn" value="Save" class="btn_bottom" disabled>
+            </div>
+
+            <div id="errorMsgs">
+                {{#each errors}}
+                    <p class="errorMsg">{{this}}</p>
+                {{/each}}
             </div>
         </div>
     </form>

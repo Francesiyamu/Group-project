@@ -76,11 +76,15 @@ form label {
     /*margin-left: 100px of justify-content: center --> enkel bij details */
 }
 
+#form_klanten .form_group {
+    justify-content: center;
+}
+
 .form_group.toev {
     justify-content: center;
 }
 
-.form_group input, #functie, #levLand {
+.form_group input, #functie, #land {
     padding: 0.5rem;
     width: 300px;
     border-style: solid;
@@ -89,7 +93,11 @@ form label {
     border-radius: 3px;
 }
 
-#levLand:disabled, #functie:disabled, input[type="text"]:disabled, input[type="password"]:disabled, input[type="email"]:disabled, input[type="tel"]:disabled {
+#form_klanten.details_aanpassen .form_group {
+    margin: 0 2rem;
+}
+
+#land:disabled, #functie:disabled, input[type="text"]:disabled, input[type="password"]:disabled, input[type="email"]:disabled, input[type="tel"]:disabled {
     background-color: #e9e6e6;
 }
 
@@ -283,7 +291,7 @@ form label {
         width: 330px;
     }
 
-    .form_group input, #functie, #levLand {
+    .form_group input, #functie, #land {
         width: 230px;
     }
 

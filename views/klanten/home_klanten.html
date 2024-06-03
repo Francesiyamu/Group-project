@@ -16,7 +16,7 @@
             <li><img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo"></li>
             <li><a href="#top" class="menu active">Klanten</a></li> 
             <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
-            <li><a href="../projecten/home_project.html" class="menu">Projecten</a></li>
+            <li><a href="../projecten/home_projecten.html" class="menu">Projecten</a></li>
             <li><a href="../lev_Factuur/home_fact_lev.html" class="menu">Facturen Leveranciers</a></li> 
             <li><a href="../klant_factuur/home_klantFacturen.html" class="menu">Facturen Klanten</a></li>
             <li class="gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
@@ -30,7 +30,7 @@
             <div class="part_nav" id="nav_upper">
                 <li><a href="#top" class="menu active">Klanten</a></li> 
                 <li><a href="../leveranciers/home_leveranciers.html" class="menu">Leveranciers</a></li>
-                <li><a href="../projecten/home_project.html" class="menu">Projecten</a></li>
+                <li><a href="../projecten/home_projecten.html" class="menu">Projecten</a></li>
             </div>
             <div class="part_nav" id="nav_lower">
                 <li><a href="../lev_Factuur/home_fact_lev.html" class="menu">Facturen Leveranciers</a></li> 
@@ -51,7 +51,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a href="#top" class="menu nav-link active">Klanten</a></li>
                     <li class="nav-item"><a href="../leveranciers/home_leveranciers.html" class="menu nav-link">Leveranciers</a></li>
-                    <li class="nav-item"><a href="../projecten/home_project.html" class="menu nav-link">Projecten</a></li>
+                    <li class="nav-item"><a href="../projecten/home_projecten.html" class="menu nav-link">Projecten</a></li>
                     <li class="nav-item"><a href="../lev_Factuur/home_fact_lev.html" class="menu nav-link">Facturen Leveranciers</a></li> 
                     <li class="nav-item"><a href="../klant_factuur/home_klantFacturen.html" class="menu nav-link">Facturen Klanten</a></li>
                     <li class="nav-item gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu nav-link " data-bs-toggle="collapse" data-bs-target="#navbarToggler">Gebruikers</a></li>
@@ -83,23 +83,12 @@
                         <th>BTW nr</th>
                     </tr>
                   </thead>
-                  <tbody>
-                        {{#each Klanten}}
-                        <tr onclick="window.location='/details_aanpassen_gebruiker?var={{idnr}}'">
-                            <td>{{Klntnr}}</td>
-                            <td>{{voornaam}}</td>
-                            <td>{{achternaam}}</td>
-                            <td>{{emailadres}}</td>
-                            <td>{{BTW nr}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
                 </table>
             </div>
 
     <!-- ------------- BUTTON ------------- -->
             <div class="button">
-                <a href="nieuwe_klant.html" id="btn_new">Klant toevoegen</a>
+                <a href="./nieuwe_klant.html" id="btn_new">Klant toevoegen</a>
             </div>
         </div>
     </div>
