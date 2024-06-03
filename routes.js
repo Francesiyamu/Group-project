@@ -265,7 +265,7 @@ router.get('/delete_gebruiker', authenticateToken1 , (req, res) => {
 
 // Toon bestaande klanten op home pagina
 router.get('/klanten/home_klanten.html', authenticateToken2,(req, res) => {
-    connection.query('SELECT klantnr, voornaam, achternaam, emailadres, telefoonnr, BTWnr FROM KLANTEN', (error, results) => {
+    connection.query('SELECT klantnr, voornaam, achternaam, emailadres, telefoonnr FROM KLANTEN', (error, results) => {
         if(error) throw error;
         console.log(results)
         res.render(path.join(__dirname,'views', 'klanten', 'home_klanten'), {klanten: results})
