@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const fileInput = document.getElementById('fileInput');
 	const fileList = document.getElementById('fileList');
 
-	// Trigger file input when the file section is clicked
-	document.getElementById('uploadform').addEventListener('click', () => {
-			fileInput.click();
-	});
+	// // Trigger file input when the file section is clicked
+	// document.getElementById('uploadform').addEventListener('click', () => {
+	// 		fileInput.click();
+	// });
 
 	// Handle file selection
 	fileInput.addEventListener('change', (event) => {
