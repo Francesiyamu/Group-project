@@ -76,6 +76,34 @@ p {
     font-size: 1.5rem;
 }
 
+
+.btn_bottom{
+    background-color: #161538;
+    border: 1px solid #838287;
+    border-radius: 2rem;
+    padding: 1rem 5rem;
+    color: #c7c7ca;
+    font-weight: 400;
+    margin: 0.5rem;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  
+  
+  
+  .btn_bottom:hover {
+    transform: scale(1.1);
+    color: #ff9992;
+    border-color: #ff9992;
+    border-width: 2.3px;
+    font-weight: bold;
+  }
+  
+
+
+
+
 @media (max-width: 600px) {
     .chart-container {
         flex-direction: column;
@@ -87,9 +115,7 @@ p {
         margin: 1rem;
     }
 }
-#cancelbtn {
-    background-color: yellow;
-    
+    .btn_bottom { 
     height: fit-content;
-    margin-bottom: 0.8rem;
+    margin-bottom: 10px;
 }
