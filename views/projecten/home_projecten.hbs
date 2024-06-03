@@ -75,13 +75,13 @@
             </div>
 
             <!-- ------------- TABLE ------------- -->
-            <div id="table" class="table-section" data-url="/data">
-                <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
+            <div class="table-section" data-url="/data">
+                <table id="table" class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
                 <thead>
                     <tr>
                         <th>Projectnaam</th>
                         <th>Klantnaam</th>
-                        <th col-index = 3>Status <br>
+                        <th col-index = 1>Status <br>
                             <select class="table-filter" onchange="filter_rows()">
                               <option value="all"></option>
                             </select>
@@ -91,7 +91,7 @@
                 </thead>
                 <tbody>
                     {{#each projecten}}
-                    <tr onclick="window.location='./projecten/subpaginas_project.html?id={{projectnr}}'">
+                    <tr onclick="window.location='./subpaginas_project.html?id={{projectnr}}'">
                         <td>{{projectnaam}}</td>
                         <td>{{achternaam}}, {{voornaam}}</td>
                         <td>{{status}}</td>
