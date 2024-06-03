@@ -24,6 +24,7 @@ router.use(session({
     expires: 3600000
 }));
 
+// DIT IS EEN COMMENT
 
 
 // Toegang voor iedereen
