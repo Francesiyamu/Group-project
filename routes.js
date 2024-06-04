@@ -21,11 +21,8 @@ router.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }, // Set to true if using HTTPS
-    expires: 3600000
+    expires: 36000000
 }));
-
-// DIT IS EEN COMMENT
-
 
 // Toegang voor iedereen
 router.get('/', (req, res) => {
@@ -108,11 +105,48 @@ router.post('/projecten/submission_nieuw_project_form', authenticateToken2, vali
     }
 })
 
-// Subpagina's project
-router.get('/projecten/subpaginas_project.html', authenticateToken2, (req, res) => {
+router.get('/projecten/subpaginas_project.html', /*authenticateToken2,*/ (req, res) => {
     const id = req.query.id;
-    res.render(path.join(__dirname, 'views', 'projecten', 'subpaginas_project'), {projectnr: id});
+    
+    connection.query('SELECT projectnaam FROM PROJECTEN WHERE projectnr = ?', [id], (error, project) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            return res.status(500).send('Internal Server Error');
+        } 
+        const projectnaam = project.length > 0 ? project[0].projectnaam : 'Unknown';
+const queryFacturen =  "SELECT TOEWIJZINGEN.factuurid, ROUND(bedragNoBTW , 2) AS bedragNoBTW, factuurnr, DATE_FORMAT(factuurDatum, '%d/%m/%Y') AS factuurDatum , LEVERANCIERS.naam FROM TOEWIJZINGEN JOIN FACTUREN ON FACTUREN.factuurid = TOEWIJZINGEN.factuurid JOIN FACTUREN_LEVERANCIERS ON TOEWIJZINGEN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr = LEVERANCIERS.levnr WHERE projectnr = ?";
+        connection.query(queryFacturen, [id], (error, levFact) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return res.status(500).send('Internal Server Error');
+            } 
+            levFact.forEach(row => {
+                row.bedragNoBTW = row.bedragNoBTW.toFixed(2);
+            });
+            connection.query('SELECT SUM(bedragNoBTW) AS total_bedragNoBTW FROM TOEWIJZINGEN JOIN FACTUREN ON FACTUREN.factuurid = TOEWIJZINGEN.factuurid JOIN FACTUREN_LEVERANCIERS ON TOEWIJZINGEN.factuurid = FACTUREN_LEVERANCIERS.factuurid WHERE projectnr = ?', [id], (error, totaal) => {
+                if (error) {
+                    console.error('Error executing query:', error);
+                    return res.status(500).send('Internal Server Error');
+                } 
+                let totaalLev = totaal.length > 0 ? totaal[0].total_bedragNoBTW : 'Unknown';
+                if (totaalLev){
+                totaalLev = totaalLev.toFixed(2);
+                }else{
+                    totaalLev = 0.00
+                    totaalLev = totaalLev.toFixed(2)
+                }
+    
+
+
+
+        // Render page
+        res.render(path.join(__dirname, 'views', 'projecten', 'subpaginas_project'), { projectnr: id, projectnaam: projectnaam , levFact:levFact, totaalLev : totaalLev });
+    });
 });
+});
+});
+
+
 
 // Details project
 router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req,res) => {
@@ -520,6 +554,8 @@ router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken3, (req, r
     res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.html'));
 });
 
+// voor de klanten klantFactNieuw post
+
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
     connection.query('SELECT FACTUREN.factuurnr, FACTUREN.factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc,FACTUREN_LEVERANCIERS.terugbetaald,FACTUREN_LEVERANCIERS.verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid', (error, results) => {
@@ -537,6 +573,8 @@ router.get('/lev_Factuur/factuur_lev_toe.html',authenticateToken3, (req, res) =>
 router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
 })
+
+// voor de klanten klantFactNieuw post
 
 // -----------------Handle form submissions-----------------------------------------------------------
 //router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
