@@ -78,8 +78,10 @@
                 <thead>
                     <tr>
                         <th>Factuurnummer</th>
+                        <th>Factuurdatum</th>
                         <th>Klantnaam</th>
                         <th>Totaal excl.BTW</th>
+                        <th>BTW</th>
                         <th>Status betaling</th>
                     </tr>
                 </thead>
@@ -87,8 +89,10 @@
                     {{#each Facturen}}
                     <tr onclick="window.location='./details_aanpassen_klantFactuur.html?var={{factuurid}}'">
                         <td>{{factuurnr}}</td>
+                        <td>{{factuurDatum}}</td>
                         <td>{{achternaam}}, {{voornaam}}</td>
                         <td>{{bedragNoBTW}}</td>
+                        <td>{{BTWperc}}</td>
                         <td>{{statusBetaling}}</td>
                     </tr>
                     {{/each}}

@@ -573,7 +573,8 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
 //-------------------KLANTEN FACTUREN-----------------------------------------------------------
 
 router.get('/klant_factuur/home_klantFacturen.html', authenticateToken3, (req, res) => {
-    connection.query('SELECT FACTUREN.factuurid, FACTUREN.factuurnr, KLANTEN.achternaam, KLANTEN.voornaam, FACTUREN.bedragNoBTW, FACTUREN.statusBetaling FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid= FACTUREN_KLANTEN.factuurid JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr', (error, results) => {
+    
+    connection.query("SELECT FACTUREN.factuurid, DATE_FORMAT(FACTUREN.factuurDatum, '%d/%m/%Y') AS factuurDatum , FACTUREN.factuurnr, KLANTEN.achternaam, FACTUREN.BTWperc, KLANTEN.voornaam, FACTUREN.bedragNoBTW, FACTUREN.statusBetaling FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid= FACTUREN_KLANTEN.factuurid JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr", (error, results) => {
         if (error) console.log(error);
         if (error) throw error;
         res.render('klant_factuur/home_klantFacturen', { Facturen: results });
@@ -592,9 +593,24 @@ router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken3, (req, r
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
-    connection.query('SELECT FACTUREN.factuurnr, FACTUREN.factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc,FACTUREN_LEVERANCIERS.terugbetaald,FACTUREN_LEVERANCIERS.verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid', (error, results) => {
+    connection.query("SELECT FACTUREN.factuurnr, DATE_FORMAT(FACTUREN.factuurDatum, '%d/%m/%Y') AS factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc,FACTUREN_LEVERANCIERS.terugbetaald,FACTUREN_LEVERANCIERS.verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid", (error, results) => {
         if (error) console.log(error);
         if (error) throw error;
+        results = results.map(results => {
+            if (results.verstuurdBoekhouder === 1) {
+                results.verstuurdBoekhouder = 'Ja';
+            } else if (results.verstuurdBoekhouder === 0) {
+                results.verstuurdBoekhouder = 'Nee';
+            }
+          
+            if (results.terugbetaald === 1) {
+                results.terugbetaald = 'Ja';
+            } else if (results.terugbetaald === 0) {
+                results.terugbetaald = 'Nee';
+            }
+          
+            return results;
+          });
         res.render(path.join(__dirname, 'views', 'lev_Factuur', 'home_fact_lev'), { LevFacturen: results });
         //console.log('resultaten query lev facturen', results);
     });
