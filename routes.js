@@ -17,7 +17,7 @@ const session = require('express-session');
 const countries = require('./config/Countries');
 
 router.use(session({
-    secret: 'd831bf80b82841618a885b9a93280e5ca9e0bcbe4de61e2de8b3f31170e2395cdb24966f286130e3a8b94faddebd97ea6ddc0fccccb10407feb9047b95ab609f',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }, // Set to true if using HTTPS
@@ -77,6 +77,8 @@ router.get('/projecten/nieuw_project.html', authenticateToken2,(req,res) => {
     })
 })
 
+
+//Nieuw project POST
 router.post('/projecten/submission_nieuw_project_form', authenticateToken2, validationRulesProject(), async (req, res) => {
     console.log('nieuw project');
     console.log(req.body);
@@ -105,21 +107,22 @@ router.post('/projecten/submission_nieuw_project_form', authenticateToken2, vali
     }
 })
 
-router.get('/projecten/subpaginas_project.html', /*authenticateToken2,*/ (req, res) => {
+// Subpagina Projecten
+router.get('/projecten/subpaginas_project.html', authenticateToken2,(req, res) => {
     const id = req.query.id;
-    
+
     connection.query('SELECT projectnaam FROM PROJECTEN WHERE projectnr = ?', [id], (error, project) => {
         if (error) {
             console.error('Error executing query:', error);
             return res.status(500).send('Internal Server Error');
-        } 
+        }
         const projectnaam = project.length > 0 ? project[0].projectnaam : 'Unknown';
-const queryFacturen =  "SELECT TOEWIJZINGEN.factuurid, ROUND(bedragNoBTW , 2) AS bedragNoBTW, factuurnr, DATE_FORMAT(factuurDatum, '%d/%m/%Y') AS factuurDatum , LEVERANCIERS.naam FROM TOEWIJZINGEN JOIN FACTUREN ON FACTUREN.factuurid = TOEWIJZINGEN.factuurid JOIN FACTUREN_LEVERANCIERS ON TOEWIJZINGEN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr = LEVERANCIERS.levnr WHERE projectnr = ?";
-        connection.query(queryFacturen, [id], (error, levFact) => {
+        const queryFacturenLev = "SELECT TOEWIJZINGEN.factuurid, ROUND(bedragNoBTW , 2) AS bedragNoBTW, factuurnr, DATE_FORMAT(factuurDatum, '%d/%m/%Y') AS factuurDatum , LEVERANCIERS.naam FROM TOEWIJZINGEN JOIN FACTUREN ON FACTUREN.factuurid = TOEWIJZINGEN.factuurid JOIN FACTUREN_LEVERANCIERS ON TOEWIJZINGEN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr = LEVERANCIERS.levnr WHERE projectnr = ?";
+        connection.query(queryFacturenLev, [id], (error, levFact) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return res.status(500).send('Internal Server Error');
-            } 
+            }
             levFact.forEach(row => {
                 row.bedragNoBTW = row.bedragNoBTW.toFixed(2);
             });
@@ -127,25 +130,56 @@ const queryFacturen =  "SELECT TOEWIJZINGEN.factuurid, ROUND(bedragNoBTW , 2) AS
                 if (error) {
                     console.error('Error executing query:', error);
                     return res.status(500).send('Internal Server Error');
-                } 
+                }
                 let totaalLev = totaal.length > 0 ? totaal[0].total_bedragNoBTW : 'Unknown';
-                if (totaalLev){
-                totaalLev = totaalLev.toFixed(2);
-                }else{
+                if (totaalLev) {
+                    totaalLev = totaalLev.toFixed(2);
+                } else {
                     totaalLev = 0.00
                     totaalLev = totaalLev.toFixed(2)
                 }
-    
+                const queryFacturenKlant = "SELECT TOEWIJZINGEN.factuurid, ROUND(bedragNoBTW , 2) AS bedragNoBTW, factuurnr, DATE_FORMAT(factuurDatum, '%d/%m/%Y') AS factuurDatum , KLANTEN.voornaam, KLANTEN.achternaam FROM TOEWIJZINGEN JOIN FACTUREN ON FACTUREN.factuurid = TOEWIJZINGEN.factuurid JOIN FACTUREN_KLANTEN ON TOEWIJZINGEN.factuurid = FACTUREN_KLANTEN.factuurid JOIN KLANTEN ON FACTUREN_KLANTEN.klantnr = KLANTEN.klantnr WHERE projectnr = ?";
+                connection.query(queryFacturenKlant, [id], (error, klantFact) => {
+                    if (error) {
+                        console.error('Error executing query:', error);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    klantFact.forEach(row => {
+                        row.bedragNoBTW = row.bedragNoBTW.toFixed(2);
+                    });
+                    connection.query('SELECT SUM(bedragNoBTW) AS total_bedragNoBTW FROM TOEWIJZINGEN JOIN FACTUREN ON FACTUREN.factuurid = TOEWIJZINGEN.factuurid JOIN FACTUREN_KLANTEN ON TOEWIJZINGEN.factuurid = FACTUREN_KLANTEN.factuurid WHERE projectnr = ?', [id], (error, totaalKlantDB) => {
+                        if (error) {
+                            console.error('Error executing query:', error);
+                            return res.status(500).send('Internal Server Error');
+                        }
+                        let totaalKlant = totaalKlantDB.length > 0 ? totaalKlantDB[0].total_bedragNoBTW : 'Unknown';
+                        if (totaalKlant) {
+                            totaalKlant = totaalKlant.toFixed(2);
+                        } else {
+                            totaalKlant = 0.00
+                            totaalKlant = totaalKlant.toFixed(2)
+                        }
+                        let marge = totaalKlant - totaalLev
+                        if (marge) {
+                            marge = marge.toFixed(2);
+                        } else {
+                            marge = 0.00
+                            marge = marge.toFixed(2)
+                        }
+                        connection.query('SELECT KLANTEN.klantnr, KLANTEN.voornaam, KLANTEN.achternaam, PROJECTEN.gemeente, PROJECTEN.postcode, PROJECTEN.straatnaam, PROJECTEN.status, PROJECTEN.huisnr, PROJECTEN.land FROM PROJECTEN JOIN KLANTEN ON KLANTEN.klantnr = PROJECTEN.klantnr WHERE projectnr = ?', [id], (error, projectgegevens) => {
+                            if (error) {
+                                console.error('Error executing query:', error);
+                                return res.status(500).send('Internal Server Error');
+                            }
 
-
-
-        // Render page
-        res.render(path.join(__dirname, 'views', 'projecten', 'subpaginas_project'), { projectnr: id, projectnaam: projectnaam , levFact:levFact, totaalLev : totaalLev });
+                            res.render(path.join(__dirname, 'views', 'projecten', 'subpaginas_project'), { projectnr: id, projectnaam: projectnaam, levFact: levFact, totaalLev: totaalLev, totaalKlant: totaalKlant, klantFact: klantFact, marge: marge, projectgegevens: projectgegevens[0] });
+                        });
+                    });
+                });
+            });
+        });
     });
 });
-});
-});
-
 
 
 // Details project
@@ -664,7 +698,6 @@ router.get('/api/kosten', (req, res) => {
 });
 //--------------------------------------------------------------------------------------
 
-
 router.get('/set-token', (req, res) => {
     const token = req.query.token;
     const level = req.query.level;
@@ -675,6 +708,7 @@ router.get('/set-token', (req, res) => {
     req.session.level = level;
     res.redirect('/klant_factuur/home_klantFacturen.html');
 });
+
 // Route to logout and end the session
 router.get('/logout', (req, res) => {
     req.session.destroy(err => {

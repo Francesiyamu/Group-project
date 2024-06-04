@@ -74,8 +74,8 @@
               
                 <ul>
                     <li><button class="subnav_active subnav-btn">Overzicht</button></li>
-                    <li><button class="subnav-btn">Inkomsten</button></li> 
-                    <li><button class="subnav-btn">Uitgaven</button></li>
+                    <li><button class="subnav-btn">Uitgaven</button></li> 
+                    <li><button class="subnav-btn">Inkomsten</button></li>
                   
                 </ul>
             </div>
@@ -88,53 +88,112 @@
                     <div class="collapse navbar-collapse" id="subnavbarToggler">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="subnav-item"><button data-bs-toggle="collapse" data-bs-target="#subnavbarToggler" class="subnav_active subnav-btn">Overzicht</button></li>
-                            <li class="subnav-item"><button data-bs-toggle="collapse" data-bs-target="#subnavbarToggler" class="subnav-btn">Inkomsten</button></li> 
-                            <li class="subnav-item"><button data-bs-toggle="collapse" data-bs-target="#subnavbarToggler" class="subnav-btn">Uitgavem</button></li>
+                            <li class="subnav-item"><button data-bs-toggle="collapse" data-bs-target="#subnavbarToggler" class="subnav-btn">Uitgaven</button></li> 
+                            <li class="subnav-item"><button data-bs-toggle="collapse" data-bs-target="#subnavbarToggler" class="subnav-btn">Inkomsten</button></li>
                             <!-- https://getbootstrap.com/docs/5.0/components/collapse/ -->
                         </ul>
                     </div>
                 </div>
             </nav>
- 
-                 <div id="Overzicht" class="visible container">
-                <h1>Overzicht</h1>
-                <h2>Project: {{projectnaam}}</h2>
-            </div>
-            
-            
-            
-            <div id="uitgaven" class="hidden container">
-                <h1>Uitgaven</h1>
-                <div id="table" class="table-section" data-url="/data">
-                    <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
-                        <thead>
-                            <tr>
-                                <th>Factuurnr</th>
-                                <th>Factuurdatum</th>
-                                <th>Leverancier</th>
-                                <th>Bedrag (Excl BTW)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each levFact}}
-                            <tr onclick="window.location='../lev_Factuur/fact-lev-aanpassen.html?var={{factuurid}}'">
-                                <td>{{factuurnr}}</td>
-                                <td>{{factuurDatum}}</td>
-                                <td>{{naam}}</td>
-                                <td>{{bedragNoBTW}}</td>
-                            </tr>
-                            {{/each}}
-                            <tr>
-                                <td colspan="3"><strong>Total</strong></td>
-                                <td>{{totaalLev}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
 
-            
-            
+
+
+
+                        <div id="Overzicht" class="visible container">
+                            <h1>Overzicht</h1>
+                            <h2>Project: {{projectnaam}}</h2>
+                            <h3>Projectgegevens</h3>
+                            <p><b>Adres:</b></p>
+                            <p> {{projectgegevens.straatnaam}},  {{projectgegevens.huisnr}}</p>
+                            <p>{{projectgegevens.postcode}},  {{projectgegevens.gemeente}},  {{projectgegevens.land}}</p>
+                            <h3>Klantgegevens</h3>
+                            <p>
+                            Klantnaam: 
+                            <a href="../klanten/details_aanpassen_klant.html?id={{projectgegevens.klantnr}}">{{projectgegevens.voornaam}}, {{projectgegevens.achternaam}}</a>
+                            </p>
+                            <h3>KPI's</h3>
+                            <table>
+                                 <tr>
+                                    <td>Inkomsten</td>
+                                    <td>{{totaalKlant}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Uitgaven</td>
+                                    <td>{{totaalLev}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Totaal</b></td>
+                                    <td><b>{{marge}}</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+
+
+
+                        <div id="uitgaven" class="hidden container">
+                            <h1>Uitgaven</h1>
+                            <div id="table" class="table-section" data-url="/data">
+                                <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
+                                    <thead>
+                                        <tr>
+                                            <th>Factuurnr</th>
+                                            <th>Factuurdatum</th>
+                                            <th>Leverancier</th>
+                                            <th>Bedrag (Excl BTW)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each levFact}}
+                                        <tr onclick="window.location='../lev_Factuur/fact-lev-aanpassen.html?var={{factuurid}}'">
+                                            <td>{{factuurnr}}</td>
+                                            <td>{{factuurDatum}}</td>
+                                            <td>{{naam}}</td>
+                                            <td>{{bedragNoBTW}}</td>
+                                        </tr>
+                                        {{/each}}
+                                        <tr>
+                                            <td colspan="3"><strong>Total</strong></td>
+                                            <td>{{totaalLev}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        <div id="Inkomsten" class="hidden container">
+                           <h1>Inkomsten</h1>
+                            <div id="table" class="table-section" data-url="/data">
+                                <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
+                                    <thead>
+                                        <tr>
+                                            <th>Factuurnr</th>
+                                            <th>Factuurdatum</th>
+                                            <th>Leverancier</th>
+                                            <th>Bedrag (Excl BTW)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each klantFact}}
+                                        <tr onclick="window.location='../klant_factuur/details_aanpassen_klantFactuur.html?var={{factuurid}}'">
+                                            <td>{{factuurnr}}</td>
+                                            <td>{{factuurDatum}}</td>
+                                            <td>{{voornaam}}, {{achternaam}}</td>
+                                            <td>{{bedragNoBTW}}</td>
+                                        </tr>
+                                        {{/each}}
+                                        <tr>
+                                            <td colspan="3"><strong>Total</strong></td>
+                                            <td>{{totaalKlant}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
             {{#with projectnr}}
             <div class="btns">
                 <a href="home_projecten.html" id="btn_back" class="btn_bottom">Back</a>
