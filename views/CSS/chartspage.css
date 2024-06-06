@@ -2,25 +2,13 @@
 
 .chart-container {
     color: #161538;
-    background-color: #838287;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-.card {
-    background-color: beige;
-    margin: 3rem;
-}
 
-.chart-box {
-    background-color: #838287; 
-}
-
-.canvas {
-    background-color: gold;
-}
 
 .row1,
 .row2 {
@@ -57,18 +45,10 @@ h6 {
     color: #161538;
     font-size: 3rem;
 }
-body h1 {
-    font-size: 4rem;
-}
 
 
-.chart-container h5 {
-    padding: 1rem 1rem;
-    text-transform: uppercase;
-    text-align: center;
-    color: #161538;
-    font-size: 1.5rem;;
-}
+
+
 
 p {
     text-align: center;
@@ -77,28 +57,12 @@ p {
 }
 
 
-.btn_bottom{
-    background-color: #161538;
-    border: 1px solid #838287;
-    border-radius: 2rem;
-    padding: 1rem 5rem;
-    color: #c7c7ca;
-    font-weight: 400;
-    margin: 0.5rem;
-    text-decoration: none;
-    text-align: center;
-  }
+
   
   
   
   
-  .btn_bottom:hover {
-    transform: scale(1.1);
-    color: #ff9992;
-    border-color: #ff9992;
-    border-width: 2.3px;
-    font-weight: bold;
-  }
+  
   
 
 

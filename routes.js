@@ -628,7 +628,7 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
 }); */
 
 //-------------------route naar chartpage----------------------
-router.get('/chartspage', (req, res) => {
+router.get('/chartspage', authenticateToken1,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'chartspage.html'));
 });
 //data leveranciers facturen-----------------------------------------------------
@@ -653,7 +653,7 @@ router.get('/api/klantfacturen', (req, res) => {
     });
 });
 
-//omzet klanten-----------------------------------------------------
+//omzet klanten/ maand voor dit jaar-----------------------------------------------------
 router.get('/api/omzet-klanten', (req, res) => {
     connection.query(`
     SELECT 
@@ -675,7 +675,7 @@ router.get('/api/omzet-klanten', (req, res) => {
     });
 });
 
-//kosten dit jaar ---------------------------------------------------------------------
+//kosten dit jaar per maand ---------------------------------------------------------------------
 router.get('/api/kosten', (req, res) => {
     connection.query(`
     SELECT 

@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
+<link rel="stylesheet" href="./CSS/chartspage.css" type="text/css">
 
+    
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +14,65 @@
     </head>
     
     <body>
-        <h1>Manager Charts</h1>
+        <!-- ------------- NAVIGATION BARS ------------- -->
+        
+        <nav class="large_screen_nav" id="top">
+        <ul>
+            <li><img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo"></li>
+            <li><a href="../klanten/home_klanten.html" class="menu">Klanten</a></li>
+            <li><a href="#top" class="menu">Leveranciers</a></li>
+            <li><a href="../projecten/home_projecten.html" class="menu">Projecten</a></li>
+            <li><a href="../lev_Factuur/home_fact_lev.html" class="menu" id="fact_lev_menu">Facturen Leveranciers</a></li>
+            <li><a href="../klant_factuur/home_klantFacturen.html" class="menu" id="fact_klant_menu">Facturen Klanten</a></li>
+            <li class="gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
+            <li><a href="../logout" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a></li>
+        </ul>
+    </nav>
+
+    <nav class="medium_screen_nav">
+                <img id="logo" src="../../assests/images/logo_transparant.png" alt="Logo">
+                <ul>
+                        <div class="part_nav" id="nav_upper">
+                                <li><a href="../klanten/home_klanten.html" class="menu">Klanten</a></li>
+                                <li><a href="#top" class="menu ">Leveranciers</a></li>
+                                <li><a href="../projecten/home_projecten.html" class="menu">Projecten</a></li>
+                        </div>
+                        <div class="part_nav" id="nav_lower">
+                                <li><a href="../lev_Factuur/home_fact_lev.html" class="menu">Facturen Leveranciers</a></li> 
+                                <li><a href="../klant_factuur/home_klantFacturen.html" class="menu">Facturen Klanten</a></li>
+                                <li class="gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu">Gebruikers</a></li>
+                        </div>
+                </ul>
+                <a href="../logout" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i></a>
+        </nav>
+
+        <nav id="small_screen_nav" class="navbar navbar-expand-md bg-custom" data-bs-auto-close="outside">
+                <div class="container-fluid">
+                        <img class="navbar-brand" id="logo" src="../../assests/images/logo_transparant.png" alt="Logo">
+                        <button class="navbar-toggler ml-auto custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                                <i id="toggle"class="fa fa-bars"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarToggler">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item"><a href="../klanten/home_klanten.html" class="menu nav-link">Klanten</a></li> 
+                                        <li class="nav-item"><a href="#top" class="menu nav-link" data-bs-toggle="collapse" data-bs-target="#navbarToggler">Leveranciers</a></li>
+                                        <li class="nav-item"><a href="../projecten/home_projecten.html" class="menu nav-link">Projecten</a></li>
+                                        <li class="nav-item"><a href="../lev_Factuur/home_fact_lev.html" class="menu nav-link">Facturen Leveranciers</a></li>
+                                        <li class="nav-item"><a href="../klant_factuur/home_klantFacturen.html" class="menu nav-link">Facturen Klanten</a></li> 
+                                        <li class="nav-item gebruikers_item"><a href="../gebruikers/home_gebruikers.html" class="menu nav-link">Gebruikers</a></li>
+                                        <li id="li_logout"><a href="../logout" data-toggle="tooltip" data-placement="bottom" title="Log out"><i id="logout" class="fa fa-sign-out"></i>Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ------------- CONTENT PAGE ------------- -->
+    <div id="body_without_navbar">
+        <div class="content">
+        <!-- ------------- HEADING ------------- -->
+        <div id="heading">
+                <h1>Manager Charts</h1>
+                
+            </div>
         <div class="chart-container">
                 <div class="line-chart">
                         <h5>Omzet huidig jaar </h5>
@@ -31,6 +91,14 @@
                                 <p id="totalKosten"></p>
                         </div>
                 </div>
+                <div class="line-chart">
+                        <h5>Winst huidig jaar</h5>
+                        <hr>
+                        <div class="chart-box">
+                                <canvas id="myChart-winst"></canvas>
+                                <p id="totalWinst"></p>
+                        </div>
+                </div>
                 
                 <div class="pie-chart">
                         <h5>Betaalde vs Openstaande Leveranciers Facturen</h5>
@@ -47,9 +115,14 @@
                                 <canvas id="myChart-klant"></canvas>
                         </div>
                 </div>
-                <div class="btns">
-                    <a href="./klant_factuur/home_klantFacturen.html" id="cancelbtn" class="btn_bottom">Annuleren</a>
-                </div>
+               
+                <!-- ------------- BUTTON ------------- -->
+            <div class="button">
+                <a href="./klant_factuur/home_klantFacturen.html" id="btn_new">Annuleren</a>
+            </div>
+        </div>
+    </div>
+
         </div>
 
 
