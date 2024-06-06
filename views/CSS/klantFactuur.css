@@ -77,6 +77,11 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
         resize: none;
     }
 
+
+    #test{
+        display: flex;
+    }
+
 /* ++++++++ FACTUUR PDF WEERGAVEN VELD ++++++++ */
     #factuurUploaden_box{
         align-self: flex-start;
@@ -87,7 +92,8 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
 
     #factuurUploaden {
         margin-top: 1rem;
-        height: 500px;
+        height: 450px;
+        background-color: lightgrey;
     }
 
     iframe{
@@ -188,24 +194,47 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
         transition: transform 0.7s;
     }
 
-    #addFile1, #addFile2, #addFile3 {
-        opacity: 0;
-        width: 2px;
-        height: 4px;
-        position: absolute;
-        padding: 8px 20px;
-    } 
-
-    #deleteFile1, #addFile1, #deleteFile2, #addFile2, #deleteFile3, #addFile3{
-        padding-left: 0.25rem;
-        padding-right: 0.75rem;
+    #test {
+        display: flex;
+        align-items: center;
     }
 
-    #file1, #file2, #file3{
+    #addFile{
+        opacity: 0;
+        width: 0;
+        height: 4px;
+        margin-left: 10.5rem;
+        position: absolute;
+        padding: 8px 20px; 
+        background-color: red;
+        margin-top: 0.5rem;
+    }  
+
+    .fa-plus-circle{
+        margin-top: 0.5rem;
+        margin-left: 0.5rem;
+        color: green;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .fa-minus-circle{
+        color:red;
+        font-size:20px;
         text-decoration: none;
     }
 
-    #file1_box :hover, #file2_box :hover, #file3_box :hover{
+
+    #deleteFile{
+        padding-left: 0.25rem;
+        padding-right: 0.50rem;
+    }
+
+    #file{
+        text-decoration: none;
+    }
+
+    #file_box:hover{
         text-decoration: underline;
     }
 
@@ -366,3 +395,5 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
             margin-bottom: 2.5rem;
         }
 } 
+
+
