@@ -638,7 +638,7 @@ router.get('/api/levfacturen', (req, res) => {
     connection.query(factuurdatalev, (err, results) => {
         if (err) throw err;
         res.json(results);
-        console.log(results)
+        //console.log(results)
     });
 });
 
@@ -649,7 +649,7 @@ router.get('/api/klantfacturen', (req, res) => {
     connection.query(factuurdataklanten, (err, results) => {
         if (err) throw err;
         res.json(results);
-        console.log(results)
+       //console.log(results)
     });
 });
 
@@ -670,7 +670,7 @@ router.get('/api/omzet-klanten', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         } else {
             res.json(results);
-            console.log('resultaat omzet-klanten/maand van huidig jaar : ',results);
+           // console.log('resultaat omzet-klanten/maand van huidig jaar : ',results);
         }
     });
 });
@@ -693,7 +693,7 @@ router.get('/api/kosten', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         } else {
             res.json(results);
-            console.log('resultaat kosten dit jaar/maand van huidig jaar : ',results);
+            //console.log('resultaat kosten dit jaar/maand van huidig jaar : ',results);
         }
     });
 });

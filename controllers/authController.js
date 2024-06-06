@@ -18,11 +18,11 @@ const userLogin = async (req, res) => {
         }
 
         const user = rows[0]; // Assuming only one user with a unique username
-        console.log('Ik ben de gebruiker : ', user.gebruikersnaam , 'met functienr : ', user.functienr);
+        //console.log('Ik ben de gebruiker : ', user.gebruikersnaam , 'met functienr : ', user.functienr);
 
         // Compare hashed passwords
         const isPasswordValid = await bcrypt.compare(wachtwoord, user.wachtwoord);
-        console.log('Is password valid:', isPasswordValid);
+        //console.log('Is password valid:', isPasswordValid);
 
         if (!isPasswordValid) {
             return res.status(401).json({ status: 'error', message: 'Foute gebruikersnaam of wachtwoord' });
@@ -36,7 +36,7 @@ const userLogin = async (req, res) => {
             { expiresIn: '1h' }); // 1 hour expiration
             
         
-        console.log('Access token:', accessToken);
+        //console.log('Access token:', accessToken);
         // res.set('Authorization', `Bearer ${accessToken}`)
         res.json({ status: 'success', accessToken , level });
        
