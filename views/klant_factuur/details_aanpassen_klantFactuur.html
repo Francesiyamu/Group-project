@@ -85,19 +85,21 @@
             <div id="factuurUploaden_box">
                 <h2>Factuur</h2>
                 <div id="factuurUploaden" >
-                    <iframe src="../../assests/WE - HC1 Overzicht & HTML basis.pdf" frameborder="0" id="iframe" height="100%" name="iframeFactuur"></iframe>
+                    <iframe  frameborder="0" id="iframe" height="100%" name="iframeFactuur"></iframe>
                 </div>
 
                 <div id="huidigBestand_box">
                     <div id="test">
                         <p>Huidige bestand(en):</p>
-                        <input type="file" id="addFile" class="fileInput" multiple disabled onchange="displayBestand()" style="cursor: pointer;">
+                        <input type="file" id="addFile" class="fileInput" multiple disabled  style="cursor: pointer;">
                             <i class="fa fa-plus-circle" style="font-size: 20px; " hidden></i>
                         </input>
                     </div>
                     <div id="bestandenLijst">
                         <!-- <div id="file1_box" class="fileBoxen">
-                            
+                             <input type="file" id="addFile2" class="fileInput" multiple onchange="showName2()" disabled >
+                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px; text-decoration: none; cursor: pointer;" hidden></i>
+                            </input>
 
                             <a type="button" id="deleteFile1" class="file_A_Tag" onclick="deleteName1()" hidden>
                                 <i class="fa fa-minus-circle" style= "color:red;font-size:20px;text-decoration: none;" hidden></i>
@@ -106,28 +108,6 @@
                             <a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= "file1" target="iframeFactuur">BESTANDSNAAM VAN INGEVOEGDE FACTUUR</a>   
                         </div> -->
 
-                        <!-- <div id="file2_box" class="fileBoxen">
-                            <input type="file" id="addFile2" class="fileInput" multiple onchange="showName2()" disabled >
-                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px; text-decoration: none; cursor: pointer;" hidden></i>
-                            </input>
-
-                            <a type="button" id="deleteFile2" class="file_A_Tag" onclick="deleteName2()" hidden>
-                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px;text-decoration:none;" hidden> </i>
-                            </a>
-
-                            <a href="../../assests/WE - HC4-Tabellen Formulieren AudioVideo.pdf" id= "file2" target="iframeFactuur">BESTANDSNAAM VAN INGEVOEGDE FACTUUR</a>
-                        </div>
-
-                        <div id="file3_box" class="fileBoxen">
-                            <input type="file" id="addFile3" class="fileInput" multiple onchange="showName3()" disabled>
-                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px;text-decoration: none; cursor: pointer;" hidden></i>
-                            </input>
-
-                            <a type="button" id="deleteFile3" class="file_A_Tag"  onclick="deleteName3()" hidden>
-                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px; text-decoration: none;" hidden></i>
-                            </a> 
-
-                            <a href="../../assests/WE - HC5  Semantic Layout, Postioning, Flexbox.pdf" id= "file3" target="iframeFactuur">BESTANDSNAAM VAN INGEVOEGDE FACTUUR</a>-->
                         </div>
                     </div>
                 </div>

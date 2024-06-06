@@ -1,3 +1,5 @@
+'use strict'
+
 // function showName1(){
 //         let bestand = document.getElementById('addFile1')
 //         let fileName = bestand.files.item(0).name
@@ -35,21 +37,19 @@
 
 
 
-{/* <a type="button" id="deleteFile1" class="file_A_Tag" onclick="deleteName1()" hidden>
-<i class="fa fa-minus-circle" style= "color:red;font-size:20px;text-decoration: none;" hidden></i>
-</a>
-
-<a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= "file1" target="iframeFactuur">BESTANDSNAAM VAN INGEVOEGDE FACTUUR</a>   */}
 
 
+// let window = 'http://127.0.0.1:5501/views/klant_factuur/details_aanpassen_klantFactuur.html'
 
+// window.onload = () => {
 
 
 
 let bestand = document.getElementById('addFile')
+let i = 0
 
 console.log(bestand)
-
+bestand.onchange = () => {
 
 let displayBestand = () => {
         let bestand = document.getElementById('addFile')
@@ -61,59 +61,115 @@ let displayBestand = () => {
 
         let input = document.getElementsByTagName('input')
       
-//Maak div aan
-let divFileBox = document.createElement('div')
-divFileBox.id = 'file_box'
-divFileBox.className = 'fileBoxen'
+        //Maak div aan
+        let divFileBox = document.createElement('div')
+        divFileBox.id = 'file_box'
+        divFileBox.className = 'fileBoxen'
 
-//Maak a element aan
-let aDeleteFile = document.createElement('a')
-aDeleteFile.type = 'button'
-aDeleteFile.id = "deleteFile"
-let classListA = aDeleteFile.classList
-classListA.add('file_A_Tag') 
-classListA.add('deleteFileClass')
-//aDeleteFile.className = "file_A_Tag"
-aDeleteFile.onclick = deleteBestand
-//aDeleteFile.hidden = 'true'
-
-//Maak i element aan
-let iDeleteFile = document.createElement('i')
-let classListI = iDeleteFile.classList
-classListI.add('fa') 
-classListI.add('fa-minus-circle')
-//iDeleteFile.hidden = 'true'
-
-//Maak a element aan voor display bestand
-let aDisplayFile = document.createElement('a')
-aDisplayFile.id = 'file'
-
-aDisplayFile.href = fileUrl
-aDisplayFile.target = 'iframeFactuur'
-aDisplayFile.textContent = fileName
+        //Maak a element aan
+        i++
+        let aDeleteFile = document.createElement('a')
+        aDeleteFile.type = 'button'
+        aDeleteFile.id = `deleteFile`
+        aDeleteFile.className = 'file_A_Tag deleteFileClass'
+        // let classListA = aDeleteFile.classList
+        // classListA.add('file_A_Tag') 
+        // classListA.add('deleteFileClass')
+        //aDeleteFile.className = "file_A_Tag"
 
 
-divBestandenLijst.appendChild(divFileBox)
-divFileBox.appendChild(aDeleteFile)
-divFileBox.appendChild(aDisplayFile)
-aDeleteFile.appendChild(iDeleteFile)
+        aDeleteFile.onclick = deleteBestand
+        //aDeleteFile.hidden = 'true'
+
+        //Maak i element aan
+        let iDeleteFile = document.createElement('i')
+        let classListI = iDeleteFile.classList
+        classListI.add('fa') 
+        classListI.add('fa-minus-circle')
+        //iDeleteFile.hidden = 'true'
+
+        //Maak a element aan voor display bestand
+        let aDisplayFile = document.createElement('a')
+        aDisplayFile.id = 'file'
+
+        aDisplayFile.href = fileUrl
+        aDisplayFile.target = 'iframeFactuur'
+        aDisplayFile.textContent = fileName
 
 
-console.log(input)
-let a = document.getElementsByTagName('a')
-console.log(a)
-//divFileBox.onclick = deleteBestand
+        divBestandenLijst.appendChild(divFileBox)
+        divFileBox.appendChild(aDeleteFile)
+        divFileBox.appendChild(aDisplayFile)
+        aDeleteFile.appendChild(iDeleteFile)
+
+
+        // console.log(input)
+        // let a = document.getElementsByTagName('a')
+        // console.log(a)
+        //divFileBox.onclick = deleteBestand
+
+        }
+   displayBestand()
+
+
 }
 
 
 
+function deleteBestand(e) {
+
+        let test = e.target.parantElement
+        console.log(test)
+
+
+        // e.target.removeParant()
+
+        console.log('onclick werkt')
+        let divBestandenLijst = document.getElementById('bestandenLijst')
+
+        // let div = document.getElementById(`deleteFile ${displayBestand}`)
+        // console.log(e.target.classList.contains('deleteFileClass'))
+
+        // console.log('hallo')
+        // // if(e.target.classList.contains('deleteFileClass')){
+        //         console.log('dit werkt')
+        //         let div = e.target.parantElement
+        //         console.log('mqlkfjmqslkjfmlqskj')
+        //         divBestandenLijst.remove(div)
+        // // }
 
 
 
-let deleteBestand = (e) => {
-console.log('onclick werkt')
-let divBestandenLijst = document.getElementById('bestandenLijst')
-if(e.target.className == 'deleteFileClass'){
-let div = e.target.childElement
-divBestandenLijst.remove(div)}
+        
+
+        //if(e.target.classList.contains('deleteItem')){
+            //if(confirm('Zeker dat je dit item uit je boodschappenlijstje wilt verwijderen?')){
+        //     let aDeleteFile = e.target.document.getElementById('file_box')     
+        //     let div = e.target.parantElement
+        //         // console.log('slmfjqmsdk')
+        //         // console.log(div)
+        //         div.remove()
+        //     //}
+        //     console.log('item deleted')
+      
 }
+
+// let fileBox = document.getElementById('deleteFile')
+// console.log(fileBox)
+// if(fileBox){
+//         fileBox.addEventListener('click', bestand.onchange())
+//         console.log('addeventlistener')
+
+// }
+// let aDeleteFile = document.getElementById('deleteFile')
+// console.log(aDeleteFile)
+// aDeleteFile.onclick = () => {
+//         deleteBestand()
+
+// }
+// window.onchange = () => {
+
+      
+// }
+
+
