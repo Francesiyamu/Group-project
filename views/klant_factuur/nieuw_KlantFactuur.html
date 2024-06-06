@@ -14,7 +14,7 @@
 
 
 
-    <form id="form_klantFactuur" action="/klantFactNieuw" method="post">
+    <form id="form_klantFactuur">
         <h1>Factuur klant toevoegen</h1>
 
         <div class="inputs">
@@ -85,61 +85,14 @@
                 <h2>Factuur</h2>
                 <div id="huidigBestand_box">
 
-
-
                     <div id="display_image" class="form-upload">
                         <div class="file-section" id="uploadform" enctype="multipart/form-data">
                             <span class="file-text">Selecteer een bestand: </span>
                             <input placeholder="Bestanden kiezen" type="file"
-                            id="fileInput" accept="application/pdf"></div>
+                            id="fileInput" accept="application/pdf" name="fileInput"></div>
                             <div  id="fileList"></div>
 
                     </div>
-
-
-
-
-
-<!--
-                    <p id="filesP">Huidige bestand(en):</p>
-
-                    <div id="bestandenLijst">
-                        <div id="file1_box" class="fileBoxen">
-                            <input type="file" id="addFile1" multiple onchange="showName1()" >
-                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px; text-decoration: none; cursor: pointer;"></i>
-                            </input>
-
-                            <a type="button" id="deleteFile1" onclick="deleteName1()">
-                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px;text-decoration: none;"></i>
-                            </a>
-
-                            <a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= file1 target="_blank">Voeg een factuur toe</a>
-                        </div>
-
-                        <div id="file2_box" class="fileBoxen">
-                            <input type="file" id="addFile2" multiple style="background-color: yellow;" onchange="showName2()">
-                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px; text-decoration: none; cursor: pointer;"></i>
-                            </input>
-
-                            <a type="button" id="deleteFile2" onclick="deleteName2()">
-                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px;text-decoration:none;"></i>
-                            </a>
-
-                            <a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= file2 target="_blank">Voeg een factuur toe</a>
-                        </div>
-
-                        <div id="file3_box" class="fileBoxen">
-                            <input type="file" id="addFile3" multiple onchange="showName3()" >
-                                <i class="fa fa-plus-circle" style="color: green;font-size: 20px;text-decoration: none; cursor: pointer;"></i>
-                            </input>
-
-                            <a type="button" id="deleteFile3"  onclick="deleteName3()">
-                                <i class="fa fa-minus-circle" style= "color:red;font-size:20px; text-decoration: none;"></i>
-                            </a>
-
-                            <a href="../../assests/WE - HC1 Overzicht & HTML basis.pdf" id= file3 target="_blank">Voeg een factuur toe</a>
-                        </div>
-                    </div> -->
                 </div>
 
             </div>
@@ -151,45 +104,8 @@
         </div>
     </form>
 
-<script src="../JS/uploaden_factKlant.js">
-
-// const form = document.getElementById('uploadform');
-
-// 			const sendFiles = async() =>{
-// 				//Object
-
-// 				const myFiles = document.getElementById('fileInput').files
-
-// 				const formData = new formData()
-
-// 				Object.keys(myFiles).forEach(key =>{
-// 					formData.append(myFiles.item(key).name, myFiles.item(key))
-// 				})
-
-// 				const response = await fetch('http://localhost:3000/upload',{
-// 					method :'POST',
-// 					body: formData
-// 				})
-
-// 				const json = await response.json()
-
-// 				const h2 = document.querySelectorAll('h2');
-// 				h2.textContent = `Status: ${json?.status}`
-
-// 				const h3 = document.querySelector('h3')
-// 				h3.textContent =json?.message
-
-// 				console.log(json)
-
-// 			}
-// 			//form submission
-// 			form.addEventListener('submit', (e) => {
-// 				e.preventDefault()
-// 				sendFiles()
-// 			})
-
-
-</script>
+<script src="../JS/uploaden_factKlant.js"></script>
+<script src="../JS/nieuwe_klantFact.js"></script>
 
 
 
