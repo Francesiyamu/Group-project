@@ -225,7 +225,7 @@ div.hidden, h1.hidden { /* Div erbij om specificiteit te verhogen --> niet overs
     }
 
 
-    #deleteFile{
+    .file_A_Tag{
         padding-left: 0.25rem;
         padding-right: 0.50rem;
     }
