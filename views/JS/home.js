@@ -16,7 +16,7 @@ window.onload = () => {
             gebruikers_item.style.display = "none";
         }
     }
-
+  
 
     // MEDIA QUERY
     function largeWidth(largeScreenBoekhouder) {

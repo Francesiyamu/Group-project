@@ -611,9 +611,9 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
 
 // voor de klanten klantFactNieuw post
 
-// -----------------Handle form submissions-----------------------------------------------------------
-//router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
-//router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
+//-----------------Handle form submissions-----------------------------------------------------------
+router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
+router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
 
 // --------------------API facturen ------------------------
 // Create API endpoint
@@ -707,7 +707,12 @@ router.get('/set-token', (req, res) => {
     }
     req.session.token = token;
     req.session.level = level;
-    res.redirect('/klant_factuur/home_klantFacturen.html');
+    if (level === '1') {
+        res.redirect('/chartspage');
+    } else {
+        res.redirect('/klant_factuur/home_klantFacturen.html');
+    }
+    
 });
 
 // Route to logout and end the session

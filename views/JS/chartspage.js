@@ -5,7 +5,7 @@ fetch('/api/levfacturen')
     .then(data => {
         
         const levfacturen = data; 
-        console.log('data uit db facturen:', levfacturen);
+        //console.log('data uit db facturen:', levfacturen);
         let betaaldTeller = 0;
         let OpenstaandTeller = 0;  
 
@@ -63,7 +63,7 @@ fetch('/api/klantfacturen')
 .then(data => {
     
     const klantfacturen = data; 
-    console.log('data uit db klanten:', klantfacturen);
+    //console.log('data uit db klanten:', klantfacturen);
     let betaaldTeller = 0;
     let OpenstaandTeller = 0;  
 
@@ -176,7 +176,7 @@ fetch('/api/omzet-klanten')
 
     // Calculate the total of all months
     const totalOmzet = omzet.reduce((a, b) => a + b, 0);
-    console.log('totalOmzet:', totalOmzet);
+   //console.log('totalOmzet:', totalOmzet);
 
     // Select the total element and set its text content to the total
     const totalElement = document.getElementById('totalOmzet');
@@ -191,7 +191,7 @@ fetch('/api/omzet-klanten')
 fetch('/api/kosten')
 .then(response => response.json())
 .then(data => {
-    console.log('kosten dit jaar /:', data);
+    //console.log('kosten dit jaar /:', data);
     const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
     let kosten = Array(12).fill(0); // Initialize an array
     data.forEach(item => {
@@ -247,7 +247,7 @@ fetch('/api/kosten')
 
     // Calculate the total of all months
     const totalKosten = kosten.reduce((a, b) => a + b, 0);
-    console.log('totalKosten:', totalKosten);
+    //console.log('totalKosten:', totalKosten);
 
     // Select the total element and set its text content to the total
     const totalElement = document.getElementById('totalKosten');
@@ -262,13 +262,13 @@ fetch('/api/kosten')
 fetch('/api/omzet-klanten')
     .then(response => response.json())
     .then(omzetData => {
-        console.log('Result from API omzet-klanten:', omzetData);
+       // console.log('Result from API omzet-klanten:', omzetData);
 
         // Get the result from routes.js for the API kosten
         fetch('/api/kosten')
             .then(response => response.json())
             .then(kostenData => {
-                console.log('Result from API kosten:', kostenData);
+               // console.log('Result from API kosten:', kostenData);
 
                 const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
                 let winst = Array(12).fill(0); // Initialize an array
@@ -281,10 +281,10 @@ fetch('/api/omzet-klanten')
                     winst[monthIndex] = maandelijkseWinst;
                 });
 
-                console.log('Winst per month:', winst);
+               // console.log('Winst per month:', winst);
                 // Calculate the total of all months
             const totalWinst = winst.reduce((a, b) => a + b, 0);
-            console.log('totalWinst:', totalWinst);
+           // console.log('totalWinst:', totalWinst);
 
             // Select the total element and set its text content to the total
             const totalElement = document.getElementById('totalWinst');
