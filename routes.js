@@ -349,7 +349,7 @@ router.get('/klanten/verwijderen_klant', authenticateToken2,(req,res) => {
 })
 
 //Toevoegen klant
-router.get('/klanten/nieuwe_klant.html',authenticateToken2,(req,res) => {
+router.get('/klanten/nieuwe_klant',authenticateToken2,(req,res) => {
     // Check if errors from previous submission
     let errorMsg;
     let submittedData;
