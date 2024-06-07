@@ -90,7 +90,7 @@ function tableSearch() {
 
 // Get unique values for the desired columns
 window.onload = () => {
-    document.querySelector("#table > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML;
+    document.querySelector("#table_home > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML;
     };
     getUniqueValuesFromColumn();
    
@@ -106,7 +106,7 @@ function getUniqueValuesFromColumn(){
         const col_index = filter_i.parentElement.getAttribute("col-index");
         //alert(col_index)
 
-        const rows = document.querySelectorAll("#table > tbody > tr")
+        const rows = document.querySelectorAll("#table_home > tbody > tr")
 
         rows.forEach((row) => {
             const cell_value = row.querySelector("td:nth-child("+col_index+")").innerHTML.trim();
@@ -173,7 +173,7 @@ function filter_rows() {
     });
 
 
-    const rows = document.querySelectorAll("#table tbody tr");
+    const rows = document.querySelectorAll("#table_home tbody tr");
     rows.forEach((row) => {
         let display_row = true;
         let col_cell_value_dict = {};

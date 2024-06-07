@@ -76,17 +76,17 @@
 
             <!-- ------------- TABLE ------------- -->
             <div id="table" class="table-section" data-url="/data">
-                <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
+                <table id ="table_home" class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
                 <thead>
                     <tr>
-                        <th>Projectnaam</th>
-                        <th>Klantnaam</th>
+                        <th col-index = 1>Projectnaam</th>
+                        <th col-index = 2 >Klantnaam</th>
                         <th col-index = 3>Status <br>
                             <select class="table-filter" onchange="filter_rows()">
                               <option value="all"></option>
                             </select>
                         </th>
-                        <th>Gemeente</th>
+                        <th col-index = 4>Gemeente</th>
                     </tr>
                 </thead>
                 <tbody>
