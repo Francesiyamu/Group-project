@@ -6,6 +6,7 @@ const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
 const {validationRulesLev, validationRulesKlant, validationRulesProject,validationRulesGebruiker} = require('./controllers/validatorChain');
+const {remove_item, remove_country} = require('./config/remove');
 const authenticateToken3 = require('./middleware/authenticateToken3');
 const authenticateToken2 = require('./middleware/authenticateToken2');
 const authenticateToken1 = require('./middleware/authenticateToken1');
@@ -15,6 +16,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const session = require('express-session');
 const countries = require('./config/Countries');
+const status = require('./config/status');
 
 router.use(session({
     secret: process.env.SESSION_SECRET,
@@ -70,9 +72,9 @@ router.get('/projecten/nieuw_project.html', authenticateToken2,(req,res) => {
     connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN',(error,results) => {
         // Render page
         if(errorMsg) {
-            res.render(path.join(__dirname,'views', 'projecten', 'nieuw_project'), {countries: countries, klanten: results, errors: errorMsg, data: submittedData});
+            res.render(path.join(__dirname,'views', 'projecten', 'nieuw_project'), {countries: countries, status: status, klanten: results, errors: errorMsg, data: submittedData});
         } else {
-            res.render(path.join(__dirname,'views', 'projecten', 'nieuw_project'), {countries: countries, klanten: results});
+            res.render(path.join(__dirname,'views', 'projecten', 'nieuw_project'), {countries: countries, status: status, klanten: results});
         }
     })
 })
@@ -107,7 +109,7 @@ router.post('/projecten/submission_nieuw_project_form', authenticateToken2, vali
     }
 })
 
-// Subpagina Projecten
+// Subpagina's project
 router.get('/projecten/subpaginas_project.html', authenticateToken2,(req, res) => {
     const id = req.query.id;
 
@@ -198,11 +200,15 @@ router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req
 
         connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN where klantnr = ?', [results[0].klantnr], (error,results_klant) => {
             connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN', (error, alle_klanten) => { //Kan vervangen worden als eq werkt
+               // Remove selected from dropdown
+               alle_klanten = remove_item(results_klant,'klantnr',alle_klanten);
+               let countries_adapted = remove_country(results,'land',countries);
+                
                 // Render page
                 if(errorMsg) {
-                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries, errors: errorMsg});
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, status: status, countries : countries_adapted, errors: errorMsg});
                 } else {
-                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries});
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, status: status, countries : countries_adapted});
                 }
             })
         })
@@ -410,11 +416,15 @@ router.get('/klanten/details_aanpassen_klant.html', authenticateToken2, (req,res
             errorMsg = JSON.parse(errorsSubmission);
         }
         console.log(results[0])
+
+    // Remove selected item from dropdown
+    let countries_adapted = remove_country(results,'land',countries);
+
     // Render page
         if(errorMsg) {
-            res.render(path.join(__dirname, 'views', 'klanten', 'details_aanpassen_klant'), {countries : countries, klant: results[0], errors: errorMsg});
+            res.render(path.join(__dirname, 'views', 'klanten', 'details_aanpassen_klant'), {countries : countries_adapted, klant: results[0], errors: errorMsg});
         } else {
-            res.render(path.join(__dirname, 'views', 'klanten', 'details_aanpassen_klant'), {countries : countries, klant: results[0]});
+            res.render(path.join(__dirname, 'views', 'klanten', 'details_aanpassen_klant'), {countries : countries_adapted, klant: results[0]});
         }
     })
 })
@@ -531,11 +541,14 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken
             errorMsg = JSON.parse(errorsSubmission);
         }
 
+    // Remove selected item from dropdown
+    let countries_adapted = remove_country(results,'land',countries);
+
     // Render page
         if(errorMsg) {
-            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries, errors: errorMsg});
+            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries_adapted, errors: errorMsg});
         } else {
-            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries});
+            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries_adapted});
         }
     })
 })
