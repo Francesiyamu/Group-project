@@ -36,14 +36,19 @@
                 {{#each ../klanten}} 
                   <option value="{{klantnr}}">{{voornaam}} {{achternaam}}</option>
                 {{/each}}
+
+                <!-- {{#if ../data}}{{#if (eq this.klantnr data.klantnr)}}selected{{/if}}{{/if}} MOET IN OPTION -->
+
               </select>
             </div>
 
             <div class="form_group">
               <label for="status">Status:</label> 
-              <select name="status" id="status" class="form-control" disabled>
-                  <option value="afgewerkt">Afgewerkt</option>
-                  <option value="nietAfgewerkt" selected>Niet afgewerkt</option>
+              <select name="status" id="status" disabled>
+                <option value="{{status}}">{{status}}</option>
+                {{#each ../status}}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}}
               </select>
             </div>
 
