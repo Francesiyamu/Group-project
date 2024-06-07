@@ -224,7 +224,7 @@ form label {
         width: 450px;
     }
 
-    .details_aanpassen .inputs {
+    .details_aanpassen .form_group {
         margin: 0 5rem;
     }
 
@@ -269,7 +269,7 @@ form label {
     }
 }
 
-@media screen and (max-width:540px) { /*767*/ /*519*/
+@media screen and (max-width:600px) { /*767*/ /*519*/
 
 /* ------------- FORM -------------*/
 
@@ -299,7 +299,7 @@ form label {
         text-align: start;
     }
 
-    .details_aanpassen .inputs {
+    .details_aanpassen .form_group {
         margin: 0 3rem;
     }
 
@@ -328,7 +328,7 @@ form label {
         font-size: 1.8rem;
     }
 
-    .details_aanpassen .inputs {
+    .details_aanpassen .form_group {
         margin: 0 2rem;
     }
 } 
@@ -341,7 +341,7 @@ form label {
         font-size: 1.6rem;
     }
 
-    .details_aanpassen .inputs {
+    .details_aanpassen .form_group {
         margin: 0 1.5rem;
     }
 } 
