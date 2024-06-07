@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const handlebars = require('express-handlebars');
-const helpers = require('./config/helpers');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const https = require('https');
@@ -22,14 +21,6 @@ app.use('/JS', express.static(__dirname + '/views/JS'));
 app.use('/assests/images', express.static(path.join(__dirname, 'assests', 'images')))
 
 // Use handlebars
-/*const hbs = handlebars.create({
-  helpers: {
-    eq: function(a, b) {
-    return a === b;
-    }
-  }
-});*/
-
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'hbs');
 app.set("views", __dirname + '/views');
