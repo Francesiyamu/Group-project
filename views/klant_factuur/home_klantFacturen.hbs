@@ -73,16 +73,24 @@
             </div>
 
             <!-- ------------- TABLE ------------- -->
-            <div id="table" class="table-section" data-url="/data">
-                <table class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
+            <div  class="table-section" data-url="/data">
+                <table id="table" class="table-section__table" data-filter-control="true" data-show-search-clear-button="true">
                 <thead>
                     <tr>
-                        <th>Factuurnummer</th>
-                        <th>Factuurdatum</th>
-                        <th>Klantnaam</th>
-                        <th>Totaal excl.BTW</th>
-                        <th>BTW</th>
-                        <th>Status betaling</th>
+                        <th col-index = 1>Factuurnummer</th>
+                        <th col-index = 2>Factuur Datum <br>
+                          <select class="table-filter" onchange="filter_rows()" >
+                            <option value ="all"></option>
+                          </select>
+                        </th>
+                        <th col-index = 3>Klantnaam</th>
+                        <th col-index = 4>Totaal excl.BTW</th>
+                        <th col-index = 5>BTW</th>
+                       <th col-index = 6>Status <br>
+                            <select class="table-filter" onchange="filter_rows()">
+                              <option value="all"></option>
+                            </select>
+                       </th>
                     </tr>
                 </thead>
                 <tbody>

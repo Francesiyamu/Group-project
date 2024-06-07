@@ -355,7 +355,7 @@ router.get('/klanten/verwijderen_klant', authenticateToken2,(req,res) => {
 })
 
 //Toevoegen klant
-router.get('/klanten/nieuwe_klant.html',authenticateToken2,(req,res) => {
+router.get('/klanten/nieuwe_klant',authenticateToken2,(req,res) => {
     // Check if errors from previous submission
     let errorMsg;
     let submittedData;
@@ -624,9 +624,9 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
 
 // voor de klanten klantFactNieuw post
 
-// -----------------Handle form submissions-----------------------------------------------------------
-//router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
-//router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
+//-----------------Handle form submissions-----------------------------------------------------------
+router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
+router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
 
 // --------------------API facturen ------------------------
 // Create API endpoint
@@ -641,7 +641,7 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
 }); */
 
 //-------------------route naar chartpage----------------------
-router.get('/chartspage', (req, res) => {
+router.get('/chartspage', authenticateToken1,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'chartspage.html'));
 });
 //data leveranciers facturen-----------------------------------------------------
@@ -651,7 +651,7 @@ router.get('/api/levfacturen', (req, res) => {
     connection.query(factuurdatalev, (err, results) => {
         if (err) throw err;
         res.json(results);
-        console.log(results)
+        //console.log(results)
     });
 });
 
@@ -662,11 +662,11 @@ router.get('/api/klantfacturen', (req, res) => {
     connection.query(factuurdataklanten, (err, results) => {
         if (err) throw err;
         res.json(results);
-        console.log(results)
+       //console.log(results)
     });
 });
 
-//omzet klanten-----------------------------------------------------
+//omzet klanten/ maand voor dit jaar-----------------------------------------------------
 router.get('/api/omzet-klanten', (req, res) => {
     connection.query(`
     SELECT 
@@ -683,12 +683,12 @@ router.get('/api/omzet-klanten', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         } else {
             res.json(results);
-            console.log('resultaat omzet-klanten/maand van huidig jaar : ',results);
+           // console.log('resultaat omzet-klanten/maand van huidig jaar : ',results);
         }
     });
 });
 
-//kosten dit jaar ---------------------------------------------------------------------
+//kosten dit jaar per maand ---------------------------------------------------------------------
 router.get('/api/kosten', (req, res) => {
     connection.query(`
     SELECT 
@@ -706,7 +706,7 @@ router.get('/api/kosten', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         } else {
             res.json(results);
-            console.log('resultaat kosten dit jaar/maand van huidig jaar : ',results);
+            //console.log('resultaat kosten dit jaar/maand van huidig jaar : ',results);
         }
     });
 });
@@ -720,7 +720,12 @@ router.get('/set-token', (req, res) => {
     }
     req.session.token = token;
     req.session.level = level;
-    res.redirect('/klant_factuur/home_klantFacturen.html');
+    if (level === '1') {
+        res.redirect('/chartspage');
+    } else {
+        res.redirect('/klant_factuur/home_klantFacturen.html');
+    }
+    
 });
 
 // Route to logout and end the session

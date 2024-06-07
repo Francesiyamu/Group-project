@@ -20,24 +20,11 @@ app.use('/CSS', express.static(__dirname + '/views/CSS'));
 app.use('/JS', express.static(__dirname + '/views/JS'));
 app.use('/assests/images', express.static(path.join(__dirname, 'assests', 'images')))
 
-// Use handlebars
+
+
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'hbs');
 app.set("views", __dirname + '/views');
-
-//helper function for handlebars - formatdate
-
-/* // Set up Handlebars and register helper function
-const hbs = handlebars.create({
-  defaultLayout: 'main',
-  helpers: {
-    formatDate: function(dateValue) {
-      let date = new Date(dateValue);
-      return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-    }
-  }
-}); */
-
 
 
 // Exempt favicon.ico from authentication--- DIt kan toch  gewoon in routes zonder een auth middleware of bij static routes?
