@@ -1,6 +1,17 @@
 window.onload = function () {
     console.log('loaded');
 
+    let gebruikers_items = document.getElementsByClassName('gebruikers_item');
+    let level = localStorage.getItem('level');
+
+    console.log(level);
+    if(level != 1) {
+        console.log(level);
+        for(let gebruikers_item of gebruikers_items) {
+            gebruikers_item.style.display = "none";
+        }
+    }
+
     let buttons_subnav = document.getElementsByClassName('subnav-btn');
     let containers = document.getElementsByClassName('container');
 
@@ -25,10 +36,10 @@ window.onload = function () {
     }
 
     function findCorrespondingContainer(btn_number,containers) {
-        if(btn_number<5) {
+        if(btn_number<3) {
             return containers[btn_number];
         } else {
-            return containers[btn_number-5]; /* Btns klein scherm > 5, maar aantal containers = 5 */
+            return containers[btn_number-3]; /* Btns klein scherm > 5, maar aantal containers = 5 */
         }
     }
 
