@@ -17,6 +17,22 @@ const fs = require('fs');
 require('dotenv').config();
 const session = require('express-session');
 const countries = require('./config/Countries');
+const multer = require('multer');
+
+//Multer settings
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
+
+
+
+
 
 router.use(session({
     secret: process.env.SESSION_SECRET,
