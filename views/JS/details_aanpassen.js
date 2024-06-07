@@ -131,4 +131,36 @@ if(message) {
     setTimeout(() => {alert(message)},100); //Nodig want GET method rendert naar details_aanpassen_xx --> je bent weer op details pagina
 }
 
+    const fileInput = document.getElementById('addFile');
+    const factuurid = document.getElementById('factuurid');
+fileInput.addEventListener('change', async (event) => {
+        const files = event.target.files;
+        const formData = new FormData();
+
+        // Append files to the FormData object
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);
+        }
+
+        // Append hidden field to the FormData object
+        formData.append('factuurid', factuurid.value);
+
+        try {
+            const response = await fetch('/uploadfilefactklant', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const data = await response.json();
+                console.log('Data sent:', data);
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    });
+
+
 }

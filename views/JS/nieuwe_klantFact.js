@@ -1,66 +1,73 @@
-const serverUrl = 'http://localhost:3000';
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    const formKlantFactuur = document.getElementById('form_klantFactuur');
+    let selectedFiles = [];
 
+    fileInput.addEventListener('change', (event) => {
+        const files = event.target.files;
 
-document.getElementById('form_klantFactuur').addEventListener('submit', async function(e) {
-    e.preventDefault();
+        for (let file of files) {
+            selectedFiles.push(file);
+            const fileItem = document.createElement('div');
+            fileItem.classList.add('file-item');
 
-		
-				//Object
+            const fileName = document.createElement('span');
+            fileName.classList.add('file-name');
+            fileName.textContent = file.name;
 
-				//const myFiles = document.getElementById('fileInput').files
+            const deleteIcon = document.createElement('span');
+            deleteIcon.classList.add('delete-icon');
+            deleteIcon.textContent = '✖';
+            deleteIcon.addEventListener('click', () => {
+                fileList.removeChild(fileItem);
+                selectedFiles = selectedFiles.filter(f => f !== file);
+            });
 
-				const formData = {
+            fileItem.appendChild(fileName);
+            fileItem.appendChild(deleteIcon);
+            fileList.appendChild(fileItem);
+        }
 
-                factuurnr : document.getElementById('factuurnr').value,
-                factuurDatum: document.getElementById('factuurDatum').value,
-                projectnaam: document.getElementById('projectnaam').value,
-                klantnaam: document.getElementById('klantnaam').value,
-                totaalBedrag: document.getElementById('totaalBedrag').value,
-                BTW: document.getElementById('BTW').value,
-                BTW_bedrag: document.getElementById('BTW_bedrag').value,
-                status: document.getElementById('status').value,
-                betalingsDatum: document.getElementById('betalingsDatum').value,
-                beschrijving: document.getElementById('beschrijving').value,
-                fileInput: document.getElementById('fileInput').value}
-                
-				// Object.keys(myFiles).forEach(key =>{
-				// 	formData.append(myFiles.item(key).name, myFiles.item(key))
-				// })
+        fileInput.value = '';
+    });
 
-				const response = await fetch('/klantFactNieuw',{
-					method :'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-				})  .then(response => {
-                    if(!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Data sent:', data);
-                    window.location.href = "../klant_factuur/home_klantFacturen.html";
-                })
-                .catch(error => {
-                    console.error('Problem with fetching form data:', error);
-                });
-            })
+    formKlantFactuur.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-			// 	const json = await response.json()
+        const formData = new FormData();
+        formData.append('factuurnr', document.getElementById('factuurnr').value);
+        formData.append('factuurDatum', document.getElementById('factuurDatum').value);
+        formData.append('projectnr', document.getElementById('projectnr').value);
+        formData.append('klantnr', document.getElementById('klantnr').value);
+        formData.append('bedragNoBTW', document.getElementById('bedragNoBTW').value);
+        formData.append('BTWperc', document.getElementById('BTWperc').value);
+        formData.append('statusBetaling', document.getElementById('statusBetaling').value);
+        formData.append('betalingsDatum', document.getElementById('betalingsDatum').value);
+        formData.append('beschrijving', document.getElementById('beschrijving').value);
 
-			// 	const h2 = document.querySelectorAll('h2');
-			// 	h2.textContent = `Status: ${json?.status}`
+        // Append files to formData
+        selectedFiles.forEach(file => {
+            formData.append('pdfFiles', file);
+        });
 
-			// 	const h3 = document.querySelector('h3')
-			// 	h3.textContent =json?.message
+        try {
+            const response = await fetch('/klantFactNieuw', {
+                method: 'POST',
+                body: formData
+            });
 
-			// 	console.log(json)
-
-			// }
-			// //form submission
-			// form.addEventListener('submit', (e) => {
-			// 	e.preventDefault()
-			// 	sendFiles()
-			// })
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const data = await response.json();
+                console.log('Data sent:', data);
+            }
+        } catch (error) {
+            console.error('Problem with fetching form data:', error);
+        }
+    });
+});

@@ -13,10 +13,10 @@ const authenticateToken1 = require('./middleware/authenticateToken1');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 require('dotenv').config();
 const session = require('express-session');
 const countries = require('./config/Countries');
-const status = require('./config/status');
 
 router.use(session({
     secret: process.env.SESSION_SECRET,
@@ -244,6 +244,10 @@ router.post('/projecten/submission_update_project_form', authenticateToken2, val
     }
 })
 
+//toevoegen nieuwe project
+router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
+
+
 // ----------------------------------- GEBRUIKERS -----------------------------------
 
 router.get('/gebruikers/home_gebruikers.html', authenticateToken1 , (req, res) => {
@@ -333,6 +337,9 @@ router.get('/delete_gebruiker', authenticateToken1 , (req, res) => {
     });
     res.redirect('/gebruikers/home_gebruikers.html');
 });   
+
+//nieuwe gebruiker
+router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
 
 
 // ----------------------------------- KLANTEN -----------------------------------
@@ -555,8 +562,7 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken
 
 // Aanpassen leverancier
 router.post('/leveranciers/submission_update_leverancier_form', authenticateToken2, validationRulesLev(), async (req, res) => {
-    console.log('aanpassen leverancier');
-    console.log(req.body);
+
 
     const errors = validationResult(req);
 
@@ -593,16 +599,136 @@ router.get('/klant_factuur/home_klantFacturen.html', authenticateToken3, (req, r
         res.render('klant_factuur/home_klantFacturen', { Facturen: results });
     });
 });
-
-router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken3, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur.html'));
+//klant aanpassen GET
+router.get('/klant_factuur/details_aanpassen_klantFactuur.html', /*authenticateToken3,*/ (req, res) => {
+    const id = req.query.var;
+    let klantaanpassenquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr,KLANTEN.achternaam, KLANTEN.voornaam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, beschrijving, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_KLANTEN.klantnr FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr WHERE FACTUREN.factuurid=?"
+    connection.query(klantaanpassenquery, [id], (error, factuurklant) => {
+        connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klantlijst) => {
+            connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projectlijst) => { 
+                connection.query("SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid=?",[id], (error, bestandlijst) => { 
+            res.render(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur.hbs'), {factuurklant: factuurklant[0],projectlijst:projectlijst,klantlijst:klantlijst, bestandlijst:bestandlijst});  
+        });
+    });
+});  
+})
 });
 
-router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken3, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.html'));
+//upload extra bestand 
+router.post('/uploadfilefactklant', upload.array('files'), (req, res) => {
+    const factuurid = req.body.factuurid;
+
+    const sql = 'INSERT INTO FACTUUR_LINKS (factuurid, linkURL) VALUES (?, ?)';
+    const insertFile = (file, callback) => {
+        connection.query(sql, [factuurid, file.filename], callback);
+    };
+
+    const tasks = req.files.map(file => {
+        return new Promise((resolve, reject) => {
+            insertFile(file, (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            });
+        });
+    });
+
+    Promise.all(tasks)
+        .then(results => {
+            res.redirect(`./klant_factuur/details_aanpassen_klantFactuur.html?var=${factuurid}`);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send('Error uploading files');
+        });
 });
 
-// voor de klanten klantFactNieuw post
+//deletefile
+router.get('/deletefilefactklant', /*authenticateToken3,*/ (req, res) => {
+    const file = req.query.file;
+    const filePath = path.join(__dirname, 'uploads', file);
+    const id = req.query.id;
+    connection.query('DELETE FROM FACTUUR_LINKS WHERE linkURL = ?',[file], (error,results) => {
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error deleting file from file system');
+            }
+
+            res.redirect(`./klant_factuur/details_aanpassen_klantFactuur.html?var=${id}`);
+
+});
+});
+});
+
+
+//nieuwe klantfactuur GET
+router.get('/klant_factuur/nieuw_KlantFactuur.html', /*authenticateToken3,*/ (req, res) => {
+    connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klanten) => {
+        if (error) console.log(error);
+        if (error) throw error;
+        connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projecten) => {
+            if (error) console.log(error);
+            if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.hbs'), { klanten: klanten, projecten: projecten });
+});
+});
+});
+
+//nieuwe klantfactuur POST
+router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (req, res) => {
+    const { factuurnr, klantnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum } = req.body;
+    const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
+    let formattedDatumBetaling = null;
+    if (betalingsDatum && betalingsDatum.length > 0) {
+        formattedDatumBetaling = new Date(betalingsDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
+    }
+
+    // SQL data toevoegen
+    const sqlInsertFacturen = 'INSERT INTO FACTUREN (factuurnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, DatumBetaling) VALUES (?,?,?,?,?,?)';
+    connection.query(sqlInsertFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling], (err, result) => {
+        if (err) return res.status(500).send('Error inserting into FACTUREN');
+        const lastInsertedId = result.insertId;
+
+        const sqlInsertFacturenKlanten = 'INSERT INTO FACTUREN_KLANTEN (factuurid, klantnr) VALUES (?,?)';
+        connection.query(sqlInsertFacturenKlanten, [lastInsertedId, klantnr], (err, result) => {
+            if (err) return res.status(500).send('Error inserting into FACTUREN_KLANTEN');
+        });
+
+        const sqlInsertToewijgingen = 'INSERT INTO TOEWIJZINGEN (projectnr, factuurid) VALUES (?,?)';
+        connection.query(sqlInsertToewijgingen, [projectnr, lastInsertedId], (err, result) => {
+            if (err) return res.status(500).send('Error inserting into TOEWIJZINGEN');
+        });
+
+        // fileupload doen
+        if (!req.files || req.files.length === 0) {
+            return res.redirect(`../klant_factuur/details_aanpassen_klantFactuur.html?var=${lastInsertedId}`);
+        } else {
+            const sql = 'INSERT INTO FACTUUR_LINKS (factuurid, linkURL) VALUES (?, ?)';
+
+            const insertFile = (file, callback) => {
+                connection.query(sql, [lastInsertedId, file.filename], callback);
+            };
+
+            const tasks = req.files.map(file => {
+                return new Promise((resolve, reject) => {
+                    insertFile(file, (err, result) => {
+                        if (err) return reject(err);
+                        resolve(result);
+                    });
+                });
+            });
+
+            Promise.all(tasks)
+                .then(results => {
+                    res.redirect(`./klant_factuur/home_klantFacturen.html`);
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).send('Error uploading files');
+                });
+        }
+    });
+});
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
@@ -624,9 +750,12 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
 
 // voor de klanten klantFactNieuw post
 
-//-----------------Handle form submissions-----------------------------------------------------------
-router.post('/submit-form-nieuw-project', authenticateToken2, registreerNieuwProject);
-router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebruiker);
+
+
+
+
+
+
 
 // --------------------API facturen ------------------------
 // Create API endpoint
@@ -644,6 +773,7 @@ router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebru
 router.get('/chartspage', authenticateToken1,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'chartspage.html'));
 });
+
 //data leveranciers facturen-----------------------------------------------------
 router.get('/api/levfacturen', (req, res) => {
     const factuurdatalev = 'SELECT FACTUREN.statusBetaling FROM FACTUREN INNER JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid' 
