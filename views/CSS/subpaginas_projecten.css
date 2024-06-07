@@ -76,7 +76,7 @@ a.menu.active::after {
 }
 
 #logout {
-    font-size:24px;
+    font-size:22px;
 }
 
 .medium_screen_nav {
@@ -193,7 +193,153 @@ a.menu.active::after {
     display: block;
 }
 
-/* ------------- BUTTONs -------------*/
+/* ------------- OVERZICHT DIV -------------*/
+
+#overzicht_no_title {
+    display: flex;
+}
+
+.column {
+    width: 50%;
+}
+
+#overzicht_no_title h2 {
+    margin-bottom: 1.5rem;
+}
+
+#right_column h2 {
+    text-align: center;
+}
+
+#left_column h2 {
+    margin-left: 2rem;
+}
+
+/* ------------- INFO TABLE -------------*/
+
+#info_table {
+    margin-left: 2rem;
+}
+
+#info_table th {
+    padding-right: 0;
+}
+
+.cell {
+    padding-top: 0.5rem;
+}
+
+#adres_top {
+    padding-bottom: 0;
+}
+
+#adres_bottom {
+    padding-top: 0;
+}
+
+/* ------------- KPI TABLE -------------*/
+
+#kpi_table {
+    margin: auto;
+    border: 1px #161538 solid;
+}
+
+#kpi_table .waarde {
+    text-align: center;
+    width: 200px;
+}
+
+#kpi_table th {
+    font-weight: normal;
+    background-color: #161538;
+    color: #e9e6e6;
+}
+
+#kpi_table tr:nth-child(1), #kpi_table tr:nth-child(2), #kpi_table tr:nth-child(3) {
+    border-bottom: 1px #e9e6e6 solid;
+}
+
+#kpi_table th:first-child {
+    border-right: 1px #e9e6e6 solid;
+}
+
+
+
+#kpi_table td {
+    border-bottom: 1px #161538 solid;
+}
+
+/* ------------- INKOMSTEN & UITGAVEN -------------*/
+
+.Search{
+    padding: 10px 20px;
+    color:#ffffff;
+    background-color: #161538;
+    outline: none;
+    border: none;
+    border-radius: 0 0.3rem 0.3rem 0;
+    cursor: pointer;
+  }
+  
+  
+input{
+    padding: 10px 20px;
+    margin: 0 10px;
+    outline: none;
+    border: 1px solid #029bcf;
+    border-radius: 0.3rem  0 0 0.3rem;
+  }
+  
+.table-section{
+    overflow: scroll;
+    /*height: 500px;*/
+    /*height: 80%;*/
+  }
+
+#inkomsten table, #uitgaven table{
+    width: 100%;
+    table-layout: fixed;
+    min-width: 1000px;
+    border-collapse: collapse;
+    position: relative;
+    text-align: left;
+  }
+
+  thead th{
+    position: sticky;
+    top: 0;
+    background-color: #161538;
+    color: #ffffff;
+  }
+  
+  th,td{
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 20px;
+    word-break: break-all;
+  }
+
+  /*.sticky {
+    position: fixed;
+    top: 0;
+  } */
+  
+  #inkomsten tr:hover td, #uitgaven tr:hover td{
+    cursor: pointer;
+    background-color: #75737a;
+  }
+
+  .table-filter{
+    border-radius: 5px;
+    width: 100px;
+    margin-top: 10px;
+  }
+  
+
+  .search-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem;} /*Optional: add margin to adjust spacing*/
+
 
 .btns a {
     width: 200px;
@@ -212,7 +358,7 @@ a.menu.active::after {
 
 .btns {
     display: flex;
-    margin: auto 1rem 1rem 0;
+    margin: 2rem 1rem 1rem 0;
     align-items: flex-end;
     justify-content: space-between;
 }
@@ -262,14 +408,19 @@ a.menu.active::after {
     }
 }
 
-@media screen and (max-width:1030px) { /* Om geen problemen te hebben met scroll bij overgang */
-    .large_screen_nav ul {
-        justify-content: center;
+@media screen and (max-width:1000px) {
+    /* ------------- OVERZICHT -------------*/
+
+    #left_column h2 {
+        margin-left: 0.7rem;
+    }
+        
+    #info_table {
+        margin-left: 0.7rem;
     }
 }
 
-@media screen and (max-width:1000px) {
-
+@media screen and (max-width:950px) {
 /* ------------- MAIN NAVBAR -------------*/
 
     .large_screen_nav {
@@ -309,7 +460,6 @@ a.menu.active::after {
 
     #subnav_large ul {
         flex-direction: row;
-        justify-content: center;
         padding-left: 0;
     }
 
@@ -318,89 +468,29 @@ a.menu.active::after {
     }
 }
 
-@media screen and (max-width:864px) {
-
-/* ------------- SUBNAVBAR -------------*/
-    #subnav_large {
-        display: none;
+@media screen and (max-width:880px) {
+    #overzicht_no_title {
+        flex-direction: column;
     }
 
-    #subnav_small {
-        display: block;
-        margin: -2.5px -2.5px 0 -2.5px; 
-        border-style: solid;
-        border-color: #161538;
-        border-radius: 5px 5px 1px 1px; 
+    .column {
+        width: 100%;
     }
 
-    #subnav_small ul {
-        align-items: flex-end;
-        margin-bottom: 0 !important;
+    #left_column h2 {
+        text-align: center;
     }
 
-    #subnav_small li {
-        margin: 0.5rem 0;
+    #right_column h2 {
+        margin-top: 1.5rem;
     }
 
-    #toggle_subnav {
-        color: #c7c7ca;
-    }
-
-    .bg-custom.navbar {
-        background-color: #161538;
-    }
-
-    button.navbar-toggler {
-        outline: none;
-        border-width: 0;
-        z-index: 4;
-    }
-    
-    button.navbar-toggler:focus {
-        box-shadow: none;
-    }
-    
-    #subnav_small button.navbar-toggler:hover {
-        border-width: 1px;
-        border-color: #838287;    
-    }
-
-    .navbar-collapse {
-        margin-top: -30px
-    }
-
-    #subnav_small ul button {
-        padding: 0;
-    }
-
-    #subnav_small button.subnav_active {
-        -webkit-text-stroke: 0.4px #ff9992;
-        /*text-shadow: 0 0 1.5px #ff9992;*/ /* https://kinsta.com/blog/css-text-outline/*/
-        color: #ffffff;
-    }
-
-    #subnav_small .subnav-btn:hover {
-        -webkit-text-stroke: 0.4px #ff9992;
-        /*text-shadow: 0 0 1.5px #ff9992;*/
-        color: #ffffff;
+    #info_table {
+        margin: auto;
     }
 }
-
-@media screen and (max-width:845px) { /* Check waarde zodanig overgang niet te plots */
-
-    /* ------------- MAIN NAVBAR -------------*/
     
-        #nav_lower li {
-            margin: 0.5rem 0.5rem;
-        }
-    
-        #logo {
-            width: 60px;
-            margin-right: 0.3rem;
-        }
-    }
-    
-@media screen and (max-width:767px) { /* Waarde volgens bootstrap */
+@media screen and (max-width:712px) { /* Waarde volgens bootstrap */
     
 /* ------------- MAIN NAVBAR -------------*/
    
@@ -409,14 +499,23 @@ a.menu.active::after {
     }
     
     #small_screen_nav {
-        padding-left: 0;
-        padding-right: 0;
         display: flex; /* Heeft zelfde effect als block */
         z-index: 10; /* Stacking order --> zodat subnav onder main navbar */
+        padding-left: 0;
+        padding-right: 0;
     }
     
     #toggle {
         color: #ff9992;
+    }
+
+    button.navbar-toggler {
+        outline: none;
+        border-width: 0;
+    }
+
+    button.navbar-toggler:focus {
+        box-shadow: none;
     }
 
     button.navbar-toggler:hover {
@@ -426,10 +525,11 @@ a.menu.active::after {
     
     div.container-fluid {
         background-color: #161538;
+        width: 100%;
     }
     
     #logo {
-        margin-left: 0.5rem;
+        margin-left: 1rem;
     }
 
     .container-fluid button {
@@ -461,7 +561,7 @@ a.menu.active::after {
 /* ------------- BUTTONS -------------*/
     .btns {
         flex-direction: column-reverse;
-        margin: auto auto 10px auto;
+        margin: 2rem auto 10px auto;
     }
 
     #btn_details {
@@ -473,3 +573,94 @@ a.menu.active::after {
     }
 }
 
+@media screen and (max-width:440px) {
+    #kpi_table .waarde {
+        width: fit-content;
+    }
+
+    #kpi_table th {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #info_table th {
+        padding-left: 0.2rem;
+    }
+
+    .break {
+        hyphens: manual;
+        word-break: break-word;
+    }
+
+    span {
+        color: #e9e6e6;
+    }
+}
+
+@media screen and (max-width:430px) {
+
+/* ------------- SUBNAVBAR -------------*/
+    #subnav_large {
+        display: none;
+    }
+    
+    #subnav_small {
+        display: block;
+        margin: -2.5px -2.5px 0 -2.5px; 
+        border-style: solid;
+        border-color: #161538;
+        border-radius: 5px 5px 1px 1px; 
+    }
+    
+    #subnav_small ul {
+        align-items: flex-end;
+        margin-bottom: 0 !important;
+    }
+  
+    #subnav_small li {
+        margin: 0.5rem 0;
+    }
+    
+    #toggle_subnav {
+        color: #c7c7ca;
+    }
+    
+    .bg-custom.navbar {
+        background-color: #161538;
+    }
+    
+    button.navbar-toggler {
+        outline: none;
+        border-width: 0;
+        z-index: 4;
+    }
+        
+    button.navbar-toggler:focus {
+        box-shadow: none;
+    }
+        
+    #subnav_small button.navbar-toggler:hover {
+        border-width: 1px;
+        border-color: #838287;    
+    }
+    
+    .navbar-collapse {
+        margin-top: -30px
+    }
+    
+    #subnav_small ul button {
+        padding: 0;
+    }
+    
+    #subnav_small button.subnav_active {
+        -webkit-text-stroke: 0.4px #ff9992;
+        /*text-shadow: 0 0 1.5px #ff9992;*/ /* https://kinsta.com/blog/css-text-outline/*/
+        color: #ffffff;
+    }
+    
+    #subnav_small .subnav-btn:hover {
+        -webkit-text-stroke: 0.4px #ff9992;
+        /*text-shadow: 0 0 1.5px #ff9992;*/
+        color: #ffffff;
+    }
+}
