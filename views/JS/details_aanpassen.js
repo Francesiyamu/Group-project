@@ -163,4 +163,38 @@ fileInput.addEventListener('change', async (event) => {
     });
 
 
+    let submitbtn = document.getElementById('submitbtn');
+    submitbtn.addEventListener('click',async function(event){
+        event.preventDefault();
+        console.log("click")
+        const formData = new FormData();
+        formData.append('factuurid', document.getElementById('factuurid').value);
+        formData.append('factuurnr', document.getElementById('factuurnr').value);
+        formData.append('factuurDatum', document.getElementById('factuurDatum').value);
+        formData.append('projectnr', document.getElementById('projectnr').value);
+        formData.append('klantnr', document.getElementById('klantnr').value);
+        formData.append('bedragNoBTW', document.getElementById('bedragNoBTW').value);
+        formData.append('BTWperc', document.getElementById('BTWperc').value);
+        formData.append('statusBetaling', document.getElementById('statusBetaling').value);
+        formData.append('betalingsDatum', document.getElementById('betalingsDatum').value);
+        formData.append('beschrijving', document.getElementById('beschrijving').value);
+        
+        try {
+            const response = await fetch('/klantfactupdate', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const data = await response.json();
+                console.log('Data sent:', data);
+            }
+        } catch (error) {
+            console.error('Error updating:', error);
+        }
+    });
+
+
 }

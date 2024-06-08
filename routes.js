@@ -31,10 +31,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
-
-
-
+//Session settings
 router.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -43,14 +40,44 @@ router.use(session({
     expires: 36000000
 }));
 
+// --------------------------Algemene toegangen ----------------------------------------------------
 // Toegang voor iedereen
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
 });
 router.use(express.json());
 
+//files beveiligde toegang
+router.use('/files',authenticateToken3, express.static(path.join(__dirname, 'uploads')))
+
 // Handle login
 router.post('/login', userLogin);
+//Set token
+router.get('/set-token', (req, res) => {
+    const token = req.query.token;
+    const level = req.query.level;
+    if (!token) {
+        return res.status(400).json({ status: 'error', message: 'Token is required' });
+    }
+    req.session.token = token;
+    req.session.level = level;
+    if (level === '1') {
+        res.redirect('/chartspage');
+    } else {
+        res.redirect('/klant_factuur/home_klantFacturen.html');
+    }
+    
+});
+// Route to logout and end the session
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ status: 'error', message: 'Failed to end session' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.redirect('/');
+    });
+});    
 
 // ----------------------------------- PROJECTEN -----------------------------------
 
@@ -618,7 +645,7 @@ router.get('/klant_factuur/home_klantFacturen.html', authenticateToken3, (req, r
     });
 });
 //klant aanpassen GET
-router.get('/klant_factuur/details_aanpassen_klantFactuur.html', /*authenticateToken3,*/ (req, res) => {
+router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken3, (req, res) => {
     const id = req.query.var;
     let klantaanpassenquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr,KLANTEN.achternaam, KLANTEN.voornaam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, beschrijving, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_KLANTEN.klantnr FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr WHERE FACTUREN.factuurid=?"
     connection.query(klantaanpassenquery, [id], (error, factuurklant) => {
@@ -661,7 +688,7 @@ router.post('/uploadfilefactklant', upload.array('files'), (req, res) => {
 });
 
 //deletefile
-router.get('/deletefilefactklant', /*authenticateToken3,*/ (req, res) => {
+router.get('/deletefilefactklant', authenticateToken3, (req, res) => {
     const file = req.query.file;
     const filePath = path.join(__dirname, 'uploads', file);
     const id = req.query.id;
@@ -678,17 +705,30 @@ router.get('/deletefilefactklant', /*authenticateToken3,*/ (req, res) => {
 });
 });
 
+//update klantfactuur POST
+router.post('/klantfactupdate', upload.none(), authenticateToken3, (req, res) => {
+   
+    const { factuurid, factuurnr, klantnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, beschrijving } = req.body;
+   const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
+    let formattedDatumBetaling = null;
+    if (betalingsDatum && betalingsDatum.length > 0) {
+        formattedDatumBetaling = new Date(betalingsDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
+    }
+    // SQL data toevoegen
+    const sqlInsertFacturen = 'UPDATE FACTUREN SET factuurnr=?, factuurDatum=?, BTWperc=?, statusBetaling=?, bedragNoBTW=?, datumBetaling=? WHERE factuurid=?';
+    connection.query(sqlInsertFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling, factuurid], (err) => {
+        if (err) return console.log('Error inserting into FACTUREN');
+        const sqlInsertFacturenKlanten = 'UPDATE FACTUREN_KLANTEN SET klantnr=?, beschrijving=? WHERE factuurid=?';
+        connection.query(sqlInsertFacturenKlanten, [klantnr,beschrijving, factuurid], (err) => {
+            if (err) return console.log('Error inserting into FACTUREN_KLANTEN');
+        });
+        const sqlInsertToewijgingen = 'UPDATE TOEWIJZINGEN  SET projectnr=? WHERE factuurid=?';
+        connection.query(sqlInsertToewijgingen, [projectnr, factuurid], (err) => {
+            if (err) return console.log('Error inserting into TOEWIJZINGEN');
+        });
 
-//nieuwe klantfactuur GET
-router.get('/klant_factuur/nieuw_KlantFactuur.html', /*authenticateToken3,*/ (req, res) => {
-    connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klanten) => {
-        if (error) console.log(error);
-        if (error) throw error;
-        connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projecten) => {
-            if (error) console.log(error);
-            if (error) throw error;
-        res.render(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.hbs'), { klanten: klanten, projecten: projecten });
-});
+        res.redirect(`./klant_factuur/details_aanpassen_klantFactuur.html?var=${factuurid}`);
+
 });
 });
 
@@ -766,33 +806,14 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
     res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
 })
 
-// voor de klanten klantFactNieuw post
 
 
-
-
-
-
-
-
-// --------------------API facturen ------------------------
-// Create API endpoint
-/* router.get('/api/facturen', (req, res) => {
-    const factuurdata = 'SELECT statusBetaling FROM FACTUREN'; 
-
-    connection.query(factuurdata, (err, results) => {
-        if (err) throw err;
-        res.json(results);
-        //console.log(results)
-    });
-}); */
-
-//-------------------route naar chartpage----------------------
+//-------------------routes voor chartpage----------------------
 router.get('/chartspage', authenticateToken1,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'chartspage.html'));
 });
 
-//data leveranciers facturen-----------------------------------------------------
+//data leveranciers facturen
 router.get('/api/levfacturen', (req, res) => {
     const factuurdatalev = 'SELECT FACTUREN.statusBetaling FROM FACTUREN INNER JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid' 
 
@@ -803,7 +824,7 @@ router.get('/api/levfacturen', (req, res) => {
     });
 });
 
-//data klanten facturen-----------------------------------------------------
+//data klanten facturen
 router.get('/api/klantfacturen', (req, res) => {
     const factuurdataklanten = 'SELECT FACTUREN.statusBetaling FROM FACTUREN INNER JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid' 
 
@@ -814,7 +835,7 @@ router.get('/api/klantfacturen', (req, res) => {
     });
 });
 
-//omzet klanten/ maand voor dit jaar-----------------------------------------------------
+//omzet klanten/ maand voor dit jaar
 router.get('/api/omzet-klanten', (req, res) => {
     connection.query(`
     SELECT 
@@ -836,7 +857,7 @@ router.get('/api/omzet-klanten', (req, res) => {
     });
 });
 
-//kosten dit jaar per maand ---------------------------------------------------------------------
+//kosten dit jaar per maand 
 router.get('/api/kosten', (req, res) => {
     connection.query(`
     SELECT 
@@ -858,34 +879,9 @@ router.get('/api/kosten', (req, res) => {
         }
     });
 });
-//--------------------------------------------------------------------------------------
 
-router.get('/set-token', (req, res) => {
-    const token = req.query.token;
-    const level = req.query.level;
-    if (!token) {
-        return res.status(400).json({ status: 'error', message: 'Token is required' });
-    }
-    req.session.token = token;
-    req.session.level = level;
-    if (level === '1') {
-        res.redirect('/chartspage');
-    } else {
-        res.redirect('/klant_factuur/home_klantFacturen.html');
-    }
-    
-});
 
-// Route to logout and end the session
-router.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            return res.status(500).json({ status: 'error', message: 'Failed to end session' });
-        }
-        res.clearCookie('connect.sid'); // Clear the session cookie
-        res.redirect('/');
-    });
-});    
+
 
 
 module.exports = router;
