@@ -17,6 +17,9 @@
 ## Serverarchitectuur
 De Node.js applicatie wordt beheerd door PM2 op een Windows server omgeving. MySQL draait in een Docker-container op dezelfde server.
 
+## Beveiliging
+Momenteel wordt de verbinding via https geëncrypteerd. Paswoorden worden gehashed en gesalt alvorens ze in de database worden weggeschreven. Echter is het paswoord plain text wanneer het van front-end naar back-end gaat, alhoewel dit maar een medium security risk is, aangezien deze verbinding wel via https versleuteld is. Een implementatie van de hashing en salting in front-end staat op de nice to have lijst aangezien dan het paswoord volledig beveiligd is, zelfs met een .
+
 ## Hoe lokaal starten
 Er zijn twee types servers gedefinieerd in `server.js`. Standaard staat de "development server" actief en draait op poort 3000 op localhost. Een OpenVPN-verbinding is vereist om met de database te communiceren. Databasegegevens staan in `.env` en maken gebruik van een gebruikersaccount met beperkte privileges. Voor meer informatie over accounts, VPN en database, zie de Teams-bestanden.
 
