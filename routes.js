@@ -657,6 +657,19 @@ router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateTok
 })
 });
 
+//nieuwe klantfactuur GET
+router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken3, (req, res) => {
+    connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klanten) => {
+        if (error) console.log(error);
+        if (error) throw error;
+        connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projecten) => {
+            if (error) console.log(error);
+            if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.hbs'), { klanten: klanten, projecten: projecten });
+});
+});
+});
+
 //upload extra bestand 
 router.post('/uploadfilefactklant', upload.array('files'), (req, res) => {
     const factuurid = req.body.factuurid;
@@ -788,7 +801,7 @@ router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (re
 
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
-    connection.query("SELECT FACTUREN.factuurnr, DATE_FORMAT(FACTUREN.factuurDatum, '%d/%m/%Y') AS factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc, IF(FACTUREN_LEVERANCIERS.terugbetaald,'Ja','Nee') AS terugbetaald , IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid", (error, results) => {
+    connection.query("SELECT FACTUREN.factuurnr, DATE_FORMAT(FACTUREN.factuurDatum, '%d/%m/%Y') AS factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc , IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid", (error, results) => {
         if (error) console.log(error);
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'lev_Factuur', 'home_fact_lev'), { LevFacturen: results });
@@ -960,13 +973,22 @@ router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (re
 
 
 
+//nieuwe LEVfact GET
+router.get('/lev_Factuur/factuur_lev_toe.html', authenticateToken3, (req, res) => {
+    connection.query("SELECT levnr, naam FROM LEVERANCIERS", (error, lev) => {
+        if (error) console.log(error);
+        if (error) throw error;
+        connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projecten) => {
+            if (error) console.log(error);
+            if (error) throw error;
+        res.render(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.hbs'), { lev: lev, projecten: projecten });
+});
+});
+});
 
 
 
 
-router.get('/lev_Factuur/factuur_lev_toe.html',authenticateToken3, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.html'));
-} );
 
 router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
