@@ -5,7 +5,7 @@
 - **Handlebars**
 - **Lijst van packages**
 
-**MySQL** in een Docker-container die op de server draait.
+**MySQL** in een Docker-container die op een linux server draait.
 **PM2**: Draait als een daemon voor de app en draait deze op de achtergrond. Voert logging uit en herstart automatisch als de daemon vastloopt. Biedt ook mogelijkheden om de server op afstand te herstarten.
 
 ## Indeling
@@ -15,7 +15,7 @@
 - **server**: Algemene serverconfiguratie.
 
 ## Serverarchitectuur
-De Node.js applicatie wordt beheerd door PM2 op een Windows server omgeving. MySQL draait in een Docker-container op dezelfde server.
+De Node.js applicatie wordt beheerd door PM2 op een Windows server omgeving welke gevirtualiseerd is op een linux server. MySQL draait in een Docker-container op dezelfde linux server.
 
 ## Beveiliging
 Momenteel wordt de verbinding via https geëncrypteerd. Paswoorden worden gehashed en gesalt alvorens ze in de database worden weggeschreven. Echter is het paswoord plain text wanneer het van front-end naar back-end gaat, alhoewel dit maar een medium security risk is, aangezien deze verbinding wel via https versleuteld is. Een implementatie van de hashing en salting in front-end staat op de nice to have lijst aangezien dan het paswoord volledig beveiligd is, zelfs met een .
