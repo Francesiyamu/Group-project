@@ -17,6 +17,24 @@ window.onload = () => {
         }
     }
   
+    //HOME PAGE
+    let logos = document.getElementsByClassName('home');
+    if(level == 1) {
+        for(let logo of logos) {
+            logo.style.cursor = 'pointer';
+            logo.setAttribute('href','../chartspage');
+        }
+    } else if(level == 2) {
+        for(let logo of logos) {
+            logo.style.cursor = 'pointer';
+            logo.setAttribute('href','../klanten/home_klanten.html');
+        }
+    } else if(level == 3) {
+        for(let logo of logos) {
+            logo.style.cursor = 'pointer';
+            logo.setAttribute('href','../klant_factuur/home_klantFacturen.html');
+        }
+    }
 
     // MEDIA QUERY
     function largeWidth(largeScreenBoekhouder) {
@@ -55,6 +73,104 @@ window.onload = () => {
         }
     })
 
+    // FILTER
+    document.querySelector("#table_home > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML;
+    // Get unique values for the desired columns
+    getUniqueValuesFromColumn();
+
+    function getUniqueValuesFromColumn(){
+
+        let unique_col_values_dict = {};
+    
+        const allFilters = document.querySelectorAll(".table-filter")
+        allFilters.forEach((filter_i) => {
+            const col_index = filter_i.parentElement.getAttribute("col-index");
+            //alert(col_index)
+    
+            const rows = document.querySelectorAll("#table_home > tbody > tr")
+    
+            rows.forEach((row) => {
+                const cell_value = row.querySelector("td:nth-child("+col_index+")").innerHTML.trim();
+                // if the col index is already present in the dict
+                if (unique_col_values_dict[col_index]) {
+    
+                    // if the cell value is already present in the array
+                    if (unique_col_values_dict[col_index].includes(cell_value)) {
+    
+                    } else {
+                        unique_col_values_dict[col_index].push(cell_value)
+                        
+                    }
+    
+    
+                } else {
+                    unique_col_values_dict[col_index] = new Array(cell_value)
+                }
+    
+            });
+        });
+    
+        for(let i in unique_col_values_dict) {
+            //alert("Column index : " + i + " has Unique values : \n" + unique_col_values_dict[i]);
+        }
+    
+        updateSelectOptions(unique_col_values_dict)
+    };
+    
+    //Add <option> tags to the desired columns based on the unique values
+    function updateSelectOptions(unique_col_values_dict) {
+        const allFilters = document.querySelectorAll(".table-filter");
+    
+        allFilters.forEach((filter_i) => {
+            const col_index = filter_i.parentElement.getAttribute('col-index')
+    
+            unique_col_values_dict[col_index].forEach((i) => {
+                filter_i.innerHTML += `\n<option value="${i}">${i}</option>`
+            });
+    
+        });
+    };
+    
+    // Create filter_rows() function
+    function filter_rows() {
+        const allFilters = document.querySelectorAll(".table-filter")
+        let filter_value_dict = {}
+    
+        allFilters.forEach((filter_i) => {
+           const col_index = filter_i.parentElement.getAttribute('col-index')
+    
+            const value = filter_i.value
+            if (value !== "all") {
+                filter_value_dict[col_index] = value;
+            }
+        });
+    
+    
+        const rows = document.querySelectorAll("#table_home tbody tr");
+        rows.forEach((row) => {
+            let display_row = true;
+            let col_cell_value_dict = {};
+    
+            allFilters.forEach((filter_i) => {
+                const col_index = filter_i.parentElement.getAttribute('col-index');
+                col_cell_value_dict[col_index] = row.querySelector("td:nth-child(" + col_index+ ")").innerHTML
+            });
+    
+            for (let col_i in filter_value_dict) {
+               const filter_value = filter_value_dict[col_i]
+                const row_cell_value = col_cell_value_dict[col_i]
+                
+                if (row_cell_value.indexOf(filter_value) === -1 && filter_value !== "all") {
+                    display_row = false;
+                    break;
+                }
+            }
+    
+    
+            row.style.display = display_row ? "table-row" : "none";
+    
+        });
+    }
 }
 
 function tableSearch() {
@@ -86,116 +202,5 @@ function tableSearch() {
 
 
 
-//DROPDOWN SELECT FUNCTION
+//DROPDOWN SELECT FUNCTION   
 
-// Get unique values for the desired columns
-window.onload = () => {
-    document.querySelector("#table_home > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML;
-    };
-    getUniqueValuesFromColumn();
-   
-
-
-
-function getUniqueValuesFromColumn(){
-
-    let unique_col_values_dict = {};
-
-    const allFilters = document.querySelectorAll(".table-filter")
-    allFilters.forEach((filter_i) => {
-        const col_index = filter_i.parentElement.getAttribute("col-index");
-        //alert(col_index)
-
-        const rows = document.querySelectorAll("#table_home > tbody > tr")
-
-        rows.forEach((row) => {
-            const cell_value = row.querySelector("td:nth-child("+col_index+")").innerHTML.trim();
-            // if the col index is already present in the dict
-            if (unique_col_values_dict[col_index]) {
-
-                // if the cell value is already present in the array
-                if (unique_col_values_dict[col_index].includes(cell_value)) {
-
-                } else {
-                    unique_col_values_dict[col_index].push(cell_value)
-                    
-                }
-
-
-            } else {
-                unique_col_values_dict[col_index] = new Array(cell_value)
-            }
-
-        });
-    });
-
-    for(let i in unique_col_values_dict) {
-        //alert("Column index : " + i + " has Unique values : \n" + unique_col_values_dict[i]);
-    }
-
-    updateSelectOptions(unique_col_values_dict)
-};
-
-
-
-
-//Add <option> tags to the desired columns based on the unique values
-
-function updateSelectOptions(unique_col_values_dict) {
-    const allFilters = document.querySelectorAll(".table-filter");
-
-    allFilters.forEach((filter_i) => {
-        const col_index = filter_i.parentElement.getAttribute('col-index')
-
-        unique_col_values_dict[col_index].forEach((i) => {
-            filter_i.innerHTML += `\n<option value="${i}">${i}</option>`
-        });
-
-    });
-};
-
-
-
-
-// Create filter_rows() function
-
-function filter_rows() {
-    const allFilters = document.querySelectorAll(".table-filter")
-    let filter_value_dict = {}
-
-    allFilters.forEach((filter_i) => {
-       const col_index = filter_i.parentElement.getAttribute('col-index')
-
-        const value = filter_i.value
-        if (value !== "all") {
-            filter_value_dict[col_index] = value;
-        }
-    });
-
-
-    const rows = document.querySelectorAll("#table_home tbody tr");
-    rows.forEach((row) => {
-        let display_row = true;
-        let col_cell_value_dict = {};
-
-        allFilters.forEach((filter_i) => {
-            const col_index = filter_i.parentElement.getAttribute('col-index');
-            col_cell_value_dict[col_index] = row.querySelector("td:nth-child(" + col_index+ ")").innerHTML
-        });
-
-        for (let col_i in filter_value_dict) {
-           const filter_value = filter_value_dict[col_i]
-            const row_cell_value = col_cell_value_dict[col_i]
-            
-            if (row_cell_value.indexOf(filter_value) === -1 && filter_value !== "all") {
-                display_row = false;
-                break;
-            }
-        }
-
-
-        row.style.display = display_row ? "table-row" : "none";
-
-    });
-
-}
