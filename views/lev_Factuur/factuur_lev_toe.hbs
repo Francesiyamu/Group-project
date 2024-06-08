@@ -87,6 +87,28 @@
                         <option value="1" >Ja</option>
                     </select>
                 </div>
+                <div class="form_group">
+                    <label for="voorgeschoten">Voorgeschoten:</label>
+                    <select name="voorgeschoten" id="voorgeschoten" class="form-control" >
+                       <option value="">Niemand</option>
+                    {{#each gebruikers}}
+                        <option value="{{idnr}}">{{gebruikersnaam}}</option>
+                    {{/each }}
+                    </select>
+                </div>     
+
+                 <div class="form_group">
+                    <label for="terugbetaald">Terugbetaald:</label>
+                    <select name="terugbetaald" id="terugbetaald" class="form-control" >
+                        <option value="0">Nee</option>
+                        <option value="1" >Ja</option>
+                    </select>
+                </div>   
+                <div class="form_group">
+                    <label for="datumTerugbetaling">Datum terugbetaling:</label>
+                    <input type="date" class="form-control" id="datumTerugbetaling"  name="datumTerugbetaling"  >
+                </div>
+                     
                 
 
 

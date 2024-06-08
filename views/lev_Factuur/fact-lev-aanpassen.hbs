@@ -94,10 +94,36 @@
                     <label for="verstuurdBoekhouder">Verstuurd boekhouder:</label>
                     <select name="verstuurdBoekhouder" id="verstuurdBoekhouder" class="form-control" disabled>
                        <option value="{{factuurlev.verstuurdBoekhouder}}">{{factuurlev.verstuurdBoekhouder}}</option>
-                        <option value="0">Nee</option>
-                        <option value="1" >Ja</option>
+                        <option value="Ja">Nee</option>
+                        <option value="Nee" >Ja</option>
                     </select>
                 </div>         
+
+                <div class="form_group">
+                    <label for="voorgeschoten">Voorgeschoten:</label>
+                    <select name="voorgeschoten" id="voorgeschoten" class="form-control" disabled>
+                        {{#if voorGebruikers}}
+                       <option value="{{voorGebruikers.idnr}}">{{voorGebruikers.gebruikersnaam}}</option>
+                       {{/if}}
+                       <option value="">Niemand</option>
+                    {{#each gebruikers}}
+                        <option value="{{idnr}}">{{gebruikersnaam}}</option>
+                    {{/each }}
+                    </select>
+                </div>     
+
+                 <div class="form_group">
+                    <label for="terugbetaald">Terugbetaald:</label>
+                    <select name="terugbetaald" id="terugbetaald" class="form-control" disabled>
+                       <option value="{{factuurlev.terugbetaald}}">{{factuurlev.terugbetaald}}</option>
+                        <option value="Nee">Nee</option>
+                        <option value="Ja" >Ja</option>
+                    </select>
+                </div>   
+                <div class="form_group">
+                    <label for="datumTerugbetaling">Datum terugbetaling:</label>
+                    <input type="date" class="form-control" id="datumTerugbetaling" value="{{factuurlev.datumTerugbetaling}}" name="datumTerugbetaling" required disabled>
+                </div>
                             
             </div>
                         

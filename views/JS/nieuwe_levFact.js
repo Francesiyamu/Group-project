@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('statusBetaling', document.getElementById('statusBetaling').value);
         formData.append('betalingsDatum', document.getElementById('betalingsDatum').value);
         formData.append('verstuurdBoekhouder', document.getElementById('verstuurdBoekhouder').value);
+        formData.append('terugbetaald', document.getElementById('terugbetaald').value);
+        formData.append('datumTerugbetaling', document.getElementById('datumTerugbetaling').value);
+        formData.append('voorgeschoten', document.getElementById('voorgeschoten').value);
 
         // Append files to formData
         selectedFiles.forEach(file => {

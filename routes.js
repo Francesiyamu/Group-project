@@ -864,13 +864,18 @@ router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
 //Levfact aanpassen GET
 router.get('/lev_Factuur/fact-lev-aanpassen.html', authenticateToken3, (req, res) => {
     const id = req.query.var;
-    let levaanpasquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr, LEVERANCIERS.naam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_LEVERANCIERS.levnr, IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr=LEVERANCIERS.levnr WHERE FACTUREN.factuurid=?"
+    let levaanpasquery ="SELECT FACTUREN.factuurid, voorgeschoten, IF(FACTUREN_LEVERANCIERS.terugbetaald,'Ja','Nee') AS terugbetaald,DATE_FORMAT(FACTUREN_LEVERANCIERS.datumTerugbetaling, '%Y-%m-%d') AS datumTerugbetaling , PROJECTEN.projectnr, factuurnr, LEVERANCIERS.naam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_LEVERANCIERS.levnr, IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr=LEVERANCIERS.levnr WHERE FACTUREN.factuurid=?"
     connection.query(levaanpasquery, [id], (error, factuurlev) => {
         connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, levlijst) => {
             connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projectlijst) => { 
                 connection.query("SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid=?",[id], (error, bestandlijst) => { 
-            res.render(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.hbs'), {factuurlev: factuurlev[0],projectlijst:projectlijst,levlijst:levlijst, bestandlijst:bestandlijst});  
+                    connection.query("SELECT gebruikersnaam, idnr FROM GEBRUIKERS",[id], (error, gebruikers) => { 
+                        const persoon = factuurlev[0].voorgeschoten;
+                        connection.query("SELECT gebruikersnaam, idnr FROM GEBRUIKERS WHERE idnr=?",[persoon], (error, voorGebruikers) => { 
+            res.render(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.hbs'), {factuurlev: factuurlev[0],projectlijst:projectlijst,levlijst:levlijst, bestandlijst:bestandlijst, gebruikers:gebruikers, voorGebruikers:voorGebruikers[0]});  
         });
+        });
+    });
     });
 });  
 })
@@ -927,103 +932,146 @@ router.get('/deletefilefactlev', authenticateToken3, (req, res) => {
 
 //update levfactuur POST
 router.post('/levfactupdate', upload.none(), authenticateToken3, (req, res) => {
-   
-    const { factuurid, factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, verstuurdBoekhouder } = req.body;
-   const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
-    let formattedDatumBetaling = null;
-    if (betalingsDatum && betalingsDatum.length > 0) {
-        formattedDatumBetaling = new Date(betalingsDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
-    }
-    // SQL data toevoegen
-    const sqlInsertFacturen = 'UPDATE FACTUREN SET factuurnr=?, factuurDatum=?, BTWperc=?, statusBetaling=?, bedragNoBTW=?, datumBetaling=? WHERE factuurid=?';
-    connection.query(sqlInsertFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling, factuurid], (err) => {
-        if (err) return console.log(err);
-        const sqlInsertFacturenlev = 'UPDATE FACTUREN_LEVERANCIERS SET levnr=?, verstuurdBoekhouder=? WHERE factuurid=?';
-        connection.query(sqlInsertFacturenlev, [levnr,verstuurdBoekhouder, factuurid], (err) => {
-            if (err) return console.log(err);
-        });
-        const sqlInsertToewijgingen = 'UPDATE TOEWIJZINGEN  SET projectnr=? WHERE factuurid=?';
-        connection.query(sqlInsertToewijgingen, [projectnr, factuurid], (err) => {
-            if (err) return console.log(err);
-        });
+    const {
+        factuurid, factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW,
+        betalingsDatum, verstuurdBoekhouder, terugbetaald, datumTerugbetaling, voorgeschoten
+    } = req.body;
 
-        res.redirect(`./lev_Factuur/fact-lev-aanpassen.html?var=${factuurid}`);
+    const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10);
+    let formattedDatumBetaling = betalingsDatum ? new Date(betalingsDatum).toISOString().slice(0, 10) : null;
+    let formattedDatumTerugbetaling = datumTerugbetaling ? new Date(datumTerugbetaling).toISOString().slice(0, 10) : null;
 
-});
-});
+    const terugbetaaldBool = (terugbetaald === 'Nee') ? 0 : 1;
+    const verstuurdBoekhouderBool = (verstuurdBoekhouder === 'Nee') ? 0 : 1;
 
+    let voorgeschotenINT = (voorgeschoten === '') ? null : Number(voorgeschoten);
 
-//nieuwe levfactuur POST
-router.post('/levFactNieuw', upload.array('pdfFiles'),/* authenticateToken3, */(req, res) => {
-    const { factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, verstuurdBoekhouder} = req.body;
-    console.log(factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, verstuurdBoekhouder)
-    const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
-    let formattedDatumBetaling = null;
-    if (betalingsDatum && betalingsDatum.length > 0) {
-        formattedDatumBetaling = new Date(betalingsDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
-    }
-
-    // SQL data toevoegen
-    const sqlInsertFacturen = 'INSERT INTO FACTUREN (factuurnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, DatumBetaling) VALUES (?,?,?,?,?,?)';
-    connection.query(sqlInsertFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling], (err, result) => {
-        if (err) return res.status(500).send('Error inserting into FACTUREN');
-        const lastInsertedId = result.insertId;
-
-        const sqlInsertFacturenKlanten = 'INSERT INTO FACTUREN_LEVERANCIERS (factuurid, levnr, verstuurdBoekhouder) VALUES (?,?,?)';
-        connection.query(sqlInsertFacturenKlanten, [lastInsertedId, levnr, verstuurdBoekhouder], (err, result) => {
-            if (err) return res.status(500).send('Error inserting into FACTUREN_KLANTEN');
-        });
-
-        const sqlInsertToewijgingen = 'INSERT INTO TOEWIJZINGEN (projectnr, factuurid) VALUES (?,?)';
-        connection.query(sqlInsertToewijgingen, [projectnr, lastInsertedId], (err, result) => {
-            if (err) return res.status(500).send('Error inserting into TOEWIJZINGEN');
-        });
-
-        // fileupload doen
-        if (!req.files || req.files.length === 0) {
-            return res.redirect(`../lev_Factuur/fact-lev-aanpassen.html?var=${lastInsertedId}`);
-        } else {
-            const sql = 'INSERT INTO FACTUUR_LINKS (factuurid, linkURL) VALUES (?, ?)';
-
-            const insertFile = (file, callback) => {
-                connection.query(sql, [lastInsertedId, file.filename], callback);
-            };
-
-            const tasks = req.files.map(file => {
-                return new Promise((resolve, reject) => {
-                    insertFile(file, (err, result) => {
-                        if (err) return reject(err);
-                        resolve(result);
-                    });
-                });
-            });
-
-            Promise.all(tasks)
-                .then(results => {
-                    res.redirect(`../lev_Factuur/fact-lev-aanpassen.html?var=${lastInsertedId}`);
-                })
-                .catch(err => {
-                    console.error(err);
-                    res.status(500).send('Error uploading files');
-                });
+    const sqlUpdateFacturen = 'UPDATE FACTUREN SET factuurnr=?, factuurDatum=?, BTWperc=?, statusBetaling=?, bedragNoBTW=?, datumBetaling=? WHERE factuurid=?';
+    connection.query(sqlUpdateFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling, factuurid], (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error updating FACTUREN');
         }
+
+        const sqlUpdateFacturenLev = 'UPDATE FACTUREN_LEVERANCIERS SET levnr=?, verstuurdBoekhouder=?, terugbetaald=?, datumTerugbetaling=?, voorgeschoten=? WHERE factuurid=?';
+        connection.query(sqlUpdateFacturenLev, [levnr, verstuurdBoekhouderBool, terugbetaaldBool, formattedDatumTerugbetaling, voorgeschotenINT, factuurid], (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error updating FACTUREN_LEVERANCIERS');
+            }
+
+            const sqlUpdateToewijgingen = 'UPDATE TOEWIJZINGEN SET projectnr=? WHERE factuurid=?';
+            connection.query(sqlUpdateToewijgingen, [projectnr, factuurid], (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Error updating TOEWIJZINGEN');
+                }
+
+                res.redirect(`./lev_Factuur/fact-lev-aanpassen.html?var=${factuurid}`);
+            });
+        });
     });
 });
 
+
+//Post nieuwe factuur
+
+router.post('/levFactNieuw', upload.array('pdfFiles'), authenticateToken3, (req, res) => {
+    const {
+        factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW,
+        betalingsDatum, verstuurdBoekhouder, terugbetaald, datumTerugbetaling, voorgeschoten
+    } = req.body;
+
+    const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10);
+    let formattedDatumBetaling = betalingsDatum ? new Date(betalingsDatum).toISOString().slice(0, 10) : null;
+    let formattedDatumTerugbetaling = datumTerugbetaling ? new Date(datumTerugbetaling).toISOString().slice(0, 10) : null;
+
+    const terugbetaaldBool = (terugbetaald === 'Nee') ? 0 : 1;
+    const verstuurdBoekhouderBool = (verstuurdBoekhouder === 'Nee') ? 0 : 1;
+
+    let voorgeschotenINT = (voorgeschoten === '') ? null : Number(voorgeschoten);
+
+    const sqlInsertFacturen = `
+        INSERT INTO FACTUREN (factuurnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, DatumBetaling) 
+        VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    connection.query(sqlInsertFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error inserting into FACTUREN');
+        }
+        const lastInsertedId = result.insertId;
+
+        const sqlInsertFacturenKlanten = `
+            INSERT INTO FACTUREN_LEVERANCIERS (factuurid, levnr, verstuurdBoekhouder, terugbetaald, datumTerugbetaling, voorgeschoten) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        connection.query(sqlInsertFacturenKlanten, [lastInsertedId, levnr, verstuurdBoekhouderBool, terugbetaaldBool, formattedDatumTerugbetaling, voorgeschotenINT], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error inserting into FACTUREN_LEVERANCIERS');
+            }
+
+            const sqlInsertToewijgingen = `
+                INSERT INTO TOEWIJZINGEN (projectnr, factuurid) 
+                VALUES (?, ?)
+            `;
+            connection.query(sqlInsertToewijgingen, [projectnr, lastInsertedId], (err, result) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Error inserting into TOEWIJZINGEN');
+                }
+
+                if (!req.files || req.files.length === 0) {
+                    return res.redirect(`../lev_Factuur/fact-lev-aanpassen.html?var=${lastInsertedId}`);
+                } else {
+                    const sql = 'INSERT INTO FACTUUR_LINKS (factuurid, linkURL) VALUES (?, ?)';
+
+                    const insertFile = (file, callback) => {
+                        connection.query(sql, [lastInsertedId, file.filename], callback);
+                    };
+
+                    const tasks = req.files.map(file => {
+                        return new Promise((resolve, reject) => {
+                            insertFile(file, (err, result) => {
+                                if (err) return reject(err);
+                                resolve(result);
+                            });
+                        });
+                    });
+
+                    Promise.all(tasks)
+                        .then(results => {
+                            res.redirect(`../lev_Factuur/fact-lev-aanpassen.html?var=${lastInsertedId}`);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            res.status(500).send('Error uploading files');
+                        });
+                }
+            });
+        });
+   
+    });
+});
+
+
 //nieuwe LEVfact GET
-router.get('/lev_Factuur/factuur_lev_toe.html', /*authenticateToken3, */(req, res) => {
+router.get('/lev_Factuur/factuur_lev_toe.html', authenticateToken3, (req, res) => {
     connection.query("SELECT levnr, naam FROM LEVERANCIERS", (error, lev) => {
         if (error) console.log(error);
         if (error) throw error;
         connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projecten) => {
             if (error) console.log(error);
             if (error) throw error;
-        res.render(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.hbs'), { lev: lev, projecten: projecten });
-});
+            connection.query("SELECT gebruikersnaam, idnr FROM GEBRUIKERS", (error, gebruikers) => { 
+        res.render(path.join(__dirname, 'views', 'lev_Factuur', 'factuur_lev_toe.hbs'), { lev: lev, projecten: projecten, gebruikers:gebruikers});
+    });
+    });
 });
 });
 
-//delete klantfactuur geheel
+//delete leveranciersfact geheel
 router.get('/deletefactlev', authenticateToken3, (req, res) => {
     const id = req.query.id;
 
