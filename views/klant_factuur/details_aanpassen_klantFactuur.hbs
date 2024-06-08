@@ -14,7 +14,7 @@
 </head>
 <body>
               
-    <form id="form_klantFactuur" action="/klantFactNieuw" method="post">
+    <form id="form_klantFactuur" >
         <h1 class="visible">Details</h1>
         <h1 class="hidden" id="titel">Factuur klant aanpassen</h1>
 
@@ -60,13 +60,13 @@
 
 
                 <div class="form_group">
-                    <label for="totaalBedrag">Bedrag excl. BTW:</label>
-                    <input type="text" class="form-control" id="totaalBedrag" name="totaalBedrag" value="{{factuurklant.bedragNoBTW}}" max="20" required disabled>
+                    <label for="bedragNoBTW">Bedrag excl. BTW:</label>
+                    <input type="text" class="form-control" id="bedragNoBTW" name="bedragNoBTW" value="{{factuurklant.bedragNoBTW}}" max="20" required disabled>
                 </div>
 
                 <div class="form_group">
-                    <label for="BTW">BTW-percentage:</label>
-                    <select name="BTW" id="BTW" class="form-control" required disabled>
+                    <label for="BTWperc">BTW-percentage:</label>
+                    <select name="BTWperc" id="BTWperc" class="form-control" required disabled>
                         <option value="{{factuurklant.BTWperc}}">{{factuurklant.BTWperc}}</option>
                         <option value="0">0%</option>
                         <option value="6" >6%</option>
@@ -76,8 +76,8 @@
                 </div>   
 
                 <div class="form_group">
-                    <label for="status">Status betaling:</label> 
-                    <select name="status" id="status" class="form-control" disabled>
+                    <label for="statusBetaling">Status betaling:</label> 
+                    <select name="statusBetaling" id="statusBetaling" class="form-control" disabled>
                        <option value="{{factuurklant.betaalStatus}}">{{factuurklant.betaalStatus}}</option>
                         <option value="Betaald">Betaald</option>
                         <option value="Openstaand" selected>Niet betaald</option>
@@ -148,7 +148,7 @@
 
         <div class="btns hidden">
             <a href="javascript:history.back()" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
-            <input type="submit" id="submitbtn" value="Save" class="btn_bottom">
+            <a type="button" id="submitbtn" class="btn_bottom">Save</a>
         </div>
     </form>  
     

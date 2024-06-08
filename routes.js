@@ -222,9 +222,9 @@ router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req
                 
                 // Render page
                 if(errorMsg) {
-                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, status: status, countries : countries_adapted, errors: errorMsg});
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries_adapted, errors: errorMsg});
                 } else {
-                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, status: status, countries : countries_adapted});
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries_adapted});
                 }
             })
         })
@@ -616,7 +616,7 @@ router.get('/klant_factuur/home_klantFacturen.html', authenticateToken3, (req, r
     });
 });
 //klant aanpassen GET
-router.get('/klant_factuur/details_aanpassen_klantFactuur.html', /*authenticateToken3,*/ (req, res) => {
+router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken3, (req, res) => {
     const id = req.query.var;
     let klantaanpassenquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr,KLANTEN.achternaam, KLANTEN.voornaam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, beschrijving, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_KLANTEN.klantnr FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr WHERE FACTUREN.factuurid=?"
     connection.query(klantaanpassenquery, [id], (error, factuurklant) => {
@@ -659,7 +659,7 @@ router.post('/uploadfilefactklant', upload.array('files'), (req, res) => {
 });
 
 //deletefile
-router.get('/deletefilefactklant', /*authenticateToken3,*/ (req, res) => {
+router.get('/deletefilefactklant', authenticateToken3, (req, res) => {
     const file = req.query.file;
     const filePath = path.join(__dirname, 'uploads', file);
     const id = req.query.id;
@@ -676,17 +676,30 @@ router.get('/deletefilefactklant', /*authenticateToken3,*/ (req, res) => {
 });
 });
 
+//update klantfactuur POST
+router.post('/klantfactupdate', upload.none(), authenticateToken3, (req, res) => {
+   
+    const { factuurid, factuurnr, klantnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, beschrijving } = req.body;
+   const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
+    let formattedDatumBetaling = null;
+    if (betalingsDatum && betalingsDatum.length > 0) {
+        formattedDatumBetaling = new Date(betalingsDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
+    }
+    // SQL data toevoegen
+    const sqlInsertFacturen = 'UPDATE FACTUREN SET factuurnr=?, factuurDatum=?, BTWperc=?, statusBetaling=?, bedragNoBTW=?, datumBetaling=? WHERE factuurid=?';
+    connection.query(sqlInsertFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling, factuurid], (err) => {
+        if (err) return console.log('Error inserting into FACTUREN');
+        const sqlInsertFacturenKlanten = 'UPDATE FACTUREN_KLANTEN SET klantnr=?, beschrijving=? WHERE factuurid=?';
+        connection.query(sqlInsertFacturenKlanten, [klantnr,beschrijving, factuurid], (err) => {
+            if (err) return console.log('Error inserting into FACTUREN_KLANTEN');
+        });
+        const sqlInsertToewijgingen = 'UPDATE TOEWIJZINGEN  SET projectnr=? WHERE factuurid=?';
+        connection.query(sqlInsertToewijgingen, [projectnr, factuurid], (err) => {
+            if (err) return console.log('Error inserting into TOEWIJZINGEN');
+        });
 
-//nieuwe klantfactuur GET
-router.get('/klant_factuur/nieuw_KlantFactuur.html', /*authenticateToken3,*/ (req, res) => {
-    connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klanten) => {
-        if (error) console.log(error);
-        if (error) throw error;
-        connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projecten) => {
-            if (error) console.log(error);
-            if (error) throw error;
-        res.render(path.join(__dirname, 'views', 'klant_factuur', 'nieuw_KlantFactuur.hbs'), { klanten: klanten, projecten: projecten });
-});
+        res.redirect(`./klant_factuur/details_aanpassen_klantFactuur.html?var=${factuurid}`);
+
 });
 });
 
