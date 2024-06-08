@@ -42,6 +42,7 @@ a.menu, nav a, a.menu:hover {
     font-weight: 700;
     color:#cbcaca; /* c7c7ca */
     position: relative;
+    display: block;
 }
 
 a.menu::after {
@@ -300,32 +301,8 @@ a.menu.active::after {
 /* ------------- RESPONSIVE WEB DESIGN -------------*/
 
 @media screen and (max-width:1197px){
-
-    /* ------------- NAVBAR -------------*/
-  /*  nav ul {
-        justify-content: space-between;
-    } */
-
     .large_screen_nav li {
         width: min-content; /* Wanneer menu items wrappen op 2 lijnen, zorgen nog steeds goed geplaatst*/
-    }
-
-    #fact_lev_menu::after {
-        left: 42%;
-    }
-    
-    #fact_lev_menu:hover::after {
-        height: 1.5px;
-        width: 118%;
-    }
-    
-    #fact_klant_menu::after {
-        left: 53%;
-    }
-    
-    #fact_klant_menu:hover::after {
-        height: 1.5px;
-        width: 103%;
     }
 }
 
@@ -345,6 +322,10 @@ a.menu.active::after {
 
     nav ul {
         flex-direction: column;
+    }
+
+    nav li {
+        list-style: none;
     }
 
     .part_nav {
