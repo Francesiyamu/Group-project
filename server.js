@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 app.use('/CSS', express.static(__dirname + '/views/CSS'));
 app.use('/JS', express.static(__dirname + '/views/JS'));
 app.use('/assests/images', express.static(path.join(__dirname, 'assests', 'images')))
-app.use('/files', express.static(path.join(__dirname, 'uploads')))
 
 
 app.engine('handlebars', handlebars.engine());

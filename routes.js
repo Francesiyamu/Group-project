@@ -30,10 +30,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
-
-
-
+//Session settings
 router.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -42,14 +39,44 @@ router.use(session({
     expires: 36000000
 }));
 
+// --------------------------Algemene toegangen ----------------------------------------------------
 // Toegang voor iedereen
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
 });
 router.use(express.json());
 
+//files beveiligde toegang
+router.use('/files',authenticateToken3, express.static(path.join(__dirname, 'uploads')))
+
 // Handle login
 router.post('/login', userLogin);
+//Set token
+router.get('/set-token', (req, res) => {
+    const token = req.query.token;
+    const level = req.query.level;
+    if (!token) {
+        return res.status(400).json({ status: 'error', message: 'Token is required' });
+    }
+    req.session.token = token;
+    req.session.level = level;
+    if (level === '1') {
+        res.redirect('/chartspage');
+    } else {
+        res.redirect('/klant_factuur/home_klantFacturen.html');
+    }
+    
+});
+// Route to logout and end the session
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ status: 'error', message: 'Failed to end session' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.redirect('/');
+    });
+});    
 
 // ----------------------------------- PROJECTEN -----------------------------------
 
@@ -777,33 +804,14 @@ router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res)
     res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
 })
 
-// voor de klanten klantFactNieuw post
 
 
-
-
-
-
-
-
-// --------------------API facturen ------------------------
-// Create API endpoint
-/* router.get('/api/facturen', (req, res) => {
-    const factuurdata = 'SELECT statusBetaling FROM FACTUREN'; 
-
-    connection.query(factuurdata, (err, results) => {
-        if (err) throw err;
-        res.json(results);
-        //console.log(results)
-    });
-}); */
-
-//-------------------route naar chartpage----------------------
+//-------------------routes voor chartpage----------------------
 router.get('/chartspage', authenticateToken1,(req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'chartspage.html'));
 });
 
-//data leveranciers facturen-----------------------------------------------------
+//data leveranciers facturen
 router.get('/api/levfacturen', (req, res) => {
     const factuurdatalev = 'SELECT FACTUREN.statusBetaling FROM FACTUREN INNER JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid' 
 
@@ -814,7 +822,7 @@ router.get('/api/levfacturen', (req, res) => {
     });
 });
 
-//data klanten facturen-----------------------------------------------------
+//data klanten facturen
 router.get('/api/klantfacturen', (req, res) => {
     const factuurdataklanten = 'SELECT FACTUREN.statusBetaling FROM FACTUREN INNER JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid' 
 
@@ -825,7 +833,7 @@ router.get('/api/klantfacturen', (req, res) => {
     });
 });
 
-//omzet klanten/ maand voor dit jaar-----------------------------------------------------
+//omzet klanten/ maand voor dit jaar
 router.get('/api/omzet-klanten', (req, res) => {
     connection.query(`
     SELECT 
@@ -847,7 +855,7 @@ router.get('/api/omzet-klanten', (req, res) => {
     });
 });
 
-//kosten dit jaar per maand ---------------------------------------------------------------------
+//kosten dit jaar per maand 
 router.get('/api/kosten', (req, res) => {
     connection.query(`
     SELECT 
@@ -869,34 +877,9 @@ router.get('/api/kosten', (req, res) => {
         }
     });
 });
-//--------------------------------------------------------------------------------------
 
-router.get('/set-token', (req, res) => {
-    const token = req.query.token;
-    const level = req.query.level;
-    if (!token) {
-        return res.status(400).json({ status: 'error', message: 'Token is required' });
-    }
-    req.session.token = token;
-    req.session.level = level;
-    if (level === '1') {
-        res.redirect('/chartspage');
-    } else {
-        res.redirect('/klant_factuur/home_klantFacturen.html');
-    }
-    
-});
 
-// Route to logout and end the session
-router.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            return res.status(500).json({ status: 'error', message: 'Failed to end session' });
-        }
-        res.clearCookie('connect.sid'); // Clear the session cookie
-        res.redirect('/');
-    });
-});    
+
 
 
 module.exports = router;
