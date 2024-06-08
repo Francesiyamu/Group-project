@@ -1,25 +1,25 @@
-const remove_item = (result, id, all_items) => {
+const remove_object_item = (result, id, all_items) => {
     let index;
-    for(let i = 0; i<all_items.length; i++) {
-        if(all_items[i][id] == result[0][id]) {
+    let all_items_copy = [...all_items];
+    for(let i = 0; i<all_items_copy.length; i++) {
+        if(all_items_copy[i][id] == result[0][id]) {
             index = i;
         }
     }
-    all_items.splice(index,1);
-    return all_items;
+    all_items_copy.splice(index,1);
+    return all_items_copy;
 }
 
-const remove_country = (result, id, all_items) => {
+const remove_array_item = (result, id, all_items) => {
     let index;
-    console.log(result);
-    console.log(all_items);
-    for(let i = 0; i<all_items.length; i++) {
-        if(all_items[i] == result[0][id]) {
+    let all_items_copy = [...all_items];
+    for(let i = 0; i<all_items_copy.length; i++) {
+        if(all_items_copy[i] == result[0][id]) {
             index = i;
         }
     }
-    all_items.splice(index,1);
-    return all_items;
+    all_items_copy.splice(index,1);
+    return all_items_copy;
 }
 
-module.exports = {remove_item, remove_country};
+module.exports = {remove_object_item, remove_array_item};

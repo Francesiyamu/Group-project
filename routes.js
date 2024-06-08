@@ -6,7 +6,7 @@ const { registreerNieuwProject } = require('./controllers/projectController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const { userLogin } = require('./controllers/authController');
 const {validationRulesLev, validationRulesKlant, validationRulesProject,validationRulesGebruiker} = require('./controllers/validatorChain');
-const {remove_item, remove_country} = require('./config/remove');
+const {remove_object_item, remove_array_item} = require('./config/remove');
 const authenticateToken3 = require('./middleware/authenticateToken3');
 const authenticateToken2 = require('./middleware/authenticateToken2');
 const authenticateToken1 = require('./middleware/authenticateToken1');
@@ -17,6 +17,7 @@ const fs = require('fs');
 require('dotenv').config();
 const session = require('express-session');
 const countries = require('./config/Countries');
+const status = require('./config/status');
 const multer = require('multer');
 
 //Multer settings
@@ -244,14 +245,15 @@ router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req
         connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN where klantnr = ?', [results[0].klantnr], (error,results_klant) => {
             connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN', (error, alle_klanten) => { //Kan vervangen worden als eq werkt
                // Remove selected from dropdown
-               alle_klanten = remove_item(results_klant,'klantnr',alle_klanten);
-               let countries_adapted = remove_country(results,'land',countries);
+               alle_klanten = remove_object_item(results_klant,'klantnr',alle_klanten);
+               let countries_adapted = remove_array_item(results,'land',countries);
+               let status_adapted = remove_array_item(results,'status',status);
                 
                 // Render page
                 if(errorMsg) {
-                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries_adapted, errors: errorMsg});
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, status: status_adapted, countries : countries_adapted, errors: errorMsg});
                 } else {
-                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, countries : countries_adapted});
+                    res.render(path.join(__dirname, 'views', 'projecten', 'details_aanpassen_project'), {project: results[0], klant: results_klant[0], klanten: alle_klanten, status: status_adapted, countries : countries_adapted});
                 }
             })
         })
@@ -468,7 +470,7 @@ router.get('/klanten/details_aanpassen_klant.html', authenticateToken2, (req,res
         console.log(results[0])
 
     // Remove selected item from dropdown
-    let countries_adapted = remove_country(results,'land',countries);
+    let countries_adapted = remove_array_item(results,'land',countries);
 
     // Render page
         if(errorMsg) {
@@ -592,7 +594,7 @@ router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken
         }
 
     // Remove selected item from dropdown
-    let countries_adapted = remove_country(results,'land',countries);
+    let countries_adapted = remove_array_item(results,'land',countries);
 
     // Render page
         if(errorMsg) {
