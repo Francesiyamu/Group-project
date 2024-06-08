@@ -671,7 +671,7 @@ router.get('/klant_factuur/nieuw_KlantFactuur.html', authenticateToken3, (req, r
 });
 
 //upload extra bestand 
-router.post('/uploadfilefactklant', upload.array('files'), (req, res) => {
+router.post('/uploadfilefactklant', upload.array('files'),authenticateToken3, (req, res) => {
     const factuurid = req.body.factuurid;
 
     const sql = 'INSERT INTO FACTUUR_LINKS (factuurid, linkURL) VALUES (?, ?)';
@@ -799,32 +799,86 @@ router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (re
     });
 });
 
+//delete klantfactuur geheel
+router.get('/deletefactklant', authenticateToken3, (req, res) => {
+    const id = req.query.id;
+
+    // Delete uit FACTUREN
+    connection.query('DELETE FROM FACTUREN WHERE factuurid = ?', [id], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).send('Error deleting entries from the FACTUREN table');
+        }
+
+        // Delete uit FACTUREN_KLANTEN
+        connection.query('DELETE FROM FACTUREN_KLANTEN WHERE factuurid = ?', [id], (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).send('Error deleting entries from the FACTUREN_KLANTEN table');
+            }
+
+            connection.query('SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid = ?', [id], (error, results) => {
+                if (error) {
+                    console.error(error);
+                    return res.status(500).send('Error retrieving files from the database');
+                }
+
+                if (results.length > 0) {
+                    const filePaths = results.map(row => path.join('uploads', row.linkURL));
+
+                    let deleteCount = 0;
+                    filePaths.forEach((filePath) => {
+                        deleteFile(filePath, (err) => {
+                            deleteCount++;
+                            if (deleteCount === filePaths.length) {
+                                connection.query('DELETE FROM FACTUUR_LINKS WHERE factuurid = ?', [id], (error, results) => {
+                                    if (error) {
+                                        console.error(error);
+                                        return res.status(500).send('Error deleting entries from the FACTUUR_LINKS table');
+                                    }
+
+                                    res.redirect(`../klant_factuur/home_klantFacturen.html`);
+                                });
+                            }
+                        });
+                    });
+                } else {
+                    res.redirect(`../klant_factuur/home_klantFacturen.html`);
+                }
+            });
+        });
+    });
+});
+
+
+
+
 //-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
-    connection.query("SELECT FACTUREN.factuurnr, DATE_FORMAT(FACTUREN.factuurDatum, '%d/%m/%Y') AS factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc , IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid", (error, results) => {
+    connection.query("SELECT FACTUREN.factuurid, FACTUREN.factuurnr, DATE_FORMAT(FACTUREN.factuurDatum, '%d/%m/%Y') AS factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc , IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid", (error, results) => {
         if (error) console.log(error);
         if (error) throw error;
         res.render(path.join(__dirname, 'views', 'lev_Factuur', 'home_fact_lev'), { LevFacturen: results });
     });
 });
-/*//Levfact aanpassen GET
-router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken3, (req, res) => {
+//Levfact aanpassen GET
+router.get('/lev_Factuur/fact-lev-aanpassen.html', authenticateToken3, (req, res) => {
     const id = req.query.var;
-    let klantaanpassenquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr,KLANTEN.achternaam, KLANTEN.voornaam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, beschrijving, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_KLANTEN.klantnr FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr WHERE FACTUREN.factuurid=?"
-    connection.query(klantaanpassenquery, [id], (error, factuurklant) => {
-        connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klantlijst) => {
+    let levaanpasquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr, LEVERANCIERS.naam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_LEVERANCIERS.levnr, IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr=LEVERANCIERS.levnr WHERE FACTUREN.factuurid=?"
+    connection.query(levaanpasquery, [id], (error, factuurlev) => {
+        connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, levlijst) => {
             connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projectlijst) => { 
                 connection.query("SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid=?",[id], (error, bestandlijst) => { 
-            res.render(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur.hbs'), {factuurklant: factuurklant[0],projectlijst:projectlijst,klantlijst:klantlijst, bestandlijst:bestandlijst});  
+            res.render(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.hbs'), {factuurlev: factuurlev[0],projectlijst:projectlijst,levlijst:levlijst, bestandlijst:bestandlijst});  
         });
     });
 });  
 })
 });
-*/
-/*
+
+
 //upload extra bestand 
-router.post('/uploadfilefactklant', upload.array('files'), (req, res) => {
+router.post('/uploadfilefactlev', upload.array('files'), (req, res) => {
     const factuurid = req.body.factuurid;
 
     const sql = 'INSERT INTO FACTUUR_LINKS (factuurid, linkURL) VALUES (?, ?)';
@@ -843,17 +897,17 @@ router.post('/uploadfilefactklant', upload.array('files'), (req, res) => {
 
     Promise.all(tasks)
         .then(results => {
-            res.redirect(`./klant_factuur/details_aanpassen_klantFactuur.html?var=${factuurid}`);
+            res.redirect(`./lev_Factuur/fact-lev-aanpassen.html?var=${factuurid}`);
         })
         .catch(err => {
             console.error(err);
             res.status(500).send('Error uploading files');
         });
 });
-*/
-/*
+
+
 //deletefile
-router.get('/deletefilefactklant', authenticateToken3, (req, res) => {
+router.get('/deletefilefactlev', authenticateToken3, (req, res) => {
     const file = req.query.file;
     const filePath = path.join(__dirname, 'uploads', file);
     const id = req.query.id;
@@ -864,17 +918,17 @@ router.get('/deletefilefactklant', authenticateToken3, (req, res) => {
                 return res.status(500).send('Error deleting file from file system');
             }
 
-            res.redirect(`./klant_factuur/details_aanpassen_klantFactuur.html?var=${id}`);
+            res.redirect(`./lev_Factuur/fact-lev-aanpassen.html?var=${id}`);
 
 });
 });
 });
-*/
-/*
-//update klantfactuur POST
-router.post('/klantfactupdate', upload.none(), authenticateToken3, (req, res) => {
+
+
+//update levfactuur POST
+router.post('/levfactupdate', upload.none(), authenticateToken3, (req, res) => {
    
-    const { factuurid, factuurnr, klantnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, beschrijving } = req.body;
+    const { factuurid, factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, verstuurdBoekhouder } = req.body;
    const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
     let formattedDatumBetaling = null;
     if (betalingsDatum && betalingsDatum.length > 0) {
@@ -883,25 +937,26 @@ router.post('/klantfactupdate', upload.none(), authenticateToken3, (req, res) =>
     // SQL data toevoegen
     const sqlInsertFacturen = 'UPDATE FACTUREN SET factuurnr=?, factuurDatum=?, BTWperc=?, statusBetaling=?, bedragNoBTW=?, datumBetaling=? WHERE factuurid=?';
     connection.query(sqlInsertFacturen, [factuurnr, formattedFactuurDatum, BTWperc, statusBetaling, bedragNoBTW, formattedDatumBetaling, factuurid], (err) => {
-        if (err) return console.log('Error inserting into FACTUREN');
-        const sqlInsertFacturenKlanten = 'UPDATE FACTUREN_KLANTEN SET klantnr=?, beschrijving=? WHERE factuurid=?';
-        connection.query(sqlInsertFacturenKlanten, [klantnr,beschrijving, factuurid], (err) => {
-            if (err) return console.log('Error inserting into FACTUREN_KLANTEN');
+        if (err) return console.log(err);
+        const sqlInsertFacturenlev = 'UPDATE FACTUREN_LEVERANCIERS SET levnr=?, verstuurdBoekhouder=? WHERE factuurid=?';
+        connection.query(sqlInsertFacturenlev, [levnr,verstuurdBoekhouder, factuurid], (err) => {
+            if (err) return console.log(err);
         });
         const sqlInsertToewijgingen = 'UPDATE TOEWIJZINGEN  SET projectnr=? WHERE factuurid=?';
         connection.query(sqlInsertToewijgingen, [projectnr, factuurid], (err) => {
-            if (err) return console.log('Error inserting into TOEWIJZINGEN');
+            if (err) return console.log(err);
         });
 
-        res.redirect(`./klant_factuur/details_aanpassen_klantFactuur.html?var=${factuurid}`);
+        res.redirect(`./lev_Factuur/fact-lev-aanpassen.html?var=${factuurid}`);
 
 });
 });
-*/
-/*
-//nieuwe klantfactuur POST
-router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (req, res) => {
-    const { factuurnr, klantnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum } = req.body;
+
+
+//nieuwe levfactuur POST
+router.post('/levFactNieuw', upload.array('pdfFiles'),/* authenticateToken3, */(req, res) => {
+    const { factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, verstuurdBoekhouder} = req.body;
+    console.log(factuurnr, levnr, projectnr, factuurDatum, BTWperc, statusBetaling, bedragNoBTW, betalingsDatum, verstuurdBoekhouder)
     const formattedFactuurDatum = new Date(factuurDatum).toISOString().slice(0, 10); // YYYY-MM-DD format
     let formattedDatumBetaling = null;
     if (betalingsDatum && betalingsDatum.length > 0) {
@@ -914,8 +969,8 @@ router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (re
         if (err) return res.status(500).send('Error inserting into FACTUREN');
         const lastInsertedId = result.insertId;
 
-        const sqlInsertFacturenKlanten = 'INSERT INTO FACTUREN_KLANTEN (factuurid, klantnr) VALUES (?,?)';
-        connection.query(sqlInsertFacturenKlanten, [lastInsertedId, klantnr], (err, result) => {
+        const sqlInsertFacturenKlanten = 'INSERT INTO FACTUREN_LEVERANCIERS (factuurid, levnr, verstuurdBoekhouder) VALUES (?,?,?)';
+        connection.query(sqlInsertFacturenKlanten, [lastInsertedId, levnr, verstuurdBoekhouder], (err, result) => {
             if (err) return res.status(500).send('Error inserting into FACTUREN_KLANTEN');
         });
 
@@ -926,7 +981,7 @@ router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (re
 
         // fileupload doen
         if (!req.files || req.files.length === 0) {
-            return res.redirect(`../klant_factuur/details_aanpassen_klantFactuur.html?var=${lastInsertedId}`);
+            return res.redirect(`../lev_Factuur/fact-lev-aanpassen.html?var=${lastInsertedId}`);
         } else {
             const sql = 'INSERT INTO FACTUUR_LINKS (factuurid, linkURL) VALUES (?, ?)';
 
@@ -945,7 +1000,7 @@ router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (re
 
             Promise.all(tasks)
                 .then(results => {
-                    res.redirect(`./klant_factuur/home_klantFacturen.html`);
+                    res.redirect(`../lev_Factuur/fact-lev-aanpassen.html?var=${lastInsertedId}`);
                 })
                 .catch(err => {
                     console.error(err);
@@ -954,27 +1009,9 @@ router.post('/klantFactNieuw', upload.array('pdfFiles'), authenticateToken3, (re
         }
     });
 });
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //nieuwe LEVfact GET
-router.get('/lev_Factuur/factuur_lev_toe.html', authenticateToken3, (req, res) => {
+router.get('/lev_Factuur/factuur_lev_toe.html', /*authenticateToken3, */(req, res) => {
     connection.query("SELECT levnr, naam FROM LEVERANCIERS", (error, lev) => {
         if (error) console.log(error);
         if (error) throw error;
@@ -986,14 +1023,56 @@ router.get('/lev_Factuur/factuur_lev_toe.html', authenticateToken3, (req, res) =
 });
 });
 
+//delete klantfactuur geheel
+router.get('/deletefactlev', authenticateToken3, (req, res) => {
+    const id = req.query.id;
 
+    // Delete uit FACTUREN
+    connection.query('DELETE FROM FACTUREN WHERE factuurid = ?', [id], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).send('Error deleting entries from the FACTUREN table');
+        }
 
+        // Delete uit FACTUREN_LEVERANCIERS
+        connection.query('DELETE FROM FACTUREN_LEVERANCIERS WHERE factuurid = ?', [id], (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).send('Error deleting entries from the FACTUREN_LEVERANCIERS table');
+            }
 
+            connection.query('SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid = ?', [id], (error, results) => {
+                if (error) {
+                    console.error(error);
+                    return res.status(500).send('Error retrieving files from the database');
+                }
 
-router.get('/lev_Factuur/fact-lev-aanpassen.html',authenticateToken3, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.html'));
-})
+                if (results.length > 0) {
+                    const filePaths = results.map(row => path.join('uploads', row.linkURL));
 
+                    let deleteCount = 0;
+                    filePaths.forEach((filePath) => {
+                        deleteFile(filePath, (err) => {
+                            deleteCount++;
+                            if (deleteCount === filePaths.length) {
+                                connection.query('DELETE FROM FACTUUR_LINKS WHERE factuurid = ?', [id], (error, results) => {
+                                    if (error) {
+                                        console.error(error);
+                                        return res.status(500).send('Error deleting entries from the FACTUUR_LINKS table');
+                                    }
+
+                                    res.redirect(`../lev_Factuur/home_fact_lev.html`);
+                                });
+                            }
+                        });
+                    });
+                } else {
+                    res.redirect(`../lev_Factuur/home_fact_lev.html`);
+                }
+            });
+        });
+    });
+});
 
 
 //-------------------routes voor chartpage----------------------

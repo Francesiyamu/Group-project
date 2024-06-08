@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>levenfactuur aanpassen</title>
+
+    <link rel="stylesheet" href="../CSS/levFactuur.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-sign-out-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+    
+</head>
+<body>
+              
+    <form id="form_levFactuur" >
+        <h1 class="visible">Details</h1>
+        <h1 class="hidden" id="titel">Factuur Leverancier aanpassen</h1>
+
+        <div class="inputs">     
+            <div id="factuurgegevens_box">
+                <h2>Factuurgegevens</h2>
+
+                <div class="form_group">
+                    <input type="hidden" class="form-control" id="factuurid" name="factuurid" value="{{factuurlev.factuurid}}" >
+                </div>
+
+                <div class="form_group">
+                    <label for="factuurnr">Factuurnummer:</label>
+                    <input type="text" class="form-control" id="factuurnr" name="factuurnr" value="{{factuurlev.factuurnr}}" required disabled>
+                </div>
+
+                <div class="form_group">
+                    <label for="factuurDatum">Factuur datum:</label>
+                    <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" value="{{factuurlev.factuurDatum}}"required disabled>
+                </div>
+
+
+                <div class="form_group">
+                    <label for="Project">Project:</label>
+                    <select name="projectnr" id="projectnr" class="form-control" required disabled>
+                       <option value="{{factuurlev.projectnr}}">{{factuurlev.projectnaam}}</option>
+                       {{#each projectlijst}}
+                        <option value="{{projectnr}}">{{projectnaam}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                 <div class="form_group">
+                    <label for="levnr">Leverancier:</label>
+                    <select name="levnr" id="levnr" class="form-control" required disabled>
+                        <option value="{{factuurlev.levnr}}">{{factuurlev.naam}}</option>
+
+                       {{#each levlijst}}
+                        <option value="{{levnr}}">{{voornaam}}, {{achternaam}}</option>
+                        {{/each}}
+                    </select>
+                </div>        
+
+
+                <div class="form_group">
+                    <label for="bedragNoBTW">Bedrag excl. BTW:</label>
+                    <input type="text" class="form-control" id="bedragNoBTW" name="bedragNoBTW" value="{{factuurlev.bedragNoBTW}}" max="20" required disabled>
+                </div>
+
+                <div class="form_group">
+                    <label for="BTWperc">BTW-percentage:</label>
+                    <select name="BTWperc" id="BTWperc" class="form-control" required disabled>
+                        <option value="{{factuurlev.BTWperc}}">{{factuurlev.BTWperc}}</option>
+                        <option value="0">0%</option>
+                        <option value="6" >6%</option>
+                        <option value="12">12%</option>
+                        <option value="21" selected>21%</option>
+                    </select>
+                </div>   
+
+                <div class="form_group">
+                    <label for="statusBetaling">Status betaling:</label> 
+                    <select name="statusBetaling" id="statusBetaling" class="form-control" disabled>
+                       <option value="{{factuurlev.statusBetaling}}">{{factuurlev.statusBetaling}}</option>
+                        <option value="Betaald">Betaald</option>
+                        <option value="Openstaand">Openstaand</option>
+                    </select>
+                </div>
+
+                <div class="form_group">
+                    <label for="betalingsDatum">Datum betaling:</label>
+                    <input type="date" class="form-control" id="betalingsDatum" value="{{factuurlev.datumBetaling}}" name="betalingsDatum" required disabled>
+                </div>
+                        
+               
+                <div class="form_group">
+                    <label for="verstuurdBoekhouder">Verstuurd boekhouder:</label>
+                    <select name="verstuurdBoekhouder" id="verstuurdBoekhouder" class="form-control" disabled>
+                       <option value="{{factuurlev.verstuurdBoekhouder}}">{{factuurlev.verstuurdBoekhouder}}</option>
+                        <option value="0">Nee</option>
+                        <option value="1" >Ja</option>
+                    </select>
+                </div>         
+                            
+            </div>
+                        
+            <div id="factuurUploaden_box">
+                <h2>Factuur</h2>
+                <div id="factuurUploaden">
+                    {{#each bestandlijst}}
+                    {{#if @first}}
+                    <iframe frameborder="0" id="iframe" height="100%" name="iframeFactuur" src="../files/{{linkURL}}"></iframe>
+                    {{/if}}
+                    {{/each}}
+                </div>
+				
+                
+                <div id="huidigBestand_box">
+                    <div id="test">
+                        <p>Huidige bestand(en):</p>
+                        <input type="file" id="addFile" class="fileInput" multiple disabled style="cursor: pointer;">
+                        <i class="fa fa-plus-circle" style="font-size: 20px; " hidden></i>
+                        </input>
+                    </div>
+                    <div id="bestandenLijst">
+                        {{#each bestandlijst}}
+                       
+<div id="file_box" class="fileBoxen">
+    <a type="button" id="deleteFile" class="file_A_Tag deleteFileClass" href="../deletefilefactlev?file={{{linkURL}}}&id={{{../ factuurlev.factuurid}}}" hidden >
+        <i class="fa fa-minus-circle" hidden></i>
+        </a><a id="file" href="../files/{{{linkURL}}}" target="iframeFactuur">{{linkURL}}</a>
+        </div>
+  
+
+
+
+
+{{/each}}
+                        
+                       
+
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+                    
+        </div>
+
+        <div class="btns_details visible">
+            <div class="modify_back_btns">
+                <a href="./home_fact_lev.html" id="btn_back" class="btn_bottom">Annuleren</a>
+                <button id="btn_modify" class="btn_bottom no_boekhouder">Factuur aanpassen</button>
+            </div>
+            <a id="btn_remove" class="btn_bottom no_boekhouder" href="../deletefactlev?id={{{factuurlev.factuurid}}}">Factuur verwijderen</a>
+        </div>
+
+        <div class="btns hidden">
+            <a href="javascript:history.back()" id="cancelbtn" class="btn_bottom">Annuleren</a> <!-- Maak btn, let op css-->
+            <a type="button" id="submitbtn" class="btn_bottom">Save</a>
+        </div>
+    </form>  
+    
+    <script src="../JS/aanpassen_lev_fact.js"></script>
+</body>
+</html>

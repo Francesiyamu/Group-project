@@ -80,7 +80,7 @@
                     <select name="statusBetaling" id="statusBetaling" class="form-control" disabled>
                        <option value="{{factuurklant.betaalStatus}}">{{factuurklant.betaalStatus}}</option>
                         <option value="Betaald">Betaald</option>
-                        <option value="Openstaand" selected>Niet betaald</option>
+                        <option value="Openstaand">Openstaand</option>
                     </select>
                 </div>
 
@@ -143,7 +143,7 @@
                 <a href="./home_klantFacturen.html" id="btn_back" class="btn_bottom">Annuleren</a>
                 <button id="btn_modify" class="btn_bottom no_boekhouder">Factuur aanpassen</button>
             </div>
-            <button id="btn_remove" class="btn_bottom no_boekhouder">Factuur verwijderen</button>
+            <a id="btn_remove" class="btn_bottom no_boekhouder" href="../deletefactklant?id={{{factuurklant.factuurid}}}">Factuur verwijderen</a>
         </div>
 
         <div class="btns hidden">
@@ -152,6 +152,6 @@
         </div>
     </form>  
     
-    <script src="../JS/details_aanpassen.js"></script>
+    <script src="../JS/aanpassen_klant_fact.js"></script>
 </body>
 </html>
