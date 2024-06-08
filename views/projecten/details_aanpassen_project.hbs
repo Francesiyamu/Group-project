@@ -46,9 +46,9 @@
               <label for="status">Status:</label> 
               <select name="status" id="status" disabled>
                 <option value="{{status}}">{{status}}</option>
-                {{#each ../status}}
+                {{#with ../status}}
                   <option value="{{this}}">{{this}}</option>
-                {{/each}}
+                {{/with}}
               </select>
             </div>
 
