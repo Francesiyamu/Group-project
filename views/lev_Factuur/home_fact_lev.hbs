@@ -87,17 +87,14 @@
                             <option value="all"></option>
                           </select>
                         </th>
-                        <th col-index = 4>Terugbetaald <br>
+                  
+                        </th>
+                        <th col-index = 4>BTW % <br>
                           <select class="table-filter" onchange="filter_rows()">
                             <option value="all"></option>
                           </select>
                         </th>
-                        <th col-index = 5>BTW % <br>
-                          <select class="table-filter" onchange="filter_rows()">
-                            <option value="all"></option>
-                          </select>
-                        </th>
-                        <th col-index = 6>Verstuurd <br>boekhouder <br>
+                        <th col-index = 5>Verstuurd <br>boekhouder <br>
                           <select class="table-filter" onchange="filter_rows()">
                             <option value="all"></option>
                           </select>
@@ -109,10 +106,8 @@
                     {{#each LevFacturen}}
                     <tr onclick="window.location='./fact-lev-aanpassen.html?var={{factuurid}}'">
                         <td>{{factuurnr}}</td>
-                        {{!-- <td>{{formatDate factuurDatum}}</td> --}}
                         <td>{{factuurDatum}}</td>
                         <td>{{statusBetaling}}</td>
-                        <td>{{terugbetaald}}</td>
                         <td>{{BTWperc}}</td>
                         <td>{{verstuurdBoekhouder}}</td>
                     </tr>
