@@ -26,8 +26,7 @@ app.set('view engine', 'hbs');
 app.set("views", __dirname + '/views');
 
 
-// Exempt favicon.ico from authentication--- DIt kan toch  gewoon in routes zonder een auth middleware of bij static routes?
-app.get('/favicon.ico', (req, res) => res.status(204));
+
 
 // Routes
 app.use('/', routes);
