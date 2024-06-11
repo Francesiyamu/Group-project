@@ -578,7 +578,7 @@ router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken2,(req,res) 
     }
 })
 
-
+//toevoegen leverancier POST
 router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken2, validationRulesLev(), async (req, res) => {
     console.log('nieuwe leverancier');
     console.log(req.body);
@@ -608,32 +608,51 @@ router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToke
     }
 })
 
-// Details leverancier
-router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken2, (req,res) => {
-    
+// Details leverancier GET
+router.get('/leveranciers/details_aanpassen_leverancier.html', authenticateToken2, (req, res) => {
     const id = req.query.nr;
+
+    if (!id) {
+        return res.status(400).send('No supplier ID provided');
+    }
+
     connection.query('SELECT levnr, naam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres, BTWnr FROM LEVERANCIERS WHERE levnr = ?', [id], (error, results) => {
-
-    // Check if errors from previous submission
-        let errorMsg;
-        if(req.query.errorsSubmission){ 
-            const errorsSubmission = req.query.errorsSubmission;
-            errorMsg = JSON.parse(errorsSubmission);
+        if (error) {
+            console.error('Database query error:', error);
+            return res.status(500).send('Internal Server Error');
         }
 
-    // Remove selected item from dropdown
-    let countries_adapted = remove_array_item(results,'land',countries);
-
-    // Render page
-        if(errorMsg) {
-            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries_adapted, errors: errorMsg});
-        } else {
-            res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), {leverancier: results[0], countries : countries_adapted});
+        if (results.length === 0) {
+            return res.status(404).send('Supplier not found');
         }
-    })
-})
 
-// Aanpassen leverancier
+        const leverancier = results[0];
+
+        let errorMsg = null;
+        if (req.query.errorsSubmission) {
+            try {
+                errorMsg = JSON.parse(req.query.errorsSubmission);
+            } catch (e) {
+                console.error('Error parsing errorsSubmission:', e);
+            }
+        }
+
+        const countries_adapted = removeArrayItem(countries, 'land', leverancier.land);
+
+        const viewData = {
+            leverancier: leverancier,
+            countries: countries_adapted,
+        };
+
+        if (errorMsg) {
+            viewData.errors = errorMsg;
+        }
+
+        res.render(path.join(__dirname, 'views', 'leveranciers', 'details_aanpassen_leverancier'), viewData);
+    });
+});
+
+// Aanpassen leverancier POST
 router.post('/leveranciers/submission_update_leverancier_form', authenticateToken2, validationRulesLev(), async (req, res) => {
 
 
