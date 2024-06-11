@@ -17,7 +17,7 @@ const fs = require('fs');
 require('dotenv').config();
 const session = require('express-session');
 const countries = require('./config/Countries');
-const status = require('./config/status');
+const {status, statusBetaling, jaNee, btw} = require('./config/constants');
 const multer = require('multer');
 router.use(express.json());
 //Multer settings
@@ -560,7 +560,7 @@ router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken2,(req,res) 
     }
 })
 
-//toevoegen leverancier POST
+//Toevoegen leverancier POST
 router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken2, validationRulesLev(), async (req, res) => {
     console.log('nieuwe leverancier');
     console.log(req.body);
@@ -649,7 +649,6 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
         let nr = req.body.levnr;
         StringifiedErrorMsg = JSON.stringify(errorMsg);
         res.redirect(`/leveranciers/details_aanpassen_leverancier.html?nr=${nr}&errorsSubmission=${StringifiedErrorMsg}`);
-        //return res.status(400).json({ errors: errors.array() });
     } else {
         try {
             const {levnr, levnaam, straatnaam, huisnr, postcode, gemeente, land, telefoonnr, email, BTWnr} = req.body;
@@ -663,7 +662,7 @@ router.post('/leveranciers/submission_update_leverancier_form', authenticateToke
     }
 })
 
-//-------------------KLANTEN FACTUREN-----------------------------------------------------------
+// ----------------------------------- KLANTEN FACTUREN -----------------------------------
 
 router.get('/klant_factuur/home_klantFacturen.html', authenticateToken3, (req, res) => {
     
@@ -673,15 +672,21 @@ router.get('/klant_factuur/home_klantFacturen.html', authenticateToken3, (req, r
         res.render('klant_factuur/home_klantFacturen', { Facturen: results });
     });
 });
+
 //klantfact aanpassen GET
 router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateToken3, (req, res) => {
     const id = req.query.var;
-    let klantaanpassenquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr,KLANTEN.achternaam, KLANTEN.voornaam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, beschrijving, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_KLANTEN.klantnr FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr WHERE FACTUREN.factuurid=?"
+    let klantaanpassenquery ="SELECT FACTUREN.factuurid, PROJECTEN.projectnr, factuurnr,KLANTEN.achternaam, KLANTEN.voornaam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, beschrijving, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.datumBetaling, '%Y-%m-%d') AS datumBetaling, FACTUREN_KLANTEN.klantnr FROM FACTUREN JOIN FACTUREN_KLANTEN ON FACTUREN.factuurid = FACTUREN_KLANTEN.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN KLANTEN ON KLANTEN.klantnr=FACTUREN_KLANTEN.klantnr WHERE FACTUREN.factuurid=?"
     connection.query(klantaanpassenquery, [id], (error, factuurklant) => {
         connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klantlijst) => {
             connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projectlijst) => { 
                 connection.query("SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid=?",[id], (error, bestandlijst) => { 
-            res.render(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur.hbs'), {factuurklant: factuurklant[0],projectlijst:projectlijst,klantlijst:klantlijst, bestandlijst:bestandlijst});  
+                    console.log(factuurklant[0]);
+                    let klantlijst_adapted = remove_object_item(factuurklant,'klantnr',klantlijst);
+                    let projectlijst_adapted = remove_object_item(factuurklant,'projectnr',projectlijst);
+                    let btwPercentage_adapted = remove_array_item(factuurklant,'BTWperc',btw);
+                    let statusBetaling_adapted = remove_array_item(factuurklant,'statusBetaling',statusBetaling);
+                    res.render(path.join(__dirname, 'views', 'klant_factuur', 'details_aanpassen_klantFactuur.hbs'), {factuurklant: factuurklant[0],projectlijst:projectlijst_adapted,klantlijst:klantlijst_adapted, bestandlijst:bestandlijst, btwPercentage: btwPercentage_adapted, statusBetalingFact: statusBetaling_adapted});  
         });
     });
 });  
@@ -882,9 +887,7 @@ router.get('/deletefactklant', authenticateToken3, (req, res) => {
 });
 
 
-
-
-//-------------------LEVERANCIERS FACTUREN-----------------------------------------------------------
+// ----------------------------------- FACTUREN LEVERANCIERS -----------------------------------
 router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
     connection.query("SELECT FACTUREN.factuurid, FACTUREN.factuurnr, DATE_FORMAT(FACTUREN.factuurDatum, '%d/%m/%Y') AS factuurDatum, FACTUREN.statusBetaling,FACTUREN.BTWperc , IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid", (error, results) => {
         if (error) console.log(error);
@@ -892,24 +895,32 @@ router.get('/lev_Factuur/home_fact_lev.html',authenticateToken3, (req, res) => {
         res.render(path.join(__dirname, 'views', 'lev_Factuur', 'home_fact_lev'), { LevFacturen: results });
     });
 });
+
 //Levfact aanpassen GET
 router.get('/lev_Factuur/fact-lev-aanpassen.html', authenticateToken3, (req, res) => {
     const id = req.query.var;
-    let levaanpasquery ="SELECT FACTUREN.factuurid, voorgeschoten, IF(FACTUREN_LEVERANCIERS.terugbetaald,'Ja','Nee') AS terugbetaald,DATE_FORMAT(FACTUREN_LEVERANCIERS.datumTerugbetaling, '%Y-%m-%d') AS datumTerugbetaling , PROJECTEN.projectnr, factuurnr, LEVERANCIERS.naam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.DatumBetaling, '%Y-%m-%d') AS DatumBetaling, FACTUREN_LEVERANCIERS.levnr, IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr=LEVERANCIERS.levnr WHERE FACTUREN.factuurid=?"
+    let levaanpasquery ="SELECT FACTUREN.factuurid, voorgeschoten, IF(FACTUREN_LEVERANCIERS.terugbetaald,'Ja','Nee') AS terugbetaald,DATE_FORMAT(FACTUREN_LEVERANCIERS.datumTerugbetaling, '%Y-%m-%d') AS datumTerugbetaling , PROJECTEN.projectnr, factuurnr, LEVERANCIERS.naam, DATE_FORMAT(FACTUREN.factuurDatum, '%Y-%m-%d') AS factuurDatum, BTWperc, statusBetaling, projectnaam, bedragNoBTW, DATE_FORMAT(FACTUREN.datumBetaling, '%Y-%m-%d') AS datumBetaling, FACTUREN_LEVERANCIERS.levnr, IF(FACTUREN_LEVERANCIERS.verstuurdBoekhouder,'Ja','Nee') AS verstuurdBoekhouder FROM FACTUREN JOIN FACTUREN_LEVERANCIERS ON FACTUREN.factuurid = FACTUREN_LEVERANCIERS.factuurid JOIN TOEWIJZINGEN on FACTUREN.factuurid=TOEWIJZINGEN.factuurid JOIN PROJECTEN ON TOEWIJZINGEN.projectnr=PROJECTEN.projectnr JOIN LEVERANCIERS ON FACTUREN_LEVERANCIERS.levnr=LEVERANCIERS.levnr WHERE FACTUREN.factuurid=?"
     connection.query(levaanpasquery, [id], (error, factuurlev) => {
-        connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, levlijst) => {
+        connection.query("SELECT levnr, naam FROM LEVERANCIERS", (error, levlijst) => {
             connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projectlijst) => { 
                 connection.query("SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid=?",[id], (error, bestandlijst) => { 
-                    connection.query("SELECT gebruikersnaam, idnr FROM GEBRUIKERS",[id], (error, gebruikers) => { 
+                    connection.query("SELECT voornaam, achternaam, idnr FROM GEBRUIKERS",[id], (error, gebruikers) => { 
                         const persoon = factuurlev[0].voorgeschoten;
-                        connection.query("SELECT gebruikersnaam, idnr FROM GEBRUIKERS WHERE idnr=?",[persoon], (error, voorGebruikers) => { 
-            res.render(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.hbs'), {factuurlev: factuurlev[0],projectlijst:projectlijst,levlijst:levlijst, bestandlijst:bestandlijst, gebruikers:gebruikers, voorGebruikers:voorGebruikers[0]});  
-        });
-        });
-    });
-    });
-});  
-})
+                        connection.query("SELECT voornaam, achternaam, idnr FROM GEBRUIKERS WHERE idnr=?",[persoon], (error, voorGebruikers) => { 
+                            let projectlijst_adapted = remove_object_item(factuurlev,'projectnr',projectlijst);
+                            let levlijst_adapted = remove_object_item(factuurlev,'levnr',levlijst);
+                            let gebruikers_adapted = remove_object_item(factuurlev,'voorgeschoten',gebruikers);
+                            let btwPercentage_adapted = remove_array_item(factuurlev,'BTWperc',btw);
+                            let statusBetaling_adapted = remove_array_item(factuurlev,'statusBetaling',statusBetaling);
+                            let verstuurdBoekhouder_adapted = remove_array_item(factuurlev,'verstuurdBoekhouder',jaNee);
+                            let terugbetaald_adapted = remove_array_item(factuurlev,'terugbetaald',jaNee);
+                            res.render(path.join(__dirname, 'views', 'lev_Factuur', 'fact-lev-aanpassen.hbs'), {factuurlev: factuurlev[0], projectlijst:projectlijst_adapted, levlijst:levlijst_adapted, bestandlijst:bestandlijst, gebruikers:gebruikers_adapted, voorGebruikers:voorGebruikers[0], btwPercentage: btwPercentage_adapted, statusBetalingFact: statusBetaling_adapted, verstuurdBoekhouder: verstuurdBoekhouder_adapted, terugbetaald: terugbetaald_adapted});  
+                        });
+                    });
+                });
+            });
+        });  
+    })
 });
 
 
