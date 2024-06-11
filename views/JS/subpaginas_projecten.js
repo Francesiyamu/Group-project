@@ -12,6 +12,25 @@ window.onload = function () {
         }
     }
 
+    //HOME PAGE
+    let logos = document.getElementsByClassName('home');
+    if(level == 1) {
+        for(let logo of logos) {
+            logo.style.cursor = 'pointer';
+            logo.setAttribute('href','../chartspage');
+        }
+    } else if(level == 2) {
+        for(let logo of logos) {
+            logo.style.cursor = 'pointer';
+            logo.setAttribute('href','../klanten/home_klanten.html');
+        }
+    } else if(level == 3) {
+        for(let logo of logos) {
+            logo.style.cursor = 'pointer';
+            logo.setAttribute('href','../klant_factuur/home_klantFacturen.html');
+        }
+    }    
+
     let buttons_subnav = document.getElementsByClassName('subnav-btn');
     let containers = document.getElementsByClassName('container');
 
@@ -64,12 +83,10 @@ window.onload = function () {
     }
 
 
-// Close main navbar when click on screen --> bij elke JS script
-let body_without_navbar = document.getElementById('body_without_navbar');
-body_without_navbar.addEventListener('click',function(){
-    let navbar = document.getElementById('navbarToggler');
-    navbar.classList.remove('show');
-})
-
-
+    // Close main navbar when click on screen --> bij elke JS script
+    let body_without_navbar = document.getElementById('body_without_navbar');
+    body_without_navbar.addEventListener('click',function(){
+        let navbar = document.getElementById('navbarToggler');
+        navbar.classList.remove('show');
+    })
 }
