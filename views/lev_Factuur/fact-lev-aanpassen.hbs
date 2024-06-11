@@ -32,14 +32,14 @@
                 </div>
 
                 <div class="form_group">
-                    <label for="factuurDatum">Factuur datum:</label>
+                    <label for="factuurDatum">Factuurdatum:</label>
                     <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" value="{{factuurlev.factuurDatum}}"required disabled>
                 </div>
 
 
                 <div class="form_group">
                     <label for="Project">Project:</label>
-                    <select name="projectnr" id="projectnr" class="form-control" required disabled>
+                    <select name="projectnr" id="projectnr" class="form-select" required disabled>
                        <option value="{{factuurlev.projectnr}}">{{factuurlev.projectnaam}}</option>
                        {{#each projectlijst}}
                         <option value="{{projectnr}}">{{projectnaam}}</option>
@@ -49,11 +49,11 @@
 
                  <div class="form_group">
                     <label for="levnr">Leverancier:</label>
-                    <select name="levnr" id="levnr" class="form-control" required disabled>
+                    <select name="levnr" id="levnr" class="form-select" required disabled>
                         <option value="{{factuurlev.levnr}}">{{factuurlev.naam}}</option>
 
                        {{#each levlijst}}
-                        <option value="{{levnr}}">{{voornaam}}, {{achternaam}}</option>
+                        <option value="{{levnr}}">{{naam}}</option>
                         {{/each}}
                     </select>
                 </div>        
@@ -66,21 +66,21 @@
 
                 <div class="form_group">
                     <label for="BTWperc">BTW-percentage:</label>
-                    <select name="BTWperc" id="BTWperc" class="form-control" required disabled>
+                    <select name="BTWperc" id="BTWperc" class="form-select" required disabled>
                         <option value="{{factuurlev.BTWperc}}">{{factuurlev.BTWperc}}</option>
-                        <option value="0">0%</option>
-                        <option value="6" >6%</option>
-                        <option value="12">12%</option>
-                        <option value="21" selected>21%</option>
+                        {{#each btwPercentage}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
                     </select>
                 </div>   
 
                 <div class="form_group">
                     <label for="statusBetaling">Status betaling:</label> 
-                    <select name="statusBetaling" id="statusBetaling" class="form-control" disabled>
+                    <select name="statusBetaling" id="statusBetaling" class="form-select" disabled>
                        <option value="{{factuurlev.statusBetaling}}">{{factuurlev.statusBetaling}}</option>
-                        <option value="Betaald">Betaald</option>
-                        <option value="Openstaand">Openstaand</option>
+                        {{#each statusBetalingFact}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
                     </select>
                 </div>
 
@@ -92,32 +92,34 @@
                
                 <div class="form_group">
                     <label for="verstuurdBoekhouder">Verstuurd boekhouder:</label>
-                    <select name="verstuurdBoekhouder" id="verstuurdBoekhouder" class="form-control" disabled>
+                    <select name="verstuurdBoekhouder" id="verstuurdBoekhouder" class="form-select" disabled>
                        <option value="{{factuurlev.verstuurdBoekhouder}}">{{factuurlev.verstuurdBoekhouder}}</option>
-                        <option value="Nee">Nee</option>
-                        <option value="Ja" >Ja</option>
+                        {{#each verstuurdBoekhouder}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
                     </select>
                 </div>         
 
                 <div class="form_group">
                     <label for="voorgeschoten">Voorgeschoten:</label>
-                    <select name="voorgeschoten" id="voorgeschoten" class="form-control" disabled>
+                    <select name="voorgeschoten" id="voorgeschoten" class="form-select" disabled>
                         {{#if voorGebruikers}}
-                       <option value="{{voorGebruikers.idnr}}">{{voorGebruikers.gebruikersnaam}}</option>
+                       <option value="{{voorGebruikers.idnr}}">{{voorGebruikers.voornaam}} {{voorGebruikers.achternaam}}</option>
                        {{/if}}
                        <option value="">Niemand</option>
                     {{#each gebruikers}}
-                        <option value="{{idnr}}">{{gebruikersnaam}}</option>
+                        <option value="{{idnr}}">{{voornaam}} {{achternaam}}</option>
                     {{/each }}
                     </select>
                 </div>     
 
                  <div class="form_group">
                     <label for="terugbetaald">Terugbetaald:</label>
-                    <select name="terugbetaald" id="terugbetaald" class="form-control" disabled>
+                    <select name="terugbetaald" id="terugbetaald" class="form-select" disabled>
                        <option value="{{factuurlev.terugbetaald}}">{{factuurlev.terugbetaald}}</option>
-                        <option value="Nee">Nee</option>
-                        <option value="Ja" >Ja</option>
+                        {{#each terugbetaald}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
                     </select>
                 </div>   
                 <div class="form_group">
