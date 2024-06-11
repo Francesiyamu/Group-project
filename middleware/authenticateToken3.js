@@ -6,12 +6,12 @@ const authenticateToken = (req, res, next) => {
     const level = req.session.level;
 
     if (!token) {
-        return res.status(401).json({ status: 'error', message: 'Unauthorized: No token provided ' });
+        return  res.redirect('../login');
     }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ status: 'error', message: 'Forbidden: Invalid token' });
+            return  res.redirect('../login');
         }
         req.user = user;
         next();

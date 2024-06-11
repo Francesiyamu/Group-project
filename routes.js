@@ -19,7 +19,7 @@ const session = require('express-session');
 const countries = require('./config/Countries');
 const status = require('./config/status');
 const multer = require('multer');
-
+router.use(express.json());
 //Multer settings
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -52,7 +52,10 @@ function removeArrayItem(array, key, value) {
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
 });
-router.use(express.json());
+router.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'login', 'login.html'));
+});
+
 
 //files beveiligde toegang
 router.use('/files',authenticateToken3, express.static(path.join(__dirname, 'uploads')))
@@ -64,7 +67,7 @@ router.get('/set-token', (req, res) => {
     const token = req.query.token;
     const level = req.query.level;
     if (!token) {
-        return res.status(400).json({ status: 'error', message: 'Token is required' });
+        res.redirect('../login')
     }
     req.session.token = token;
     req.session.level = level;

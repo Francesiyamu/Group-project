@@ -33,7 +33,7 @@ const userLogin = async (req, res) => {
         // Create a JWT token       
         const accessToken = jwt.sign(user,
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1h' }); // 1 hour expiration
+            { expiresIn: '10h' }); // 10 hour expiration
             
         
         //console.log('Access token:', accessToken);
