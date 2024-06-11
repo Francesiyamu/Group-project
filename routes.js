@@ -40,6 +40,13 @@ router.use(session({
     expires: 36000000
 }));
 
+//Methods
+function removeArrayItem(array, key, value) {
+    return array.filter(item => item[key] !== value);
+}
+
+
+
 // --------------------------Algemene toegangen ----------------------------------------------------
 // Toegang voor iedereen
 router.get('/', (req, res) => {
