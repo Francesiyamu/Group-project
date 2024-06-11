@@ -27,13 +27,13 @@
                 </div>
 
                 <div class="form_group">
-                    <label for="factuurDatum">Factuur datum:</label>
+                    <label for="factuurDatum">Factuurdatum:</label>
                     <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" required>
                 </div>
 
                 <div class="form_group">
                     <label for="Project">Project:</label>
-                    <select name="projectnr" id="projectnr" class="form-control" required>
+                    <select name="projectnr" id="projectnr" class="form-select" required>
                        <option value="" disabled selected>Kies het project</option>
                        {{#each projecten}}
                         <option value="{{projectnr}}">{{projectnaam}}</option>
@@ -41,8 +41,8 @@
                     </select>
                 </div>
                 <div class="form_group">
-                    <label for="klantnr">Klantnaam:</label>
-                    <select name="klantnr" id="klantnr" class="form-control" required>
+                    <label for="klantnr">Klant:</label>
+                    <select name="klantnr" id="klantnr" class="form-select" required>
                         <option value="" disabled selected>Kies de klant</option>
 
                        {{#each klanten}}
@@ -53,7 +53,7 @@
 
                 <div class="form_group">
                     <label for="BTWperc">BTW-percentage:</label>
-                    <select name="BTWperc" id="BTWperc" class="form-control" required>
+                    <select name="BTWperc" id="BTWperc" class="form-select" required>
                         <option value="0">0%</option>
                         <option value="6" >6%</option>
                         <option value="12">12%</option>
@@ -68,7 +68,7 @@
                 
                 <div class="form_group">
                     <label for="statusBetaling">Status betaling:</label>
-                    <select name="statusBetaling" id="statusBetaling" class="form-control">
+                    <select name="statusBetaling" id="statusBetaling" class="form-select">
                         <option value="Betaald">Betaald</option>
                         <option value="Openstaand" selected>Openstaand</option>
                     </select>
