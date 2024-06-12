@@ -101,7 +101,6 @@ router.get('/projecten/home_projecten.html', authenticateToken2, (req, res) => {
 
 // Verwijderen project
 router.get('/projecten/verwijderen_project', authenticateToken2,(req,res) => {
-    console.log('verwijderen project');
     const id = req.query.id;
     connection.query('DELETE FROM PROJECTEN WHERE projectnr = ?',[id], (error,results) => {
         res.redirect('/projecten/home_projecten.html');
@@ -136,8 +135,6 @@ router.get('/projecten/nieuw_project.html', authenticateToken2,(req,res) => {
 
 //Nieuw project POST
 router.post('/projecten/submission_nieuw_project_form', authenticateToken2, validationRulesProject(), async (req, res) => {
-    console.log('nieuw project');
-    console.log(req.body);
 
     const errors = validationResult(req);
 
@@ -240,7 +237,6 @@ router.get('/projecten/subpaginas_project.html', authenticateToken2,(req, res) =
 
 // Details project
 router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req,res) => {
-    console.log('details project');
     const id = req.query.id;
     connection.query('SELECT projectnr, klantnr, projectnaam, status, straatnaam, huisnr, gemeente, postcode, land FROM PROJECTEN WHERE projectnr = ?', [id], (error, results) => {
 
@@ -250,7 +246,6 @@ router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req
             const errorsSubmission = req.query.errorsSubmission;
             errorMsg = JSON.parse(errorsSubmission);
         }
-        console.log(results[0])
 
         connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN where klantnr = ?', [results[0].klantnr], (error,results_klant) => {
             connection.query('SELECT klantnr, voornaam, achternaam FROM KLANTEN', (error, alle_klanten) => { //Kan vervangen worden als eq werkt
@@ -272,8 +267,7 @@ router.get('/projecten/details_aanpassen_project.html', authenticateToken2, (req
 
 // Aanpassen project
 router.post('/projecten/submission_update_project_form', authenticateToken2, validationRulesProject(), async (req, res) => {
-    console.log('aanpassen project');
-    console.log(req.body);
+
 
     const errors = validationResult(req);
 
@@ -349,7 +343,6 @@ router.get('/details_aanpassen_gebruiker',authenticateToken1 , (req, res) => {
 
 //gebruikers aanpassen retour
 router.post('/submit-form-aanpassen-gebruiker', authenticateToken1 , validationRulesGebruiker(), async (req, res) => {
-    console.log('submit')
     const errors = validationResult(req);
     
     if(!errors.isEmpty()) {
@@ -403,7 +396,6 @@ router.post('/submit-form-nieuwe-gebruiker', authenticateToken1, registreerGebru
 router.get('/klanten/home_klanten.html', authenticateToken2,(req, res) => {
     connection.query('SELECT klantnr, voornaam, achternaam, emailadres, telefoonnr FROM KLANTEN', (error, results) => {
         if(error) throw error;
-        console.log(results)
         res.render(path.join(__dirname,'views', 'klanten', 'home_klanten'), {klanten: results})
     })
 });
@@ -439,8 +431,7 @@ router.get('/klanten/nieuwe_klant',authenticateToken2,(req,res) => {
 })
 
 router.post('/klanten/submission_nieuwe_klant_form', authenticateToken2, validationRulesKlant(), async (req, res) => {
-    console.log('nieuwe klant');
-    console.log(req.body);
+
 
     const errors = validationResult(req);
 
@@ -468,21 +459,16 @@ router.post('/klanten/submission_nieuwe_klant_form', authenticateToken2, validat
 
 // Details klant
 router.get('/klanten/details_aanpassen_klant.html', authenticateToken2, (req,res) => {
-    console.log('details klant');
     const id = req.query.id;
     connection.query('SELECT klantnr, voornaam, achternaam, straatnaam, huisnr, gemeente, postcode, land, telefoonnr, emailadres FROM KLANTEN WHERE klantnr = ?', [id], (error, results) => {
-    // Check if errors from previous submission
         let errorMsg;
         if(req.query.errorsSubmission){ 
             const errorsSubmission = req.query.errorsSubmission;
             errorMsg = JSON.parse(errorsSubmission);
         }
-        console.log(results[0])
 
-    // Remove selected item from dropdown
     let countries_adapted = remove_array_item(results,'land',countries);
 
-    // Render page
         if(errorMsg) {
             res.render(path.join(__dirname, 'views', 'klanten', 'details_aanpassen_klant'), {countries : countries_adapted, klant: results[0], errors: errorMsg});
         } else {
@@ -493,8 +479,6 @@ router.get('/klanten/details_aanpassen_klant.html', authenticateToken2, (req,res
 
 // Aanpassen klant
 router.post('/klanten/submission_update_klant_form', authenticateToken2, validationRulesKlant(), async (req, res) => {
-    console.log('aanpassen klant');
-    console.log(req.body);
 
     const errors = validationResult(req);
 
@@ -562,8 +546,7 @@ router.get('/leveranciers/nieuwe_leverancier.html',authenticateToken2,(req,res) 
 
 //Toevoegen leverancier POST
 router.post('/leveranciers/submission_nieuwe_leverancier_form', authenticateToken2, validationRulesLev(), async (req, res) => {
-    console.log('nieuwe leverancier');
-    console.log(req.body);
+ 
 
     const errors = validationResult(req);
 
@@ -681,7 +664,6 @@ router.get('/klant_factuur/details_aanpassen_klantFactuur.html', authenticateTok
         connection.query("SELECT klantnr, voornaam, achternaam FROM KLANTEN", (error, klantlijst) => {
             connection.query("SELECT projectnaam, projectnr FROM PROJECTEN", (error, projectlijst) => { 
                 connection.query("SELECT linkURL FROM FACTUUR_LINKS WHERE factuurid=?",[id], (error, bestandlijst) => { 
-                    console.log(factuurklant[0]);
                     let klantlijst_adapted = remove_object_item(factuurklant,'klantnr',klantlijst);
                     let projectlijst_adapted = remove_object_item(factuurklant,'projectnr',projectlijst);
                     let btwPercentage_adapted = remove_array_item(factuurklant,'BTWperc',btw);
