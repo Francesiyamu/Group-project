@@ -101,39 +101,34 @@ btn_modify.addEventListener('click', function() {
 let cancelbtn = document.getElementById('cancelbtn');
 cancelbtn.addEventListener('click', function(event){
     event.preventDefault();
-    console.log("click")
-
-    const url = new URL(window.location.href); // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/delete
-    const searchParams = new URLSearchParams(url.search);
-    searchParams.delete("errorsSubmission");
-    url.search = searchParams.toString();
-    console.log(url);
-    window.location.href = url.toString();
-
-    //location.reload();
+    console.log("click");
+    location.reload();
 });
 
 /* ----------------------------------- TREAT ERROR MESSAGES ----------------------------------- */
 
-let message = "";
-let counter = 1;
-let errorMsgs = document.getElementsByClassName('errorMsg');
+function treatErrors(){
+    let message = "";
+    let counter = 1;
+    let errorMsgs = document.getElementsByClassName('errorMsg');
 
-for(let error of errorMsgs) {
-    message += `${counter}. ${error.textContent}. \n`;
-    counter++
-}
+    for(let error of errorMsgs) {
+        message += `${counter}. ${error.textContent}. \n`;
+        counter++
+    }
 
-console.log(message);
+    console.log(message);
 
-if(message) {
-    switchToModify();
-    setTimeout(() => {alert(message)},100); //Nodig want GET method rendert naar details_aanpassen_xx --> je bent weer op details pagina
+    if(message) {
+        alert(message);
+        window.scrollTo(0,0);
+    }
+    return message;
 }
 
     const fileInput = document.getElementById('addFile');
     const factuurid = document.getElementById('factuurid');
-fileInput.addEventListener('change', async (event) => {
+    fileInput.addEventListener('change', async (event) => {
         const files = event.target.files;
         const formData = new FormData();
 
@@ -166,7 +161,35 @@ fileInput.addEventListener('change', async (event) => {
     let submitbtn = document.getElementById('submitbtn');
     submitbtn.addEventListener('click',async function(event){
         event.preventDefault();
-        console.log("click")
+        console.log("click");
+
+        const errors = [];
+        let message;
+        const factuurnr = document.getElementById('factuurnr').value;
+        const factuurDatum = document.getElementById('factuurDatum').value;
+        const projectnr = document.getElementById('projectnr').value;
+        const klantnr = document.getElementById('klantnr').value;
+        const bedragNoBTW = document.getElementById('bedragNoBTW').value;
+
+        if(!factuurnr) errors.push("Factuurnummer is verplicht");
+        if(!factuurDatum) errors.push("Factuurdatum is verplicht");
+        if(!projectnr) errors.push("Project is verplicht");
+        if(!klantnr) errors.push("Klant is verplicht");
+        if(!bedragNoBTW) errors.push("Bedrag excl. BTW is verplicht");
+
+        if(errors) {
+            let div = document.getElementById('errorMsgs');
+            div.textContent = '';
+            for(let error of errors) {
+                let p = document.createElement('p');
+                p.appendChild(document.createTextNode(error));
+                p.classList.add('errorMsg');
+                div.appendChild(p);
+            }
+
+            message = treatErrors();
+        }                
+
         const formData = new FormData();
         formData.append('factuurid', document.getElementById('factuurid').value);
         formData.append('factuurnr', document.getElementById('factuurnr').value);
@@ -179,20 +202,22 @@ fileInput.addEventListener('change', async (event) => {
         formData.append('betalingsDatum', document.getElementById('betalingsDatum').value);
         formData.append('beschrijving', document.getElementById('beschrijving').value);
         
-        try {
-            const response = await fetch('/klantfactupdate', {
-                method: 'POST',
-                body: formData
-            });
+        if(!message) {
+            try {
+                const response = await fetch('/klantfactupdate', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            if (response.redirected) {
-                window.location.href = response.url;
-            } else {
-                const data = await response.json();
-                console.log('Data sent:', data);
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    const data = await response.json();
+                    console.log('Data sent:', data);
+                }
+            } catch (error) {
+                console.error('Error updating:', error);
             }
-        } catch (error) {
-            console.error('Error updating:', error);
         }
     });
 
