@@ -77,6 +77,10 @@ div.hidden, h1.hidden, #errorMsgs { /* Div erbij om specificiteit te verhogen --
         resize: none;
     }
 
+    #beschrijving:disabled {
+        background-color: #e9ecef;
+        color: #000;
+    }
 
     #test{
         display: flex;
