@@ -180,7 +180,7 @@ fetch('/api/omzet-klanten')
 
     // Select the total element and set its text content to the total
     const totalElement = document.getElementById('totalOmzet');
-    totalElement.textContent = `De totale omzet dit jaar bedraagt: ${totalOmzet} euro`;
+    totalElement.innerHTML = `De totale omzet dit jaar bedraagt: <b>${totalOmzet} euro</b>.`;
 
 })
 .catch(error => {
@@ -251,7 +251,7 @@ fetch('/api/kosten')
 
     // Select the total element and set its text content to the total
     const totalElement = document.getElementById('totalKosten');
-    totalElement.textContent +=  `De totale kosten dit jaar bedragen : ${totalKosten} euro`;
+    totalElement.innerHTML +=  `De totale kosten dit jaar bedragen: <b>${totalKosten} euro</b>.`;
 
 });
 // totale winst dit jaar--------------------------------
@@ -288,7 +288,7 @@ fetch('/api/omzet-klanten')
 
             // Select the total element and set its text content to the total
             const totalElement = document.getElementById('totalWinst');
-            totalElement.textContent +=  `De totale winst dit jaar bedraagt : ${totalWinst} euro`;
+            totalElement.innerHTML +=  `De totale winst dit jaar bedraagt: <b>${totalWinst} euro</b>.`;
 
                 const ctx = document.getElementById('myChart-winst');
                 new Chart(ctx, {
