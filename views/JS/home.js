@@ -73,6 +73,13 @@ window.onload = () => {
         }
     })
 
+    // Close main navbar when click on screen --> bij elke JS script
+    let body_without_navbar = document.getElementById('body_without_navbar');
+    body_without_navbar.addEventListener('click',function(){
+        let navbar = document.getElementById('navbarToggler');
+        navbar.classList.remove('show');
+    })   
+
     // FILTER
     document.querySelector("#table_home > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML;
     // Get unique values for the desired columns
