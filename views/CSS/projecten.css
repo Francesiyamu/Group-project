@@ -53,6 +53,11 @@ div.hidden, h1.hidden, div#errorMsgs {
         margin: 0 2rem 0 2rem;
     }
 
+    #projectnaam:disabled, #klantnaam:disabled, #status:disabled, #straatnaam:disabled, #huisnr:disabled, #gemeente:disabled, #postcode:disabled, #land:disabled {
+        background-color: #e9ecef;
+        color: #000;
+    }
+
     #projectgegevens_box{
         display: flex;
         flex-direction: column;
@@ -115,7 +120,7 @@ div.hidden, h1.hidden, div#errorMsgs {
     #btn_modify, #btn_remove, #btn_back {
         display: inline-block;
         height: fit-content;
-        width: 230px; 
+        width: 232px; 
         margin: 0 1.5rem 1rem 1rem; 
     } 
 
