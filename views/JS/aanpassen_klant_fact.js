@@ -196,5 +196,22 @@ fileInput.addEventListener('change', async (event) => {
         }
     });
 
+    function changeLinkTargets() {
+        const links = document.querySelectorAll('#bestandenLijst a');
+        if (window.innerWidth < 600) {
+            links.forEach(link => {
+                link.setAttribute('target', '_blank');
+            });
+        } else {
+            links.forEach(link => {
+                link.setAttribute('target', 'iframeFactuur');
+            });
+        }
+    }
+
+    changeLinkTargets();
+
+    window.addEventListener('resize', changeLinkTargets);
+
 
 }

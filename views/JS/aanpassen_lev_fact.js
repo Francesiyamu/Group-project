@@ -81,13 +81,6 @@ function switchToModify() {
     inputs.style.alignItems = 'initial';
 }
 
-/*function switchToDetails() {
-    replaceClasses();
-    document.title = 'Details'
-    toggleAttributes();
-    window.scrollTo(0,0);
-    inputs.style.alignItems = 'center';
-} */
 
 let inputs = Array.from(document.getElementsByClassName('inputs'))[0];
 inputs.style.alignItems = 'center';
@@ -137,12 +130,10 @@ fileInput.addEventListener('change', async (event) => {
         const files = event.target.files;
         const formData = new FormData();
 
-        // Append files to the FormData object
         for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);
         }
 
-        // Append hidden field to the FormData object
         formData.append('factuurid', factuurid.value);
 
         try {
@@ -199,5 +190,21 @@ fileInput.addEventListener('change', async (event) => {
         }
     });
 
+    function changeLinkTargets() {
+        const links = document.querySelectorAll('#bestandenLijst a');
+        if (window.innerWidth < 600) {
+            links.forEach(link => {
+                link.setAttribute('target', '_blank');
+            });
+        } else {
+            links.forEach(link => {
+                link.setAttribute('target', 'iframeFactuur');
+            });
+        }
+    }
+
+    changeLinkTargets();
+
+    window.addEventListener('resize', changeLinkTargets);
 
 }
