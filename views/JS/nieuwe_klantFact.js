@@ -35,6 +35,53 @@ document.addEventListener('DOMContentLoaded', () => {
     formKlantFactuur.addEventListener('submit', async function(e) {
         e.preventDefault();
 
+        function treatErrors() {
+            let message = "";
+            let counter = 1;
+            let errorMsgs = document.getElementsByClassName('errorMsg');
+        
+            for(let error of errorMsgs) {
+                message += `${counter}. ${error.textContent}. \n`;
+                counter++
+            }
+        
+            console.log(message);
+            
+            if(message) {
+                alert(message);
+                window.scrollTo(0,0);
+            }  
+            
+            return message;
+        }
+
+        let message;
+        const errors = [];
+        const factuurnr = document.getElementById('factuurnr').value;
+        const factuurDatum = document.getElementById('factuurDatum').value;
+        const projectnr = document.getElementById('projectnr').value;
+        const klantnr = document.getElementById('klantnr').value;
+        const bedragNoBTW = document.getElementById('bedragNoBTW').value;
+
+        if(!factuurnr) errors.push("Factuurnummer is verplicht");
+        if(!factuurDatum) errors.push("Factuurdatum is verplicht");
+        if(!projectnr) errors.push("Project is verplicht");
+        if(!klantnr) errors.push("Klant is verplicht");
+        if(!bedragNoBTW) errors.push("Bedrag excl. BTW is verplicht");
+
+        if(errors) {
+            let div = document.getElementById('errorMsgs');
+            div.textContent = '';
+            for(let error of errors) {
+                let p = document.createElement('p');
+                p.appendChild(document.createTextNode(error));
+                p.classList.add('errorMsg');
+                div.appendChild(p);
+            }
+
+            message = treatErrors();
+        }        
+
         const formData = new FormData();
         formData.append('factuurnr', document.getElementById('factuurnr').value);
         formData.append('factuurDatum', document.getElementById('factuurDatum').value);
@@ -51,23 +98,25 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('pdfFiles', file);
         });
 
-        try {
-            const response = await fetch('/klantFactNieuw', {
-                method: 'POST',
-                body: formData
-            });
+        if(!message) {
+            try {
+                const response = await fetch('/klantFactNieuw', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    const data = await response.json();
+                    console.log('Data sent:', data);
+                }
+            } catch (error) {
+                console.error('Problem with fetching form data:', error);
             }
-            if (response.redirected) {
-                window.location.href = response.url;
-            } else {
-                const data = await response.json();
-                console.log('Data sent:', data);
-            }
-        } catch (error) {
-            console.error('Problem with fetching form data:', error);
         }
     });
 });
