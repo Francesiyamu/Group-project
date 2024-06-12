@@ -22,17 +22,17 @@
 
                 <div class="form_group">
                     <label for="factuurnr">Factuurnummer:</label>
-                    <input type="text" class="form-control" id="factuurnr" name="factuurnr" required>
+                    <input type="text" class="form-control" id="factuurnr" name="factuurnr">
                 </div>
 
                 <div class="form_group">
                     <label for="factuurDatum">Factuurdatum:</label>
-                    <input type="date" class="form-control" id="factuurDatum" name="factuurDatum" required>
+                    <input type="date" class="form-control" id="factuurDatum" name="factuurDatum">
                 </div>
 
                 <div class="form_group">
                     <label for="Project">Project:</label>
-                    <select name="projectnr" id="projectnr" class="form-select" required>
+                    <select name="projectnr" id="projectnr" class="form-select">
                        <option value="" disabled selected>Kies het project</option>
                        {{#each projecten}}
                         <option value="{{projectnr}}">{{projectnaam}}</option>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form_group">
                     <label for="klantnr">Klant:</label>
-                    <select name="klantnr" id="klantnr" class="form-select" required>
+                    <select name="klantnr" id="klantnr" class="form-select">
                         <option value="" disabled selected>Kies de klant</option>
 
                        {{#each klanten}}
@@ -52,7 +52,7 @@
 
                 <div class="form_group">
                     <label for="BTWperc">BTW-percentage:</label>
-                    <select name="BTWperc" id="BTWperc" class="form-select" required>
+                    <select name="BTWperc" id="BTWperc" class="form-select">
                         <option value="0">0%</option>
                         <option value="6" >6%</option>
                         <option value="12">12%</option>
@@ -62,7 +62,7 @@
                 
                 <div class="form_group">
                     <label for="bedragNoBTW">Bedrag excl. BTW</label>
-                    <input type="text" class="form-control" id="bedragNoBTW" name="bedragNoBTW" required>
+                    <input type="text" class="form-control" id="bedragNoBTW" name="bedragNoBTW">
                 </div>
                 
                 <div class="form_group">
@@ -82,6 +82,8 @@
                     <label for="beschrijving">Beschrijving:</label>
                     <textarea name="beschrijving" id="beschrijving" cols="85" rows="4" placeholder="Voer hier een beschrijving of opmerking in."></textarea>
                 </div>
+
+            <div class="hidden" id="errorMsgs"></div>                
 
             </div>
 
