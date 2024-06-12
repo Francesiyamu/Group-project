@@ -42,6 +42,7 @@ window.onload = function () {
                 let corresponding_container = findCorrespondingContainer(i,containers);   
                 removeCurrentActive(buttons_subnav,containers);
                 changeToActive(button,corresponding_btn,corresponding_container);
+                document.title = document.getElementsByClassName('titel')[i].textContent;
             }
         })
     }
