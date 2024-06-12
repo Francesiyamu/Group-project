@@ -4,14 +4,12 @@
     color: #161538;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    flex-basis: 100%;
+    justify-content: space-evenly;
     align-items: center;
 }
 
-
-
-.row1,
-.row2 {
+.row1, .row2 {
     background-color: turquoise;
     display: flex;
     justify-content: center;
@@ -22,23 +20,18 @@
 .line-chart {
     flex-basis: calc(33.33% - 4rem);
     padding: 2rem;
-    margin: 2rem;
+    margin: 0;
     font-size: 3rem;
 }
 
 .pie-chart {
     flex-basis: calc(16.66% - 4rem);
     padding: 2rem;
-    margin: 2rem;
+    margin: 0;
     font-size: 3rem;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h5 {
     padding: 1rem 1rem;
     text-transform: uppercase;
     text-align: center;
@@ -46,40 +39,50 @@ h6 {
     font-size: 3rem;
 }
 
-
-
-
-
-p {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 1.5rem;
+#heading h1 {
+    margin: 1rem auto;
 }
 
+h5 {
+    padding-bottom: 0;
+}
 
+.line-chart hr, .pie-chart hr {
+    margin: 0.5rem 0;
+}
 
-  
-  
-  
-  
-  
-  
+.chart-box {
+    margin-top: 1rem;
+}
 
+.chart-box p {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
 
-
-
-@media (max-width: 600px) {
+@media screen and (max-width: 768px) {
     .chart-container {
+        flex-wrap: nowrap;
         flex-direction: column;
     }
 
     .line-chart,
     .pie-chart {
-        flex-basis: 100%;
-        margin: 1rem;
+        margin: 1rem 0;
+        padding: 0.2rem;
+        width: 100%;
+    }
+
+    .line-chart h5, .pie-chart h5 {
+        font-size: 1rem;
+    }
+
+    .line-chart p, .pie-chart p {
+        font-size: 1rem;
     }
 }
-    .btn_bottom { 
-    height: fit-content;
-    margin-bottom: 10px;
+
+@media screen and (max-width: 350px) {
+
 }
