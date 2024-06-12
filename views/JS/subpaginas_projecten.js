@@ -59,7 +59,7 @@ window.onload = function () {
         if(btn_number<3) {
             return containers[btn_number];
         } else {
-            return containers[btn_number-3]; /* Btns klein scherm > 5, maar aantal containers = 5 */
+            return containers[btn_number-3]; /* Btns klein scherm > 3, maar aantal containers = 3 */
         }
     }
 
