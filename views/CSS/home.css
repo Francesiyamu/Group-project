@@ -208,8 +208,11 @@ a.menu.active::after {
   
   .table-section{
     overflow: scroll;
-    /*height: 500px;*/
     height: 80%;
+  }
+
+  .table-section.gebruikers{
+    height: 85%;
   }
 
   table{
