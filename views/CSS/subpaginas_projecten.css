@@ -241,6 +241,7 @@ a.menu.active::after {
 
 #kpi_table {
     margin: auto;
+    margin-bottom: 2rem;
     border: 1px #161538 solid;
 }
 
