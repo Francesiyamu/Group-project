@@ -1,13 +1,13 @@
 # Group Project: Programming Project
 
-## Programming language
+## Applicatie Architectuur 
 - **Node .js**
 
-## Frameworks
+### Frameworks
 - **Express**: Een minimalistisch en flexibel Node.js webapplicatie-framework dat robuuste API's biedt voor het bouwen van web- en mobiele applicaties.
 - **Handlebars**: Een sjabloontaal die wordt gebruikt voor het genereren van dynamische HTML vanuit server-side JavaScript-objecten.
 
-### Libraries :  Gebruikte NPM Packages
+### Libraries: Gebruikte NPM Packages
 ```bash
 ├── bcrypt@5.1.1: Een bibliotheek voor het hashen van wachtwoorden.
 ├── body-parser@1.20.2: Middleware voor het ontleden van inkomende verzoeken met JSON payloads.
@@ -25,8 +25,9 @@
 ├── multer@1.4.5-lts.1: Middleware voor het verwerken van multipart/form-data, voornamelijk gebruikt voor het uploaden van bestanden.
 ├── mysql2@3.9.7: Een MySQL client voor Node.js, ondersteunt Promises en async/await.
 └── nodemon@3.1.0: Een hulpmiddel dat automatisch de server opnieuw opstart wanneer er veranderingen in de bronbestanden worden gedetecteerd.
+```
 
-
+### Server technologie
 **MySQL** in een Docker-container die op een linux server draait.
 **PM2**: Draait als een daemon voor de app en draait deze op de achtergrond. Voert logging uit en herstart automatisch als de daemon vastloopt. Biedt ook mogelijkheden om de server op afstand te herstarten.
 
