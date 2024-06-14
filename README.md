@@ -17,6 +17,9 @@
 ## Serverarchitectuur
 De Node.js applicatie wordt beheerd door PM2 op een Windows server omgeving welke gevirtualiseerd is op een linux server. MySQL draait in een Docker-container op dezelfde linux server.
 
+## Github beveiliging
+Deze repository mag niet openbaar worden gemaakt. Hoewel gitignore is gebruikt, zijn er onveilige commits gemaakt in het verleden. Bovendien zijn de HTTPS/TLS-beveiligingscertificaten ook opgenomen in de repository. Als de code openbaar moet worden gemaakt, verwijder dan de map certificates en het bestand .env. Maak vervolgens een kopie en een nieuwe repository om de inhoud openbaar te maken zonder beveiligingsproblemen.
+
 ## Beveiliging
 Momenteel wordt de verbinding via https geëncrypteerd. Paswoorden worden gehashed en gesalt alvorens ze in de database worden weggeschreven. Echter is het paswoord plain text wanneer het van front-end naar back-end gaat, alhoewel dit maar een medium security risk is, aangezien deze verbinding wel via https versleuteld is. Een implementatie van de hashing en salting in front-end staat op de nice to have lijst aangezien dan het paswoord volledig beveiligd is, zelfs met een .
 
